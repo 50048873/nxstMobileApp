@@ -1,0 +1,87 @@
+/* 全局工具类 */
+
+@import 'variable.less';
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: ' ';
+    display: table;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.show {
+	display: block;
+}
+.hide { 
+	display: none;
+}
+.hidden { 
+	visibility: hidden;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ellipsis-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.extend-click {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+  }
+}
+
+.line-top {
+	position: relative;
+	&:before { 
+		content: " ";
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    left: 0;
+	    height: 1px;
+	    border-top: 1px solid #d9dbda;
+	    -webkit-transform-origin: 0 0;
+	    transform-origin: 0 0;
+	    -webkit-transform: scaleY(0.5);
+	    transform: scaleY(0.5);
+	}
+}
+
+.line-bottom {
+    position: relative;
+    &:after { 
+		content: " ";
+	    position: absolute;
+	    right: 0;
+	    left: 0;
+	    bottom: 0;
+	    height: 1px;
+	    border-bottom: 1px solid #d9dbda;
+	    -webkit-transform-origin: 0 100%;
+	    transform-origin: 0 100%;
+	    -webkit-transform: scaleY(0.5);
+	    transform: scaleY(0.5);
+    }
+}

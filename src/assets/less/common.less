@@ -1,0 +1,32 @@
+@import './variable.less';
+
+body {
+	color: @color-text;
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px 0;
+  text-align: center;
+  background-color: currentColor;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.4s;
+  &:first-line {
+    color: white;
+  }
+  &:focus {
+    outline: 0;
+  }
+}
+
+.btn-off {
+  color: #b6b6b8;
+}
+
+.btn-on {
+  color: @color-theme;
+}
+
