@@ -3,8 +3,12 @@
     <n-login ref="nLogin"></n-login>
     <div class="homeWrap">
       <n-header></n-header>
-      <news-marquee></news-marquee>
+      <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
+      <transition name="fade">
+        <router-view class="homeView"></router-view>
+      </transition>
     </div>
+    <footer-home></footer-home>
   </div>
 </template>
 
@@ -15,20 +19,21 @@ import {getMax, isArray} from '@/assets/js/util'
 import NLogin from '@/components/NLogin'
 import NHeader from '@/components/NHeader'
 import NewsMarquee from '@/components/NewsMarquee'
+import FooterHome from '@/components/FooterHome'
 import api from '@/assets/js/api'
+import {eventHub} from '@/assets/js/event.js'
 
 export default {
   name: 'NHome',
   components: {
     NLogin,
     NHeader,
-    NewsMarquee
+    NewsMarquee,
+    FooterHome
   },
   data() {
     return {
-      newsMarquee: [{
-        "text": "暂无新通知"
-      }]
+      newsMarquee: []
     }
   },
   methods: {
@@ -38,16 +43,15 @@ export default {
         if (isArray(loginInfoArr) && loginInfoArr.length) {
           resolve(loginInfoArr)
         } else {
-          reject(null)
+          reject('没有缓存登录信息')
         }
       }).then((res) => {
         let lastLoginUser = getMax(res)
         if (lastLoginUser) {
           this.$refs.nLogin.autoLogin(res.username, res.password)
-          this.isVisible = true
         }
       }, (err) => {
-        console.log(err.status)
+        this.$refs.nLogin.show()
       })
     },
     getNewsMarquee() {
@@ -57,15 +61,27 @@ export default {
             this.newsMarquee = res.data
           }
         }, (err) => {
-          this.$refs.dialogTip.show(err)
+          this.serverErrorTip(err, 'NHome.vue')
         })
     },
   },
   created() {
     this.initLoginStatus()
+    eventHub.$on('loginSuccess', () => {
+      this.getNewsMarquee()
+    })
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang='less'>
+  @import '../assets/less/variable.less';
+  .n-home {
+    .homeView {
+      transition: opacity 0.4s;
+      &.fade-enter, &.fade-leave-to {
+        opacity: 0;
+      }
+    }
+  }
 </style>

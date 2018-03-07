@@ -1,9 +1,12 @@
+import $ from 'jquery'
+
 export let toString = Object.prototype.toString
 
 export function isArray(arr) {
   return toString.call(arr) === "[object Array]"
 }
 
+// 获取数组最大值
 export function getMax(arr) {
   if (toString.call(arr) === "[object Array]") {
     let reverse = arr.reverse()
@@ -13,6 +16,7 @@ export function getMax(arr) {
   return null
 }
 
+// 标准化requestAnimationFrame方法
 export function normalizeRequestAnimationFrame() {
     var lastTime = 0;
     var vendors = ['webkit', 'moz'];
@@ -39,3 +43,41 @@ export function normalizeRequestAnimationFrame() {
         };
     }
 };
+
+// 错误提示
+export function errorTip(text, filename) {
+    let content =  `<div class="serverErrorTip animated fadeIn">${text}</div>`
+    let $back = $(content).appendTo('body')
+    setTimeout(() => {
+        $back.removeClass('fadeIn').addClass('fadeOut')
+        $back.on('webkitanimationend animationend', () => {
+            $back.remove()
+            $back = null
+        })
+        setTimeout(() => {
+            let $serverError = $('.serverErrorTip')
+            if ($serverError.length) {
+                $serverError.remove()
+            }
+        }, 2000)
+    }, 2000)
+}
+
+// 服务器错误提示
+export function serverErrorTip(err, filename) {
+    let content =  `<div class="serverErrorTip animated fadeIn"><p>错误状态码：${err.status}</p><p>错误描叙：${err.statusText}</p><p>错误文件：${filename}</p></div>`
+    let $back = $(content).appendTo('body')
+    setTimeout(() => {
+        $back.removeClass('fadeIn').addClass('fadeOut')
+        $back.on('webkitanimationend animationend', () => {
+            $back.remove()
+            $back = null
+        })
+        setTimeout(() => {
+            let $serverError = $('.serverErrorTip')
+            if ($serverError.length) {
+                $serverError.remove()
+            }
+        }, 2000)
+    }, 2000)
+}

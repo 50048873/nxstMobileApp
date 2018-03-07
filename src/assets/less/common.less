@@ -2,6 +2,7 @@
 
 body {
 	color: @color-text;
+  background-color: @color-background;
 }
 
 .btn {
@@ -30,3 +31,15 @@ body {
   color: @color-theme;
 }
 
+.serverErrorTip {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: @border-radius-s;
+  transition: opacity 0.4s;
+  max-width: 80%;
+  color: white;
+}

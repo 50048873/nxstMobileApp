@@ -13,7 +13,7 @@ export default {
 <style scoped lang="less">
   .n-header {
     height: 70px;
-    background: url('../assets/img/home-1.jpg') no-repeat;
+    background: url('../assets/img/home-header-bg.jpg') no-repeat;
     background-size: 100% 100%;
     h1 {
       text-align: center;

@@ -1,7 +1,7 @@
 <template>
   <transition name="toggleFromRight">
     <div class="n-login" v-show="isVisble">
-      <div class="logo"><img src="static/img/login-1.jpg" alt=""></div>
+      <div class="logo"><img src="/static/img/login-1.jpg" alt=""></div>
       <form class="loginWrap">
         <div class="username">
           <i class="nxst-user"></i>
@@ -34,6 +34,7 @@
 import {VALID, success, error, loginInfo} from '@/assets/js/config'
 import {setItem, getItem, removeItem} from '@/assets/js/store'
 import api from '@/assets/js/api.js'
+import {eventHub} from '@/assets/js/event.js'
 import DialogLoading from '@/components/DialogLoading'
 import DialogTip from '@/components/DialogTip'
 const usernameReg = /^[a-zA-Z0-9_-]{3,20}$/,
@@ -101,6 +102,7 @@ export default {
             if (res.status === success) {
               this.cachePassword ? setItem(loginInfo, this.username, this.password) : removeItem(loginInfo, this.username)
               this.$refs.dialogTip.show('登录成功')
+              eventHub.$emit('loginSuccess')
               //this.$router.push('/home')
               //console.log(this.$router)
               this.hide()
@@ -173,7 +175,8 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 9;
+    z-index: 8;
+    background-color: white;
     &.toggleFromRight-enter-active, &.toggleFromRight-leave-active {
         transition: all 0.4s ease-out;
     }
