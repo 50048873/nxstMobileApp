@@ -1,28 +1,43 @@
 <template>
-  <div class="n-dialog-loading">
-    <div class="dialogWrap">
-      <div class="dialog">
-        <div class="progress">
-          <i class="fa fa-spinner fa-pulse"></i>
+  <transition name="fade">
+    <div class="dialog-loading" v-show="isVisible">
+      <div class="dialogWrap">
+        <div class="dialog">
+          <div class="progress">
+            <i class="fa fa-spinner fa-pulse"></i>
+          </div>
+          <div class="textTip">请您耐心等待，在玩命加载中...</div>
         </div>
-        <div class="textTip">请您耐心等待，在玩命加载中...</div>
-      </div>
-      <div class="close">
-        <i class="nxst-close"></i>
+        <div class="close" @click="hide">
+          <i class="nxst-close"></i>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
-  name: 'NDialogLoading'
+  name: 'DialogLoading',
+  data() {
+    return {
+      isVisible: false
+    }
+  },
+  methods: {
+    show() {
+      this.isVisible = true
+    },
+    hide() {
+      this.isVisible = false
+    }
+  },
 }
 </script>
 
 <style scoped lang='less'>
   @import '../assets/less/variable.less';
-  .n-dialog-loading {
+  .dialog-loading {
     position: fixed;
     top: 0;
     right: 0;
@@ -30,6 +45,7 @@ export default {
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
+    transition: opacity 0.4s;
     .dialogWrap {
       position: absolute;
       top: 50%;
@@ -58,6 +74,9 @@ export default {
           color: white;
         }
       }
+    }
+    &.fade-enter, &.fade-leave-to {
+      opacity: 0;
     }
   }
 </style>

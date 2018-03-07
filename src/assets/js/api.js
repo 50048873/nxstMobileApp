@@ -1,4 +1,5 @@
 import $ from 'jquery'
+
 let login = function(data) {
 	return $.ajax({
 		type: 'POST',
@@ -7,6 +8,14 @@ let login = function(data) {
 	})
 };
 
+let getNewsMarquee = function() {
+  return $.ajax({
+    type: 'GET',
+    url: 'api/newsMarquee'
+  })
+};
+
 export default {
-	login: login
+	login: login,
+  getNewsMarquee: getNewsMarquee
 }

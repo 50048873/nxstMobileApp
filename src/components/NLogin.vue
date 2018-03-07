@@ -1,45 +1,48 @@
 <template>
-  <div class="n-login">
-    <div class="logo"><img src="static/img/login-1.jpg" alt=""></div>
-    <form class="loginWrap">
-      <div class="username">
-        <i class="nxst-user"></i>
-        <input type="text" placeholder="用户名：字母、数字、-、_组成" v-model="username" :class="{VALID: usernameValid}">
-        <i class="nxst-cancel extend-click" @click="clearUsername"></i>
-      </div>
-      <div class="password">
-        <i class="nxst-lock"></i>
-        <input :type="passwordMode" placeholder="密码：字母、数字组成" v-model="password" :class="{VALID: passwordValid}">
-        <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
-      </div>
-      <div class="errorTip" v-show="!clean && !validate">
-        <i class="nxst-exclamation-mark"></i>
-        <span>{{errorText}}</span>
-      </div>
-      <div class="passwordManage">
-        <i :class="{'nxst-square': cachePassword, 'nxst-square-o': !cachePassword}"></i>
-        <span class="remenberPassword extend-click" @click="rememberPassword">记住密码</span>
-        <span class="forgetPassword">忘记密码？</span>
-      </div>
-      <button type="submit" class="btn btn-off" :class="{'btn-on': validate}" :disabled="!validate" @click.prevent="submit">登录</button>
-    </form>
-    <n-dialog-loading v-show="showLoading"></n-dialog-loading>
-    <n-dialog-tip :text="text" v-if="loginSuccess"></n-dialog-tip>
-  </div>
+  <transition name="toggleFromRight">
+    <div class="n-login" v-show="isVisble">
+      <div class="logo"><img src="static/img/login-1.jpg" alt=""></div>
+      <form class="loginWrap">
+        <div class="username">
+          <i class="nxst-user"></i>
+          <input type="text" placeholder="用户名：字母、数字、-、_组成" v-model="username" :class="{VALID: usernameValid}">
+          <i class="nxst-cancel extend-click" @click="clearUsername"></i>
+        </div>
+        <div class="password">
+          <i class="nxst-lock"></i>
+          <input :type="passwordMode" placeholder="密码：字母、数字组成" v-model="password" :class="{VALID: passwordValid}">
+          <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
+        </div>
+        <div class="errorTip" v-show="!clean && !validate">
+          <i class="nxst-exclamation-mark"></i>
+          <span>{{errorText}}</span>
+        </div>
+        <div class="passwordManage">
+          <i :class="{'nxst-square': cachePassword, 'nxst-square-o': !cachePassword}"></i>
+          <span class="remenberPassword extend-click" @click="rememberPassword">记住密码</span>
+          <span class="forgetPassword">忘记密码？</span>
+        </div>
+        <button type="submit" class="btn btn-off" :class="{'btn-on': validate}" :disabled="!validate" @click.prevent="submit">登录</button>
+      </form>
+      <dialog-loading ref="dialogLoading"></dialog-loading>
+      <dialog-tip ref="dialogTip"></dialog-tip>
+    </div>
+  </transition>
 </template>
 
 <script>
-import {VALID, success, error} from '@/assets/js/config'
-import {setItem, getItem} from '@/assets/js/store'
+import {VALID, success, error, loginInfo} from '@/assets/js/config'
+import {setItem, getItem, removeItem} from '@/assets/js/store'
 import api from '@/assets/js/api.js'
-import NDialogLoading from '@/components/NDialogLoading'
-import NDialogTip from '@/components/NDialogTip'
+import DialogLoading from '@/components/DialogLoading'
+import DialogTip from '@/components/DialogTip'
 const usernameReg = /^[a-zA-Z0-9_-]{3,20}$/,
       passwordReg = /^[a-zA-Z0-9]{6,20}$/
 export default {
   name: 'NLogin',
   data() {
     return {
+      isVisble: false,
       clean: true,
       errorText: '',
       username: '',
@@ -48,14 +51,12 @@ export default {
       usernameValid: false,
       passwordValid: false,
       passwordToText: false,
-      cachePassword: false,
-      showLoading: false,
-      loginSuccess: true
+      cachePassword: false
     }
   },
   components: {
-    NDialogLoading,
-    NDialogTip
+    DialogLoading,
+    DialogTip
   },
   computed: {
     validate() {
@@ -64,67 +65,80 @@ export default {
       } else {
         return false
       }
-    },
-    text() {
-      return this.loginSuccess ? "登录成功" : "登录失败"
     }
   },
   methods: {
+    show() {
+      this.isVisble = true
+    },
+    hide() {
+      this.isVisble = false
+    },
     clearUsername() {
-      this.username = ''
+      if (this.username) {
+        this.username = ''
+      }
     },
     showPassword() {
-      this.passwordToText = !this.passwordToText
-      this.passwordToText ? this.passwordMode = 'text' : this.passwordMode = 'password'
+      if (this.password) {
+        this.passwordToText = !this.passwordToText
+        this.passwordToText ? this.passwordMode = 'text' : this.passwordMode = 'password'
+      }
     },
     rememberPassword() {
       this.cachePassword = !this.cachePassword
     },
     submit() {
       this.clean = false
-      this.showLoading = true
+      this.$refs.dialogLoading.show()
       let data = {
         username: this.username,
         password: this.password
       }
-
-      api.login(data)
-        .then((res) => {
-          if (res.status === success) {
-            console.log('登录成功')
-            this.cachePassword && setItem('loginInfo', this.username, this.password)
-            this.loginSuccess = true
-          } else {
-            console.log('登录失败')
-            this.loginSuccess = false
-          }
-        }, (err) => {
-          console.log(err)
-        })
-        .always(() => {
-          this.showLoading = false
-        })
+      //setTimeout(() => {
+        api.login(data)
+          .then((res) => {
+            if (res.status === success) {
+              this.cachePassword ? setItem(loginInfo, this.username, this.password) : removeItem(loginInfo, this.username)
+              this.$refs.dialogTip.show('登录成功')
+              //this.$router.push('/home')
+              //console.log(this.$router)
+              this.hide()
+            } else {
+              this.$refs.dialogTip.show('登录失败')
+            }
+          }, (err) => {
+            this.$refs.dialogTip.show(`<p>错误状态码：${err.status}</p><p>错误描叙：${err.statusText}</p><p>错误文件：NLogin.vue</p>`)
+          })
+          .always(() => {
+            this.$refs.dialogLoading.hide()
+          })
+      //}, Math.random() * 1000)
     },
-    initLoginInfo() {
-      let loginInfo = getItem('loginInfo')
-      if (loginInfo) {
-        this.cachePassword = true
-      }
+    autoLogin(username, password) {
+      this.username = username
+      this.password = password
+      this.cachePassword = true
+      this.submit()
     }
-  },
-  created() {
-    this.initLoginInfo()
   },
   watch: {
     username(newVal, oldVal) {
       if (newVal) {
         if (usernameReg.test(newVal)) {
           this.usernameValid = true
-          let loginInfo = getItem('loginInfo')
-          for (var key in loginInfo) {
-            if (key === this.username) {
-              this.password = loginInfo[key]
-              return
+          let loginInfoArr = getItem(loginInfo)
+          if (loginInfoArr && loginInfoArr.length) {
+            for (let i = 0, len = loginInfoArr.length; i < len; i++) { 
+              let item = loginInfoArr[i]
+              if (item.username === newVal) {
+                this.password = item.password
+                this.cachePassword = true
+                break
+              } else {
+                this.password = ''
+                this.cachePassword = false
+              }
             }
           }
         } else {
@@ -134,7 +148,6 @@ export default {
       } else {
         this.errorText = '您输入的用户名为空！'
       }
-      this.password = ''
     },
     password(newVal, oldVal) {
       if (newVal) {
@@ -152,20 +165,27 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   @import '../assets/less/variable.less';
   .n-login {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 9;
+    &.toggleFromRight-enter-active, &.toggleFromRight-leave-active {
+        transition: all 0.4s ease-out;
+    }
+    &.toggleFromRight-enter, &.toggleFromRight-leave-to {
+        transform: translate3d(100%, 0, 0);
+    }
     .logo {
       width: 100%;
       padding-bottom: 58%;
       img {
         position: absolute;
+        width: 100%;
       }
     }
     .loginWrap {

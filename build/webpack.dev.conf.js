@@ -16,7 +16,7 @@ const appData = require('../data.json')
 const apiRoutes = express.Router()
 app.use('/api', apiRoutes)
 
-const HOST = process.env.HOST
+const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -50,11 +50,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     before(app) {
-      app.post('/api/login', function (req, res) { // 注意这里改为post就可以了
+      app.post('/api/login', function (req, res) { 
         res.json({
           status: appData.login.status,
           data: appData.login.data,
           msg:  appData.login.msg
+        });
+      })
+      app.get('/api/newsMarquee', function (req, res) { 
+        res.json({
+          status: appData.newsMarquee.status,
+          data: appData.newsMarquee.data,
+          msg:  appData.newsMarquee.msg
         });
       })
     }
