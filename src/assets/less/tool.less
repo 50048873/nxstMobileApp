@@ -85,3 +85,14 @@
 	    transform: scaleY(0.5);
     }
 }
+
+.sj-r(@w:12px, @c: red) { 
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border-width: @w;
+  border-color: transparent transparent transparent @c;
+  border-style: dashed dashed dashed solid;
+}

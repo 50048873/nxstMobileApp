@@ -1,12 +1,30 @@
 <template>
   <div class="n-header">
-    <h1>宁夏水投智慧水务平台</h1>
+    <h2 class="header">
+      <i class="fa fa-angle-left extend-click" v-if="isBack" @click="back"></i>
+      <em class="title">{{title}}</em>
+    </h2>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NHeader'
+  name: 'NHeader',
+  props: {
+    title: {
+      type: String,
+      default: '宁夏水投智慧水务平台'
+    },
+    isBack: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    back() {
+      this.eventHub.$emit('back')
+    }
+  }
 }
 </script>
 
@@ -15,13 +33,26 @@ export default {
     height: 70px;
     background: url('../assets/img/home-header-bg.jpg') no-repeat;
     background-size: 100% 100%;
-    h1 {
+    padding-top: 20px;
+    box-sizing: border-box;
+    .header {
+      position: relative;
       text-align: center;
       font-size: 18px;
       color: white;
-      padding-top: 20px;
       line-height: 50px;
       letter-spacing: 1px;
+      .fa {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        font-size: 24px;
+        color: white;
+      }
+      .title {
+        font-style: normal;
+      }
     }
   }
 </style>

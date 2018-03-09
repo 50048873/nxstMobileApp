@@ -15,7 +15,15 @@ let getNewsMarquee = function() {
   })
 };
 
+let getReservoirList = function() {
+  return $.ajax({
+    type: 'GET',
+    url: '/api/reservoirList'
+  })
+};
+
 export default {
 	login: login,
-  getNewsMarquee: getNewsMarquee
+  getNewsMarquee: getNewsMarquee,
+  getReservoirList: getReservoirList
 }

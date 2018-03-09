@@ -5,6 +5,9 @@ import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
 import AddressBook from '@/components/AddressBook'
 import NMe from '@/components/NMe'
+import NReservoir from '@/components/reservoir/NReservoir'
+import NMap from '@/components/reservoir/NMap'
+import NList from '@/components/reservoir/NList'
 
 Vue.use(Router)
 
@@ -41,6 +44,24 @@ export default new Router({
           path: '/home/me',
           name: 'NMe',
           component: NMe
+        }
+      ]
+    },
+    {
+      path: '/reservoir',
+      redirect: '/reservoir/list',
+      name: 'NReservoir',
+      component: NReservoir,
+      children: [
+        {
+          path: '/reservoir/map',
+          name: 'NMap',
+          component: NMap
+        },
+        {
+          path: '/reservoir/list',
+          name: 'NList',
+          component: NList
         }
       ]
     }

@@ -1,16 +1,16 @@
 <template>
   <transition name="toggleFromRight">
-    <div class="n-login" v-show="isVisble">
+    <div class="n-login" v-if="isVisble">
       <div class="logo"><img src="/static/img/login-1.jpg" alt=""></div>
       <form class="loginWrap">
         <div class="username">
           <i class="nxst-user"></i>
-          <input type="text" placeholder="用户名：字母、数字、-、_组成" v-model="username" :class="{VALID: usernameValid}">
+          <input type="text" placeholder="字母、数字、-、_、3-20位" v-model="username" :class="{VALID: usernameValid}">
           <i class="nxst-cancel extend-click" @click="clearUsername"></i>
         </div>
         <div class="password">
           <i class="nxst-lock"></i>
-          <input :type="passwordMode" placeholder="密码：字母、数字组成" v-model="password" :class="{VALID: passwordValid}">
+          <input :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
           <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
         </div>
         <div class="errorTip" v-show="!clean && !validate">
@@ -22,7 +22,7 @@
           <span class="remenberPassword extend-click" @click="rememberPassword">记住密码</span>
           <span class="forgetPassword">忘记密码？</span>
         </div>
-        <button type="submit" class="btn btn-off" :class="{'btn-on': validate}" :disabled="!validate" @click.prevent="submit">登录</button>
+        <button type="submit" class="btn btn-off" :class="{'btn-on': validate}" :disabled="!validate" @click.prevent="login">登录</button>
       </form>
       <dialog-loading ref="dialogLoading"></dialog-loading>
       <dialog-tip ref="dialogTip"></dialog-tip>
@@ -34,7 +34,6 @@
 import {VALID, success, error, loginInfo} from '@/assets/js/config'
 import {setItem, getItem, removeItem} from '@/assets/js/store'
 import api from '@/assets/js/api.js'
-import {eventHub} from '@/assets/js/event.js'
 import DialogLoading from '@/components/DialogLoading'
 import DialogTip from '@/components/DialogTip'
 const usernameReg = /^[a-zA-Z0-9_-]{3,20}$/,
@@ -78,6 +77,7 @@ export default {
     clearUsername() {
       if (this.username) {
         this.username = ''
+        this.usernameValid = false
       }
     },
     showPassword() {
@@ -89,39 +89,36 @@ export default {
     rememberPassword() {
       this.cachePassword = !this.cachePassword
     },
-    submit() {
+    login() {
       this.clean = false
-      this.$refs.dialogLoading.show()
+      this.$refs.dialogLoading && this.$refs.dialogLoading.show()
       let data = {
         username: this.username,
         password: this.password
       }
-      //setTimeout(() => {
-        api.login(data)
-          .then((res) => {
-            if (res.status === success) {
-              this.cachePassword ? setItem(loginInfo, this.username, this.password) : removeItem(loginInfo, this.username)
-              this.$refs.dialogTip.show('登录成功')
-              eventHub.$emit('loginSuccess')
-              //this.$router.push('/home')
-              //console.log(this.$router)
-              this.hide()
-            } else {
-              this.$refs.dialogTip.show('登录失败')
-            }
-          }, (err) => {
-            this.$refs.dialogTip.show(`<p>错误状态码：${err.status}</p><p>错误描叙：${err.statusText}</p><p>错误文件：NLogin.vue</p>`)
-          })
-          .always(() => {
-            this.$refs.dialogLoading.hide()
-          })
-      //}, Math.random() * 1000)
+      api.login(data)
+        .then((res) => {
+          if (res.status === success) {
+            this.cachePassword ? setItem(loginInfo, this.username, this.password) : removeItem(loginInfo, this.username)
+            this.$refs.dialogTip && this.$refs.dialogTip.show('登录成功')
+            this.eventHub.$emit('loginSuccess')
+            //this.$router.push('/home')
+            this.hide()
+          } else {
+            this.$refs.dialogTip && this.$refs.dialogTip.show('登录失败')
+          }
+        }, (err) => {
+          this.$refs.dialogTip && this.$refs.dialogTip.show(`<p>错误状态码：${err.status}</p><p>错误描叙：${err.statusText}</p><p>错误文件：NLogin.vue</p>`)
+        })
+        .always(() => {
+          this.$refs.dialogLoading && this.$refs.dialogLoading.hide()
+        })
     },
     autoLogin(username, password) {
       this.username = username
       this.password = password
       this.cachePassword = true
-      this.submit()
+      this.login()
     }
   },
   watch: {

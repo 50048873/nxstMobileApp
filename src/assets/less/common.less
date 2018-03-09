@@ -3,6 +3,7 @@
 body {
 	color: @color-text;
   background-color: @color-background;
+  overflow-x: hidden;
 }
 
 .btn {
@@ -42,4 +43,13 @@ body {
   transition: opacity 0.4s;
   max-width: 80%;
   color: white;
+}
+
+.router-view {
+  &.fade-enter-active {
+    transition: opacity .4s;
+  }
+  &.fade-enter, &.fade-leave-to {
+    opacity: 0;
+  }
 }

@@ -64,6 +64,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           msg:  appData.newsMarquee.msg
         });
       })
+      app.get('/api/reservoirList', function (req, res) { 
+        res.json({
+          status: appData.reservoirList.status,
+          data: appData.reservoirList.data,
+          msg:  appData.reservoirList.msg
+        });
+      })
     }
   },
   plugins: [

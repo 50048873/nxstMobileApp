@@ -1,4 +1,5 @@
 export function setItem(id, key, value) {
+	if (!key || !value) return
 	let nxst = window.localStorage.__nxst__;
 	if (!nxst) {
 		nxst = {};

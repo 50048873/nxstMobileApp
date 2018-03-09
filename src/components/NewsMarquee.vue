@@ -2,7 +2,7 @@
   <div class="news-marquee line-bottom">
     <i class="nxst-trumpet"></i>
     <ul>
-      <li v-for="item in dubbleData">{{item.text}}</li>
+      <li v-for="item in dubbleData" class="ellipsis">{{item.text}}</li>
     </ul>
   </div>
 </template>

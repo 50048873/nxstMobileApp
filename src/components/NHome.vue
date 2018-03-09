@@ -1,33 +1,23 @@
 <template>
   <div class="n-home">
-    <n-login ref="nLogin"></n-login>
-    <div class="homeWrap">
-      <n-header></n-header>
-      <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
-      <transition name="fade">
-        <router-view class="homeView"></router-view>
-      </transition>
-    </div>
+    <n-header></n-header>
+    <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
+    <transition name="fade">
+      <router-view class="router-view"></router-view>
+    </transition>
     <footer-home></footer-home>
   </div>
 </template>
 
 <script>
-import {getItem} from '@/assets/js/store'
-import {loginInfo, success} from '@/assets/js/config'
-import {getMax, isArray} from '@/assets/js/util'
-import NLogin from '@/components/NLogin'
-import NHeader from '@/components/NHeader'
 import NewsMarquee from '@/components/NewsMarquee'
 import FooterHome from '@/components/FooterHome'
 import api from '@/assets/js/api'
-import {eventHub} from '@/assets/js/event.js'
+import {success} from '@/assets/js/config'
 
 export default {
   name: 'NHome',
   components: {
-    NLogin,
-    NHeader,
     NewsMarquee,
     FooterHome
   },
@@ -37,23 +27,6 @@ export default {
     }
   },
   methods: {
-    initLoginStatus() {
-      new Promise((resolve, reject) => {
-        let loginInfoArr = getItem(loginInfo)
-        if (isArray(loginInfoArr) && loginInfoArr.length) {
-          resolve(loginInfoArr)
-        } else {
-          reject('没有缓存登录信息')
-        }
-      }).then((res) => {
-        let lastLoginUser = getMax(res)
-        if (lastLoginUser) {
-          this.$refs.nLogin.autoLogin(res.username, res.password)
-        }
-      }, (err) => {
-        this.$refs.nLogin.show()
-      })
-    },
     getNewsMarquee() {
       api.getNewsMarquee()
         .then((res) => {
@@ -66,10 +39,7 @@ export default {
     },
   },
   created() {
-    this.initLoginStatus()
-    eventHub.$on('loginSuccess', () => {
-      this.getNewsMarquee()
-    })
+    this.getNewsMarquee()
   }
 }
 </script>
@@ -77,11 +47,10 @@ export default {
 <style scoped lang='less'>
   @import '../assets/less/variable.less';
   .n-home {
-    .homeView {
-      transition: opacity 0.4s;
-      &.fade-enter, &.fade-leave-to {
-        opacity: 0;
-      }
-    }
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 </style>

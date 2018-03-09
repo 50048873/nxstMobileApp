@@ -21,5 +21,71 @@
       }
     ],
     "msg":  "成功"
+  },
+  "reservoirList": {
+    "status": 1,
+    "data": [
+      {
+        "name": "鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 0,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/750/h/750"
+      },
+      {
+        "name": "水库名",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 1,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/750/h/750"
+      },
+      {
+        "name": "水库名",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 1,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/750/h/750"
+      },
+      {
+        "name": "水库名",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 0,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/750/h/750"
+      },
+      {
+        "name": "水库名",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 1,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/750/h/750"
+      },
+      {
+        "name": "水库名",
+        "kr": "0.3240",
+        "dqsw": "208.88",
+        "gcgm": "中型",
+        "status": 1,
+        "date": "2018年1月15日 17:32",
+        "icon": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/114/h/114",
+        "image": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/750/h/750"
+      }
+    ],
+    "msg":  "成功"
   }
 }
