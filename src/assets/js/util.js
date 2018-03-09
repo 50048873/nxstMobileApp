@@ -11,7 +11,7 @@ export function getMax(arr) {
   if (toString.call(arr) === "[object Array]") {
     let reverse = arr.reverse()
     let res = reverse && reverse[0]
-    return res
+    return JSON.stringify(res)
   }
   return null
 }

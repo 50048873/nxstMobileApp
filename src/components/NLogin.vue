@@ -1,16 +1,16 @@
 <template>
   <transition name="toggleFromRight">
-    <div class="n-login" v-if="isVisble">
+    <div class="n-login">
       <div class="logo"><img src="/static/img/login-1.jpg" alt=""></div>
       <form class="loginWrap">
         <div class="username">
           <i class="nxst-user"></i>
-          <input type="text" placeholder="字母、数字、-、_、3-20位" v-model="username" :class="{VALID: usernameValid}">
+          <input class="needsclick" type="text" placeholder="字母、数字、-、_、3-20位" v-model="username" :class="{VALID: usernameValid}">
           <i class="nxst-cancel extend-click" @click="clearUsername"></i>
         </div>
         <div class="password">
           <i class="nxst-lock"></i>
-          <input :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
+          <input class="needsclick" :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
           <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
         </div>
         <div class="errorTip" v-show="!clean && !validate">
@@ -33,6 +33,7 @@
 <script>
 import {VALID, success, error, loginInfo} from '@/assets/js/config'
 import {setItem, getItem, removeItem} from '@/assets/js/store'
+import {isArray, getMax} from '@/assets/js/util'
 import api from '@/assets/js/api.js'
 import DialogLoading from '@/components/DialogLoading'
 import DialogTip from '@/components/DialogTip'
@@ -42,7 +43,6 @@ export default {
   name: 'NLogin',
   data() {
     return {
-      isVisble: false,
       clean: true,
       errorText: '',
       username: '',
@@ -68,12 +68,6 @@ export default {
     }
   },
   methods: {
-    show() {
-      this.isVisble = true
-    },
-    hide() {
-      this.isVisble = false
-    },
     clearUsername() {
       if (this.username) {
         this.username = ''
@@ -96,14 +90,13 @@ export default {
         username: this.username,
         password: this.password
       }
+
       api.login(data)
         .then((res) => {
           if (res.status === success) {
             this.cachePassword ? setItem(loginInfo, this.username, this.password) : removeItem(loginInfo, this.username)
             this.$refs.dialogTip && this.$refs.dialogTip.show('登录成功')
-            this.eventHub.$emit('loginSuccess')
-            //this.$router.push('/home')
-            this.hide()
+            this.$router.push('/home')
           } else {
             this.$refs.dialogTip && this.$refs.dialogTip.show('登录失败')
           }
@@ -114,12 +107,33 @@ export default {
           this.$refs.dialogLoading && this.$refs.dialogLoading.hide()
         })
     },
-    autoLogin(username, password) {
-      this.username = username
-      this.password = password
+    autoLogin(lastLoginUser) {
+      let o = JSON.parse(lastLoginUser)
+      this.username = o.username
+      this.password = o.password
       this.cachePassword = true
       this.login()
+    },
+    initLoginStatus() {
+      new Promise((resolve, reject) => {
+        let loginInfoArr = getItem(loginInfo)
+        if (isArray(loginInfoArr) && loginInfoArr.length) {
+          resolve(loginInfoArr)
+        } else {
+          reject('没有缓存登录信息')
+        }
+      }).then((res) => {
+        let lastLoginUser = getMax(res)
+        if (lastLoginUser) {
+          this.autoLogin(lastLoginUser)
+        }
+      }, (err) => {
+        this.errorTip(err)
+      })
     }
+  },
+  created() {
+    this.initLoginStatus()
   },
   watch: {
     username(newVal, oldVal) {

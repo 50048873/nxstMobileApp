@@ -8,16 +8,22 @@ import NMe from '@/components/NMe'
 import NReservoir from '@/components/reservoir/NReservoir'
 import NMap from '@/components/reservoir/NMap'
 import NList from '@/components/reservoir/NList'
+import NLogin from '@/components/NLogin'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   mode: 'history',
   linkActiveClass: 'ON',
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'NLogin',
+      component: NLogin
     },
     {
       path: '/home',
@@ -67,3 +73,12 @@ export default new Router({
     }
   ]
 })
+
+router.beforeResolve ((to, from, next) => {
+  if (to.path !== '/login' && from.path === '/') {
+    next({ path: '/' })
+  }
+  next()
+})
+
+export default router
