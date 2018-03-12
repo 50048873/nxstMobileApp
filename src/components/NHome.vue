@@ -5,25 +5,46 @@
     <transition name="fade">
       <router-view class="router-view"></router-view>
     </transition>
-    <footer-home></footer-home>
+    <n-footer :data="data"></n-footer>
   </div>
 </template>
 
 <script>
 import NewsMarquee from '@/components/NewsMarquee'
-import FooterHome from '@/components/FooterHome'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-
+let data = [
+  {
+    title: '消息',
+    icon: 'nxst-',
+    href: '/home/message',
+    new: true
+  },
+  {
+    title: '智慧水务',
+    icon: 'nxst-',
+    href: '/home/systemMenu'
+  },
+  {
+    title: '通讯录',
+    icon: 'nxst-',
+    href: '/home/addressBook'
+  },
+  {
+    title: '我的',
+    icon: 'nxst-',
+    href: '/home/me'
+  }
+]
 export default {
   name: 'NHome',
   components: {
-    NewsMarquee,
-    FooterHome
+    NewsMarquee
   },
   data() {
     return {
-      newsMarquee: []
+      newsMarquee: [],
+      data: data
     }
   },
   methods: {

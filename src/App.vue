@@ -16,38 +16,47 @@ export default {
   name: 'app', 
   data () { 
     return { 
-      transitionName: 'slideLeft' 
+      transitionName: 'slideToLeft' 
     } 
   }, 
-  watch: {
-　　'$route'(to, from) {
-      //console.log(to, from)
-      switch (to.path) {
-        case '/reservoir/list':
-          this.transitionName = 'slideLeft'
-          break;
-        case '/home/systemMenu':
-          this.transitionName = 'slideRight'
-          break;
-      }
-　　}
-  }
+  watch: {  
+    '$route'(to, from)  {  
+      let toPath = to.path,
+          fromPath = from.path
+      let routers = sessionStorage.getItem('routers')
+      let routersArr = routers && routers.split(',') || [];  
+      if (routersArr.length === 0) {  
+        routersArr.push(fromPath)  
+        routersArr.push(toPath);  
+      } else {  
+        let index = routersArr.indexOf(toPath)
+        if (index !== -1) {  
+          this.transitionName='slideToRight'  
+          routersArr.splice(index + 1, 100)  
+        } else {  
+          this.transitionName='slideToLeft'  
+          routersArr.push(toPath)  
+        } 
+      }  
+      sessionStorage.setItem('routers', routersArr.join(','))  
+    }  
+  } 
 }
 </script>
 
 <style scoped lang="less">
   .app-view {
     transition: all 0.4s ease-out;
-    &.slideLeft-enter {
+    &.slideToLeft-enter {
         transform: translate3d(100%, 0, 0);
     } 
-    &.slideLeft-leave-to {
+    &.slideToLeft-leave-to {
         transform: translate3d(-100%, 0, 0);
     } 
-    &.slideRight-enter {
+    &.slideToRight-enter {
         transform: translate3d(-100%, 0, 0);
     } 
-    &.slideRight-leave-to {
+    &.slideToRight-leave-to {
         transform: translate3d(100%, 0, 0);
     } 
   }

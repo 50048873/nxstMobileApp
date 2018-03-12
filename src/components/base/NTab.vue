@@ -1,10 +1,10 @@
 <template>
   <div class="n-tab line-bottom">
-    <router-link to="/reservoir/map">
+    <router-link to="/reservoirOverview/map">
       <i>图标</i>
       <span class="title">地图</span>
     </router-link>
-    <router-link to="/reservoir/list">
+    <router-link to="/reservoirOverview/list">
       <i>图标</i>
       <span class="title">列表</span>
     </router-link>

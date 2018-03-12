@@ -2,7 +2,7 @@
   <div>
     <better-scroll class="n-list" v-if="reservoirList.length">
       <ul>
-        <li v-for="item in reservoirList">
+        <li v-for="item in reservoirList" @click="showDetail(item.id)">
           <div class="top line-top line-bottom">
             <div class="thumbnail" v-lazy:background-image="item.icon"></div>
             <div class="des">
@@ -44,7 +44,7 @@ import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import BetterScroll from '@/components/base/BetterScroll'
 export default {
-  name: 'NList',
+  name: 'ReservoirOverviewList',
   components: {
     BetterScroll,
     NLoading
@@ -62,8 +62,11 @@ export default {
             this.reservoirList = res.data
           }
         }, (err) => {
-          this.serverErrorTip(err, 'NList.vue')
+          this.serverErrorTip(err, 'ReservoirOverviewList.vue')
         })
+    },
+    showDetail(id) {
+      this.$router.push({path: '/reservoirDetail', query: {id}})
     }
   },
   created() {

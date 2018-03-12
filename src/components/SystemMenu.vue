@@ -9,7 +9,7 @@
         <h3>OA系统</h3>
       </router-link>
       <div class="divide"></div>
-      <router-link class="item" to="/reservoir">
+      <router-link class="item" to="/reservoirOverview">
         <div class="iconWrap">
           <img src="../assets/img/home-menu-1.png" alt="">
         </div>

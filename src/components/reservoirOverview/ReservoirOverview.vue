@@ -1,5 +1,5 @@
 <template>
-  <div class="n-reservoir">
+  <div class="reservoir-overview">
     <n-header title="水库概览" :isBack="isBack"></n-header>
     <n-tab></n-tab>
     <transition name="fade">
@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import NTab from '@/components/reservoir/NTab'
+import NTab from '@/components/base/NTab'
 export default {
-  name: 'NReservoir',
+  name: 'ReservoirOverview',
   components: {
     NTab
   },
@@ -19,20 +19,12 @@ export default {
     return {
       isBack: true
     }
-  },
-  methods: {
-    back() {
-      this.$router.push('/home')
-    }
-  },
-  created() {
-    this.eventHub.$on('back', this.back)
   }
 }
 </script>
 
 <style scoped lang="less">
-  .n-reservoir {
+  .reservoir-overview {
     position: absolute;
     top: 0;
     right: 0;

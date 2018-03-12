@@ -1,36 +1,31 @@
 <template>
-  <nav class="footer-home line-top">
-    <router-link to="/home/message">
+  <nav class="n-footer line-top">
+    <router-link :to="item.href" v-for="(item, index) in data" :key="index">
       <div class="iconWrap">
-        <span class="redDot"></span>
+        <span :class="{'redDot': item.new}"></span>
+        <i :class="item.icon"></i>
         图标
       </div>
-      <h3>消息</h3>
-    </router-link>
-    <router-link to="/home/systemMenu" >
-      <div class="iconWrap">图标</div>
-      <h3>智慧水务</h3>
-    </router-link>
-    <router-link to="/home/addressBook">
-      <div class="iconWrap">图标</div>
-      <h3>通讯录</h3>
-    </router-link>
-    <router-link to="/home/me">
-      <div class="iconWrap">图标</div>
-      <h3>我的</h3>
+      <h3>{{item.title}}</h3>
     </router-link>
   </nav>
 </template>
 
 <script>
 export default {
-  name: 'FooterHome'
+  name: 'NFooter',
+  props: {
+    data: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
-  @import '../assets/less/variable.less';
-  .footer-home {
+  @import '../../assets/less/variable.less';
+  nav.n-footer {
     position: absolute;
     bottom: 0;
     width: 100%; 

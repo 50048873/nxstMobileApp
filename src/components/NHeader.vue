@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     back() {
-      this.eventHub.$emit('back')
+      this.$router.go(-1)
     }
   }
 }

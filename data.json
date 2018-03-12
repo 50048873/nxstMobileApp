@@ -26,6 +26,7 @@
     "status": 1,
     "data": [
       {
+        "id": "1",
         "name": "鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -36,6 +37,7 @@
         "image": "http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
+        "id": "2",
         "name": "水库名",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -46,6 +48,7 @@
         "image": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
+        "id": "3",
         "name": "水库名",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -56,6 +59,7 @@
         "image": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
+        "id": "4",
         "name": "水库名",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -66,6 +70,7 @@
         "image": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
+        "id": "5",
         "name": "水库名",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -76,6 +81,7 @@
         "image": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
+        "id": "6",
         "name": "水库名",
         "kr": "0.3240",
         "dqsw": "208.88",
@@ -87,5 +93,36 @@
       }
     ],
     "msg":  "成功"
-  }
+  },
+  "reservoirDetailInfo": [
+    {
+      "title": "基本信息",
+      "des": [
+        {
+          "title": "水库名称",
+          "content": "鸭子荡水库鸭子荡水库鸭子荡水库鸭子鸭子荡水库鸭子荡水库鸭子荡水库鸭子"
+        },
+        {
+          "title": "工程规模",
+          "content": "中型",
+        },
+        {
+          "title": "东经",
+          "content": "106.256321459",
+        },
+        {
+          "title": "北纬",
+          "content": "38.265421542",
+        },
+        {
+          "title": "所在地",
+          "content": "灵武市挂井子沟",
+        },
+        {
+          "title": "管理单位",
+          "content": "宁东水务公司",
+        }
+      ]
+    }
+  ]
 }

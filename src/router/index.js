@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NLogin from '@/components/NLogin'
 import NHome from '@/components/NHome'
 import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
 import AddressBook from '@/components/AddressBook'
 import NMe from '@/components/NMe'
-import NReservoir from '@/components/reservoir/NReservoir'
-import NMap from '@/components/reservoir/NMap'
-import NList from '@/components/reservoir/NList'
-import NLogin from '@/components/NLogin'
+import ReservoirOverview from '@/components/reservoirOverview/ReservoirOverview'
+import ReservoirOverviewMap from '@/components/reservoirOverview/ReservoirOverviewMap'
+import ReservoirOverviewList from '@/components/reservoirOverview/ReservoirOverviewList'
+import ReservoirDetail from '@/components/reservoirOverview/ReservoirDetail'
+import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailInfo'
+import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirDetailInspection'
+import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
+import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
 
 Vue.use(Router)
 
@@ -54,20 +59,48 @@ let router = new Router({
       ]
     },
     {
-      path: '/reservoir',
-      redirect: '/reservoir/list',
-      name: 'NReservoir',
-      component: NReservoir,
+      path: '/reservoirOverview',
+      redirect: '/reservoirOverview/list',
+      name: 'ReservoirOverview',
+      component: ReservoirOverview,
       children: [
         {
-          path: '/reservoir/map',
-          name: 'NMap',
-          component: NMap
+          path: '/reservoirOverview/map',
+          name: 'ReservoirOverviewMap',
+          component: ReservoirOverviewMap
         },
         {
-          path: '/reservoir/list',
-          name: 'NList',
-          component: NList
+          path: '/reservoirOverview/list',
+          name: 'ReservoirOverviewList',
+          component: ReservoirOverviewList
+        }
+      ]
+    },
+    {
+      path: '/reservoirDetail',
+      redirect: '/reservoirDetail/info',
+      name: 'ReservoirDetail',
+      component: ReservoirDetail,
+      children: [
+        {
+          path: '/reservoirDetail/monitor',
+          name: 'ReservoirDetailMonitor',
+          component: ReservoirDetailMonitor
+        },
+        {
+          path: '/reservoirDetail/inspection',
+          name: 'ReservoirDetailInspection',
+          component: ReservoirDetailInspection
+        },
+        {
+          path: '/reservoirDetail/member',
+          name: 'ReservoirDetailMember',
+          component: ReservoirDetailMember
+        },
+        {
+          path: '/reservoirDetail/info',
+          name: 'ReservoirDetailInfo',
+          component: ReservoirDetailInfo
         }
       ]
     }
@@ -76,7 +109,7 @@ let router = new Router({
 
 router.beforeResolve ((to, from, next) => {
   if (to.path !== '/login' && from.path === '/') {
-    next({ path: '/' })
+    next({ path: '/login' })
   }
   next()
 })

@@ -1,17 +1,17 @@
 <template>
-  <div class="n-map">
+  <div class="reservoir-overview-map">
     地图
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NMap'
+  name: 'ReservoirOverviewMap'
 }
 </script>
 
 <style scoped lang="less">
-  .n-map {
+  .reservoir-overview-map {
     
   }
 </style>

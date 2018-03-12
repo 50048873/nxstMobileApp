@@ -14,6 +14,8 @@ Vue.use(VueLazyloader, {
 // 注册全局组件
 import NHeader from '@/components/NHeader'
 Vue.component('n-header', NHeader)
+import NFooter from '@/components/base/NFooter'
+Vue.component('n-footer', NFooter)
 
 // 注册自定义的方法
 import {errorTip, serverErrorTip} from '@/assets/js/util'
