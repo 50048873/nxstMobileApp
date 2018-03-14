@@ -28,6 +28,7 @@ export default {
   nav.n-footer {
     position: absolute;
     bottom: 0;
+    z-index: 7;
     width: 100%; 
     height: 58px;
     background-color: white;

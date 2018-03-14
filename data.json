@@ -94,35 +94,159 @@
     ],
     "msg":  "成功"
   },
-  "reservoirDetailInfo": [
-    {
-      "title": "基本信息",
-      "des": [
-        {
-          "title": "水库名称",
-          "content": "鸭子荡水库鸭子荡水库鸭子荡水库鸭子鸭子荡水库鸭子荡水库鸭子荡水库鸭子"
-        },
-        {
-          "title": "工程规模",
-          "content": "中型",
-        },
-        {
-          "title": "东经",
-          "content": "106.256321459",
-        },
-        {
-          "title": "北纬",
-          "content": "38.265421542",
-        },
-        {
-          "title": "所在地",
-          "content": "灵武市挂井子沟",
-        },
-        {
-          "title": "管理单位",
-          "content": "宁东水务公司",
-        }
-      ]
-    }
-  ]
+  "reservoirDetailInfo": {
+    "status": 1,
+    "data": [
+      {
+        "title": "基本信息",
+        "des": [
+          {
+            "title": "水库名称",
+            "content": "鸭子荡水库鸭子荡水库鸭子荡水库鸭子鸭子荡水库鸭子荡水库鸭子荡水库鸭子"
+          },
+          {
+            "title": "工程规模",
+            "content": "中型"
+          },
+          {
+            "title": "东经",
+            "content": "106.256321459"
+          },
+          {
+            "title": "北纬",
+            "content": "38.265421542"
+          },
+          {
+            "title": "所在地",
+            "content": "灵武市挂井子沟"
+          },
+          {
+            "title": "管理单位",
+            "content": "宁东水务公司"
+          }
+        ]
+      },
+      {
+        "title": "水文水库特征",
+        "des": [
+          {
+            "title": "总库容",
+            "content": "2400"
+          },
+          {
+            "title": "坝顶高程",
+            "content": "1252.5"
+          },
+          {
+            "title": "最大坝高",
+            "content": "24.5"
+          },
+          {
+            "title": "坝长",
+            "content": "2330"
+          },
+          {
+            "title": "防洪限制水位",
+            "content": "1249.6"
+          },
+          {
+            "title": "设计洪水位",
+            "content": "1249.6"
+          },
+          {
+            "title": "校核洪水位",
+            "content": "1249.9"
+          }
+        ]
+      }
+    ],
+    "msg":  "水库详情信息"
+  },
+  "reservoirDetailMember": {
+    "status": 1,
+    "data": [
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/114/h/114"
+      },
+      {
+        "name": "钱江",
+        "mobile": "13800000000",
+        "role": "村长",
+        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
+        "avatar": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/114/h/114"
+      }
+    ],
+    "msg":  ""
+  },
+  "ReservoirDetailInspection": {
+    "status": 1,
+    "data": [
+      {
+        "date": "2018-01-13 11:36:05",
+        "status": 0,
+        "result": "巡查大坝未见异常"
+      },
+      {
+        "date": "2018-01-14 11:36:05",
+        "status": 1,
+        "result": "巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常"
+      },
+      {
+        "date": "2018-01-15 11:36:05",
+        "status": 1,
+        "result": "巡查大坝未见异常"
+      },
+      {
+        "date": "2018-01-16 11:36:05",
+        "status": 1,
+        "result": "巡查大坝未见异常"
+      },
+      {
+        "date": "2018-01-17 11:36:05",
+        "status": 1,
+        "result": "巡查大坝未见异常"
+      }
+    ],
+    "msg":  ""
+  }
 }
+

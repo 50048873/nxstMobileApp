@@ -81,3 +81,8 @@ export function serverErrorTip(err, filename) {
         }, 2000)
     }, 2000)
 }
+
+// 设置文档标题
+export function setDocumentTitle(title) {
+    window.document.title = title
+}

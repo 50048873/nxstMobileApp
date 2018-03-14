@@ -1,80 +1,110 @@
 <template>
-  <div class="system-menu">
-    <nav>
-      <router-link class="item" to="/oa">
-        <div class="iconWrap">
-          <span class="redDot"></span>
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>OA系统</h3>
-      </router-link>
+  <div>
+    <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
+    <div class="system-menu">
+      <nav>
+        <router-link class="item" to="/oa">
+          <div class="iconWrap">
+            <span class="redDot"></span>
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>OA系统</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/reservoirOverview">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>水库管理</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/waterResources">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>水资源管理</h3>
+        </router-link>
+      </nav>
       <div class="divide"></div>
-      <router-link class="item" to="/reservoirOverview">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>水库管理</h3>
-      </router-link>
+      <nav>
+        <router-link class="item" to="/customerService">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>客服营收</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/engineering">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>工程管理</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/waterRegimen">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>水情预报</h3>
+        </router-link>
+      </nav>
       <div class="divide"></div>
-      <router-link class="item" to="/waterResources">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>水资源管理</h3>
-      </router-link>
-    </nav>
-    <div class="divide"></div>
-    <nav>
-      <router-link class="item" to="/customerService">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>客服营收</h3>
-      </router-link>
-      <div class="divide"></div>
-      <router-link class="item" to="/engineering">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>工程管理</h3>
-      </router-link>
-      <div class="divide"></div>
-      <router-link class="item" to="/waterRegimen">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>水情预报</h3>
-      </router-link>
-    </nav>
-    <div class="divide"></div>
-    <nav>
-      <router-link class="item" to="/waterQuality">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>水质管理</h3>
-      </router-link>
-      <div class="divide"></div>
-      <router-link class="item" to="/scienceTechnology">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>科技创新</h3>
-      </router-link>
-      <div class="divide"></div>
-      <router-link class="item" to="/comprehensive">
-        <div class="iconWrap">
-          <img src="../assets/img/home-menu-1.png" alt="">
-        </div>
-        <h3>综合管理</h3>
-      </router-link>
-    </nav>
+      <nav>
+        <router-link class="item" to="/waterQuality">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>水质管理</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/scienceTechnology">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>科技创新</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/comprehensive">
+          <div class="iconWrap">
+            <img src="../assets/img/home-menu-1.png" alt="">
+          </div>
+          <h3>综合管理</h3>
+        </router-link>
+      </nav>
+    </div>
   </div>
 </template>
 
 <script>
+import NewsMarquee from '@/components/NewsMarquee'
+import api from '@/assets/js/api'
+import {success} from '@/assets/js/config'
 export default {
-  name: 'SystemMenu'
+  name: 'SystemMenu',
+  components: {
+    NewsMarquee
+  },
+  data() {
+    return {
+      newsMarquee: []
+    }
+  },
+  methods: {
+    getNewsMarquee() {
+      api.getNewsMarquee()
+        .then((res) => {
+          if (res.status === success) {
+            this.newsMarquee = res.data
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'NHome.vue')
+        })
+    },
+  },
+  created() {
+    this.getNewsMarquee()
+    this.setDocumentTitle('宁夏水投智慧水务平台')
+  }
 }
 </script>
 
@@ -82,9 +112,9 @@ export default {
   @import '../assets/less/variable.less';
   .system-menu {
     position: absolute;
-    top: 108px;
+    top: 38px;
     right: 0;
-    bottom: 58px;
+    bottom: 0;
     left: 0;
     padding: 18px 18px 30px;
     overflow-y: auto; 

@@ -71,6 +71,27 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           msg:  appData.reservoirList.msg
         });
       })
+      app.get('/api/reservoirDetail/info', function (req, res) { 
+        res.json({
+          status: appData.reservoirDetailInfo.status,
+          data: appData.reservoirDetailInfo.data,
+          msg:  appData.reservoirDetailInfo.msg
+        });
+      })
+      app.get('/api/reservoirDetail/member', function (req, res) { 
+        res.json({
+          status: appData.reservoirDetailMember.status,
+          data: appData.reservoirDetailMember.data,
+          msg:  appData.reservoirDetailMember.msg
+        });
+      })
+      app.get('/api/reservoirDetail/inspection', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailInspection.status,
+          data: appData.ReservoirDetailInspection.data,
+          msg:  appData.ReservoirDetailInspection.msg
+        });
+      })
     }
   },
   plugins: [

@@ -2,7 +2,7 @@
   <div id="app">
     <keep-alive>
       <transition :name="transitionName">
-        <router-view class="app-view"></router-view>
+        <router-view class="routerView1"></router-view>
       </transition>
     </keep-alive>
   </div>
@@ -24,10 +24,10 @@ export default {
       let toPath = to.path,
           fromPath = from.path
       let routers = sessionStorage.getItem('routers')
-      let routersArr = routers && routers.split(',') || [];  
+      let routersArr = routers && routers.split(',') || []
       if (routersArr.length === 0) {  
         routersArr.push(fromPath)  
-        routersArr.push(toPath);  
+        routersArr.push(toPath)
       } else {  
         let index = routersArr.indexOf(toPath)
         if (index !== -1) {  
@@ -45,8 +45,8 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .app-view {
-    transition: all 0.4s ease-out;
+  .routerView1 {
+    transition: all 0.2s ease-out;
     &.slideToLeft-enter {
         transform: translate3d(100%, 0, 0);
     } 

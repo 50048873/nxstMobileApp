@@ -1,6 +1,5 @@
 <template>
   <div class="reservoir-overview">
-    <n-header title="水库概览" :isBack="isBack"></n-header>
     <n-tab></n-tab>
     <transition name="fade">
       <router-view class="router-view"></router-view>
@@ -19,6 +18,9 @@ export default {
     return {
       isBack: true
     }
+  },
+  created() {
+    this.setDocumentTitle('水库概览')
   }
 }
 </script>

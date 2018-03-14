@@ -1,18 +1,13 @@
 <template>
-  <div class="n-home">
-    <n-header></n-header>
-    <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
+  <div>
     <transition name="fade">
       <router-view class="router-view"></router-view>
     </transition>
     <n-footer :data="data"></n-footer>
   </div>
 </template>
-
 <script>
-import NewsMarquee from '@/components/NewsMarquee'
-import api from '@/assets/js/api'
-import {success} from '@/assets/js/config'
+
 let data = [
   {
     title: '消息',
@@ -38,40 +33,23 @@ let data = [
 ]
 export default {
   name: 'NHome',
-  components: {
-    NewsMarquee
-  },
   data() {
     return {
-      newsMarquee: [],
       data: data
     }
   },
-  methods: {
-    getNewsMarquee() {
-      api.getNewsMarquee()
-        .then((res) => {
-          if (res.status === success) {
-            this.newsMarquee = res.data
-          }
-        }, (err) => {
-          this.serverErrorTip(err, 'NHome.vue')
-        })
-    },
-  },
   created() {
-    this.getNewsMarquee()
+    this.setDocumentTitle('宁夏水投智慧水务平台')
   }
 }
 </script>
 
 <style scoped lang='less'>
-  @import '../assets/less/variable.less';
-  .n-home {
+  .router-view {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 74px;
     left: 0;
   }
 </style>

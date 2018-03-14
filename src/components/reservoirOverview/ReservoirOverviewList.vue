@@ -39,15 +39,13 @@
 </template>
 
 <script>
-import NLoading from '@/components/base/NLoading/NLoading'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import BetterScroll from '@/components/base/BetterScroll'
 export default {
   name: 'ReservoirOverviewList',
   components: {
-    BetterScroll,
-    NLoading
+    BetterScroll
   },
   data() {
     return {
@@ -70,6 +68,7 @@ export default {
     }
   },
   created() {
+      this.setDocumentTitle('水库概览')
       this.getReservoirList()
   }
 }
@@ -79,7 +78,7 @@ export default {
   @import '../../assets/less/tool.less';
   .n-list {
     position: absolute;
-    top: 108px;
+    top: 38px;
     right: 0;
     bottom: 0;
     left: 0;

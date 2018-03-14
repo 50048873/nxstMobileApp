@@ -5,12 +5,12 @@
       <form class="loginWrap">
         <div class="username">
           <i class="nxst-user"></i>
-          <input class="needsclick" type="text" placeholder="字母、数字、-、_、3-20位" v-model="username" :class="{VALID: usernameValid}">
+          <input type="text" placeholder="字母、数字、-、_、3-20位" v-model="username" :class="{VALID: usernameValid}">
           <i class="nxst-cancel extend-click" @click="clearUsername"></i>
         </div>
         <div class="password">
           <i class="nxst-lock"></i>
-          <input class="needsclick" :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
+          <input :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
           <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
         </div>
         <div class="errorTip" v-show="!clean && !validate">

@@ -1,8 +1,7 @@
 <template>
-  <div class="reservoir-overview-detail">
-    <n-header title="鸭子荡水库" :isBack="isBack"></n-header>
+  <div>
     <transition name="fade">
-      <router-view class="router-view"></router-view>
+      <router-view class="routerView2"></router-view>
     </transition>
     <n-footer :data="data"></n-footer>
   </div>
@@ -35,23 +34,8 @@ export default {
   name: 'ReservoirOverviewDetail',
   data() {
     return {
-      isBack: true,
       data: data
     }
-  },
-  created() {
-    console.log(this.$route)
   }
 }
 </script>
-
-<style scoped lang="less">
-  @import '../../assets/less/tool.less';
-  .n-detail {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-</style>

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import NLogin from '@/components/NLogin'
 import NHome from '@/components/NHome'
 import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
@@ -12,6 +11,7 @@ import ReservoirOverviewList from '@/components/reservoirOverview/ReservoirOverv
 import ReservoirDetail from '@/components/reservoirOverview/ReservoirDetail'
 import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailInfo'
 import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirDetailInspection'
+import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
 
@@ -23,12 +23,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
-    },
-    {
-      path: '/login',
-      name: 'NLogin',
-      component: NLogin
+      redirect: '/home'
     },
     {
       path: '/home',
@@ -93,6 +88,11 @@ let router = new Router({
           component: ReservoirDetailInspection
         },
         {
+          path: '/reservoirDetail/inspection/add',
+          name: 'ReservoirDetailInspectionAdd',
+          component: ReservoirDetailInspectionAdd
+        },
+        {
           path: '/reservoirDetail/member',
           name: 'ReservoirDetailMember',
           component: ReservoirDetailMember
@@ -105,13 +105,6 @@ let router = new Router({
       ]
     }
   ]
-})
-
-router.beforeResolve ((to, from, next) => {
-  if (to.path !== '/login' && from.path === '/') {
-    next({ path: '/login' })
-  }
-  next()
 })
 
 export default router
