@@ -98,3 +98,21 @@
   border-color: transparent transparent transparent @c;
   border-style: dashed dashed dashed solid;
 }
+
+.arrow-r {
+  position: relative;
+  &:after {
+    content: " ";
+    height: 6px;
+    width: 6px;
+    border-width: 2px 2px 0 0;
+    border-color: #C8C8CD;
+    border-style: solid;
+    transform-origin: right center;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -2px;
+  }
+}

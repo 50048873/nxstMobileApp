@@ -30,11 +30,12 @@ export default {
     bottom: 0;
     z-index: 7;
     width: 100%; 
-    height: 58px;
+    height: 62px;
     background-color: white;
     display: flex;
     text-align: center;
     padding: 8px 0;
+    box-sizing: border-box;
     a {
       display: block;
       flex: 1;

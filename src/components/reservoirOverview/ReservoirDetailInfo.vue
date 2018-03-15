@@ -23,6 +23,8 @@
 <script>
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
+import {mapGetters, mapMutations} from 'vuex'
+import {SET_DOCUMENTTITLE} from '@/store/mutation-types'
 let colors = ['#0c6ac9', '#1ca6ab']
 export default {
   name: 'ReservoirDetailInfo',
@@ -33,6 +35,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([SET_DOCUMENTTITLE]),
     maxWordLen(arr) {
       arr.forEach((item) => {
         let des = item.des
@@ -49,10 +52,12 @@ export default {
         .then((res) => {
           if (res.status === success) {
             this.reservoirDetailInfo = this.maxWordLen(res.data)
-            this.setDocumentTitle(this.reservoirDetailInfo[0].des[0].content)
+            const documentTitle = this.reservoirDetailInfo[0].des[0].content
+            this.SET_DOCUMENTTITLE(documentTitle)
+            this.setDocumentTitle(documentTitle)
           }
         }, (err) => {
-          this.serverErrorTip(err, 'ReservoirOverviewList.vue')
+          this.serverErrorTip(err, 'ReservoirDetailInfo.vue')
         })
     }
   },

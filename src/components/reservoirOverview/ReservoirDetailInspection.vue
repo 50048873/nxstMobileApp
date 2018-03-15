@@ -26,6 +26,7 @@
 import NAdd from '@/components/base/NAdd'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
   name: 'ReservoirDetailInspection',
   components: {
@@ -36,6 +37,9 @@ export default {
       ReservoirDetailInspection: []
     }
   },
+  computed: {
+    ...mapGetters(['documentTitle'])
+  },
   methods: {
     getReservoirDetailInspection() {
       api.getReservoirDetailInspection()
@@ -44,7 +48,7 @@ export default {
             this.ReservoirDetailInspection = res.data
           }
         }, (err) => {
-          this.serverErrorTip(err, 'ReservoirOverviewList.vue')
+          this.serverErrorTip(err, 'ReservoirDetailInspection.vue')
         })
     },
     add() {
@@ -54,6 +58,7 @@ export default {
   created() {
     this.getReservoirDetailInspection()
     this.eventHub.$on('add', this.add)
+    this.setDocumentTitle(this.documentTitle)
   }
 }
 </script>

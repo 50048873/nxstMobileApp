@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import VueLazyloader from 'vue-lazyload'
 Vue.use(VueLazyloader, {
   loading: require('@/assets/img/imageLoading.gif'),
@@ -25,7 +26,7 @@ Vue.prototype.eventHub = eventHub
 
 // 加载公共样式
 import '@/assets/less/base.less'
-//import '@/assets/weui/dist/style/weui.min.css'
+import '@/assets/weui/dist/style/weui.min.css'
 import '@/assets/less/common.less'
 import '@/assets/less/animate.less'
 import '@/assets/font/nxst/style.css'
@@ -37,5 +38,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
