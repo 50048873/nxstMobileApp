@@ -92,6 +92,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           msg:  appData.ReservoirDetailInspection.msg
         });
       })
+      app.get('/api/reservoirDetail/monitor/photo', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailMonitorPhoto.status,
+          data: appData.ReservoirDetailMonitorPhoto.data,
+          msg:  appData.ReservoirDetailMonitorPhoto.msg
+        });
+      })
     }
   },
   plugins: [

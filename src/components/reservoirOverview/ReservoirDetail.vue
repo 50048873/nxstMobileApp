@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <router-view class="routerView2"></router-view>
+      <router-view class="router-view-fade"></router-view>
     </transition>
     <n-footer :data="data"></n-footer>
   </div>

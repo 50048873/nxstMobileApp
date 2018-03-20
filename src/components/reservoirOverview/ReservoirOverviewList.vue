@@ -10,7 +10,7 @@
               <div class="des-content">
                 <p class="ellipsis">
                   <span>库容：</span>
-                  <em class="em">{{item.kr}}<sup>3</sup></em>
+                  <em class="em">{{item.kr}}m<sup>3</sup></em>
                 </p>
                 <p class="ellipsis">
                   <span>当前水位：</span>
@@ -75,7 +75,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-  @import '../../assets/less/tool.less';
   .n-list {
     position: absolute;
     top: 38px;
@@ -112,9 +111,6 @@ export default {
             }
             p {
               padding-right: 46px;
-              sup {
-                vertical-align: -4px;
-              }
             }
             .des-content {
               position: relative;

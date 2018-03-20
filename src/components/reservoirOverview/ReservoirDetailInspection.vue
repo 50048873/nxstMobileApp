@@ -18,7 +18,7 @@
         </div>
       </li>
     </ul>
-    <n-add top="430" left="18"></n-add>
+    <n-add top="430" left="18" @add="add"></n-add>
   </div>
 </template>
 
@@ -57,20 +57,20 @@ export default {
   },
   created() {
     this.getReservoirDetailInspection()
-    this.eventHub.$on('add', this.add)
     this.setDocumentTitle(this.documentTitle)
   }
 }
 </script>
 
 <style scoped lang="less">
+  @import '../../assets/less/variable.less';
   .ReservoirDetailInspection {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 74px;
+    bottom: @footer-height;
     left: 0;
-    overflow: auto;
+    overflow-y: auto;
     li {
       margin-bottom: 10px;
       .title {

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import NHome from '@/components/NHome'
 import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
+import NMessageMessage from '@/components/NMessageMessage'
+import NMessageNotice from '@/components/NMessageNotice'
 import AddressBook from '@/components/AddressBook'
 import NMe from '@/components/NMe'
 import ReservoirOverview from '@/components/reservoirOverview/ReservoirOverview'
@@ -14,6 +16,12 @@ import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirD
 import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
+import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel'
+import ReservoirDetailMonitorRainfall from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall'
+import ReservoirDetailMonitorPhoto from '@/components/reservoirOverview/ReservoirDetailMonitorPhoto'
+import ReservoirDetailMonitorVideo from '@/components/reservoirOverview/ReservoirDetailMonitorVideo'
+import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/ReservoirDetailMonitorWaterquality'
+import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply'
 
 Vue.use(Router)
 
@@ -33,8 +41,21 @@ let router = new Router({
       children: [
         {
           path: '/home/message',
+          redirect: '/home/message/message',
           name: 'NMessage',
-          component: NMessage
+          component: NMessage,
+          children: [
+            {
+              path: '/home/message/message',
+              name: 'NMessageMessage',
+              component: NMessageMessage
+            },
+            {
+              path: '/home/message/notice',
+              name: 'NMessageNotice',
+              component: NMessageNotice
+            }
+          ]
         },
         {
           path: '/home/systemMenu',
@@ -79,8 +100,41 @@ let router = new Router({
       children: [
         {
           path: '/reservoirDetail/monitor',
+          redirect: '/reservoirDetail/monitor/watersupply',
           name: 'ReservoirDetailMonitor',
-          component: ReservoirDetailMonitor
+          component: ReservoirDetailMonitor,
+          children: [
+            {
+              path: '/reservoirDetail/monitor/waterLevel',
+              name: 'ReservoirDetailMonitorWaterlevel',
+              component: ReservoirDetailMonitorWaterlevel
+            },
+            {
+              path: '/reservoirDetail/monitor/rainfall',
+              name: 'ReservoirDetailMonitorRainfall',
+              component: ReservoirDetailMonitorRainfall
+            },
+            {
+              path: '/reservoirDetail/monitor/photo',
+              name: 'ReservoirDetailMonitorPhoto',
+              component: ReservoirDetailMonitorPhoto
+            },
+            {
+              path: '/reservoirDetail/monitor/video',
+              name: 'ReservoirDetailMonitorVideo',
+              component: ReservoirDetailMonitorVideo
+            },
+            {
+              path: '/reservoirDetail/monitor/waterquality',
+              name: 'ReservoirDetailMonitorWaterquality',
+              component: ReservoirDetailMonitorWaterquality
+            },
+            {
+              path: '/reservoirDetail/monitor/watersupply',
+              name: 'ReservoirDetailMonitorWatersupply',
+              component: ReservoirDetailMonitorWatersupply
+            }
+          ]
         },
         {
           path: '/reservoirDetail/inspection',

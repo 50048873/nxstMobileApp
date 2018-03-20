@@ -17,3 +17,6 @@ export const error = 0
 
 // 登录
 export const loginInfo = 'loginInfo'
+
+// 高亮类名
+export const ON = 'ON'

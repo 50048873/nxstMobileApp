@@ -1,19 +1,21 @@
 <template>
   <div class="n-tab line-bottom">
-    <router-link to="/reservoirOverview/map">
-      <i>图标</i>
-      <span class="title">地图</span>
-    </router-link>
-    <router-link to="/reservoirOverview/list">
-      <i>图标</i>
-      <span class="title">列表</span>
+    <router-link :to="item.path" v-for="(item, index) in data" :key="index">
+      <span v-if="item.icon"><i :class="item.icon">图标</i></span>
+      <span class="title">{{item.title}}</span>
     </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NTab'
+  name: 'NTab',
+  props: {
+    data: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 

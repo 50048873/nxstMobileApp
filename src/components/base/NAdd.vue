@@ -1,13 +1,12 @@
 <template>
   <div 
     class="NAdd" 
-    @touchstart="start" 
+    @touchstart.prevent="start" 
     @touchmove.prevent="move" 
-    @touchend="end" 
-    @click="add"
+    @touchend.prevent="end" 
     :style="setPos" 
     ref="nAdd">
-    <i class="fa fa-plus"></i>
+    <i :class="iconClass"></i>
   </div>
 </template>
 
@@ -18,6 +17,10 @@ const addSize = 54,
 export default {
   name: 'NTab',
   props: {
+    iconClass: {
+      type: String,
+      default: 'fa fa-plus'
+    },
     top: {
       type: [String, Number],
       default: 0
@@ -63,6 +66,7 @@ export default {
       this.touch.originTop = parseInt(this.$refs.nAdd.style.top)
       this.touch.originLeft = parseInt(this.$refs.nAdd.style.left)
       this.$refs.nAdd.style.backgroundColor = 'rgba(38, 194, 209, 0.9)';
+      this.startTime = new Date()
     },
     move(e) {
       if (!this.touch.initiated) {
@@ -78,9 +82,14 @@ export default {
     end() {
       this.$refs.nAdd.style.backgroundColor = 'rgba(38, 194, 209, 0.6)';
       this.touch.initiated = false
+      this.endTime = new Date()
+      let deltaTime = this.endTime - this.startTime
+      if (deltaTime < 200) {
+        this.add()
+      }
     },
     add() {
-      this.eventHub.$emit('add')
+      this.$emit('add')
     }
   },
   created() {

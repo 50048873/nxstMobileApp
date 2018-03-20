@@ -1,8 +1,8 @@
 <template>
   <div class="reservoir-overview">
-    <n-tab></n-tab>
+    <n-tab :data="tab"></n-tab>
     <transition name="fade">
-      <router-view class="router-view"></router-view>
+      <router-view class="router-view-fade"></router-view>
     </transition>
   </div>
 </template>
@@ -16,7 +16,18 @@ export default {
   },
   data() {
     return {
-      isBack: true
+      tab: [
+        {
+          title: '地图',
+          path: '/reservoirOverview/map',
+          icon: ''
+        },
+        {
+          title: '列表',
+          path: '/reservoirOverview/list',
+          icon: ''
+        }
+      ]
     }
   },
   created() {

@@ -6,7 +6,7 @@ import VueLazyloader from 'vue-lazyload'
 Vue.use(VueLazyloader, {
   loading: require('@/assets/img/imageLoading.gif'),
   error: require('@/assets/img/placeholder.jpg'),
-  preLoad: 1,
+  preLoad: 1.3,
   attempt: 1
 })
 

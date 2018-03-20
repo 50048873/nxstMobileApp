@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <router-view class="router-view"></router-view>
+      <router-view class="router-view-fade"></router-view>
     </transition>
     <n-footer :data="data"></n-footer>
   </div>
@@ -45,11 +45,6 @@ export default {
 </script>
 
 <style scoped lang='less'>
-  .router-view {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 74px;
-    left: 0;
-  }
+  @import '../assets/less/variable.less';
+  
 </style>

@@ -44,11 +44,19 @@ let getReservoirDetailInspection = function() {
   })
 }
 
+let getReservoirDetailMonitorPhoto = function() {
+  return $.ajax({
+    type: 'GET',
+    url: '/api/reservoirDetail/monitor/photo'
+  })
+}
+
 export default {
 	login: login,
   getNewsMarquee: getNewsMarquee,
   getReservoirList: getReservoirList,
   getReservoirDetailInfo: getReservoirDetailInfo,
   getReservoirDetailMember: getReservoirDetailMember,
-  getReservoirDetailInspection: getReservoirDetailInspection
+  getReservoirDetailInspection: getReservoirDetailInspection,
+  getReservoirDetailMonitorPhoto: getReservoirDetailMonitorPhoto
 }

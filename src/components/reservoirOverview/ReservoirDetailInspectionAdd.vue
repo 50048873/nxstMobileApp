@@ -1,6 +1,6 @@
 <template>
   <div class="ReservoirDetailInspectionAdd">
-    <form>
+    <form enctype="multipart/form-data">
       <div class="item line-bottom">
         <h6>签到点</h6>
         <div class="inputBox">
@@ -74,19 +74,19 @@
         <span class="weui-gallery__img" id="galleryImg"></span>
         <div class="weui-gallery__opr">
           <a href="javascript:" class="weui-gallery__del">
-            <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            <i class="weui-icon-delete weui-icon_gallery-delete extend-click"></i>
           </a>
         </div>
       </div>
 
       <div class="weui-uploader">
         <div class="weui-uploader__hd">
-          <p class="weui-uploader__title">图片或视频</p>
+          <p class="weui-uploader__title">图片上传</p>
         </div>
         <div class="weui-uploader__bd">
           <ul class="weui-uploader__files" id="uploaderFiles"></ul>
           <div class="weui-uploader__input-box">
-            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/jpg; image/jpeg; image/png; video/*" multiple @click="update">
+            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/png, image/jpeg, image/gif, image/jpg" multiple>
           </div>
         </div>
       </div>
@@ -100,6 +100,7 @@
 
 <script>
 import {dateFormat} from '@/assets/js/mixin'
+import {androidInputBugFix} from '@/assets/js/util'
 import $ from 'jquery'
 export default {
   name: 'ReservoirDetailInspectionAdd',
@@ -116,51 +117,88 @@ export default {
       let datetime = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss').split(' ').join('T')
       return datetime
     },
+    compress(img, width, height, ratio) {        
+     var canvas, ctx, img64;
+           
+     canvas = document.createElement('canvas');        
+     canvas.width = width;
+     canvas.height = height;
+           
+     ctx = canvas.getContext("2d");        
+     ctx.drawImage(img, 0, 0, width, height);
+           
+     img64 = canvas.toDataURL("image/jpeg", ratio);
+           
+     return img64;
+    },
     update() {
-      var _this = this
-      var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+      let _this = this,
+          maxSize = 500 * 1024
+      let tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
           $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
           $uploaderInput = $("#uploaderInput"),
           $uploaderFiles = $("#uploaderFiles")
 
-      $uploaderInput.one("change", function(e){
-        var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files
-        console.log(files)
-        for (var i = 0, len = files.length; i < len; ++i) {
-          var file = files[i]
+      $uploaderInput.on("change", function(e){
+        let src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files
+        for (let i = 0, len = files.length; i < len; ++i) {
+          let file = files[i]
+          console.log(file)
           if (url) {
               src = url.createObjectURL(file)
           } else {
               src = e.target.result
           }
+          if (file.size > maxSize) {
+            let image = new Image();
+            image.src = src;
+                   
+            image.onload = function(){
+              let w = $(image).width(),
+                  h = $(image).height()
+                  console.log(w,h)
+              src = _this.compress(image, 1024, 800, 0.8);
+              console.log(src.length)
+              console.log(file.size)
+            }
+          }
+          
           $uploaderFiles.append($(tmpl.replace('#url#', src)))
         }
-      });
+      })
       $uploaderFiles.on("click", "li", function(){
         _this.$li = $(this)
         $galleryImg.attr("style", this.getAttribute("style"))
         $gallery.fadeIn(100)
       });
-      $gallery.on("click", function(){
+      $gallery.on("click", function(e){
+        let target = e.target
+        if (target.className.indexOf('weui-icon-delete') > -1) {
+          _this.$li.remove()
+          delete _this.$li
+          $uploaderInput.val(null)
+        }
         $gallery.fadeOut(100)
-        _this.$li.remove()
-        _this.$li = null
-        delete _this.$li
       });
     }
   },
   created() {
     this.setDocumentTitle('新增巡查记录')
+    this.$nextTick(() => {
+      this.update()
+    })
+    androidInputBugFix()
   }
 }
 </script>
 
 <style scoped lang="less">
+  @import '../../assets/less/variable.less';
   .ReservoirDetailInspectionAdd {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 74px;
+    bottom: @footer-height;
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;

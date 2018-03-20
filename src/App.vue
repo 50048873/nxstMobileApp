@@ -2,7 +2,7 @@
   <div id="app">
     <keep-alive>
       <transition :name="transitionName">
-        <router-view class="routerView1"></router-view>
+        <router-view class="router-view-app"></router-view>
       </transition>
     </keep-alive>
   </div>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .routerView1 {
+  .router-view-app {
     transition: all 0.2s ease-out;
     &.slideToLeft-enter {
         transform: translate3d(100%, 0, 0);

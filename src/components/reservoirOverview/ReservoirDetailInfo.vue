@@ -71,11 +71,11 @@ export default {
   @import '../../assets/less/variable.less';
   .ReservoirDetailInspection {
     position: absolute;
-    top: 0px;
+    top: 0;
     right: 0;
-    bottom: 74px;
+    bottom: @footer-height;
     left: 0;
-    overflow: auto;
+    overflow-y: auto;
     .detail {
       margin-bottom: 12px;
       background-color: white;
