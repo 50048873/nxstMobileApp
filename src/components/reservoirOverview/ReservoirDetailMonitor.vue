@@ -9,7 +9,8 @@
 
 <script>
 import NTab from '@/components/base/NTab'
-import {mapGetters, mapMutations} from 'vuex'
+import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
+import * as session from '@/assets/js/session'
 export default {
   name: 'ReservoirDetailMonitor',
   components: {
@@ -45,11 +46,8 @@ export default {
       ]
     }
   },
-  computed: {
-    ...mapGetters(['documentTitle'])
-  },
   created() {
-    this.setDocumentTitle(this.documentTitle)
+    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

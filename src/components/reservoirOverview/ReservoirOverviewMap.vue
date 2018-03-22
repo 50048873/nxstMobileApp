@@ -1,17 +1,16 @@
 <template>
   <div class="reservoir-overview-map">
-    地图
+    <highcharts-map></highcharts-map>
   </div>
 </template>
 
 <script>
+import HighchartsMap from '@/components/base/HighchartsMap';
+
 export default {
-  name: 'ReservoirOverviewMap'
+  name: 'ReservoirOverviewMap',
+  components: {
+    HighchartsMap
+  }
 }
 </script>
-
-<style scoped lang="less">
-  .reservoir-overview-map {
-    
-  }
-</style>

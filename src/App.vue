@@ -5,15 +5,20 @@
         <router-view class="router-view-app"></router-view>
       </transition>
     </keep-alive>
+    <n-online></n-online>
   </div>
 </template>
 
 <script> 
+import NOnline from '@/components/base/NOnline'
 import {getItem} from '@/assets/js/store'
 import {loginInfo, success} from '@/assets/js/config'
-import {getMax, isArray} from '@/assets/js/util'
+import {getMax, isArray, handleOnLineOrOffline} from '@/assets/js/util'
 export default { 
   name: 'app', 
+  components: {
+    NOnline
+  },
   data () { 
     return { 
       transitionName: 'slideToLeft' 
@@ -40,7 +45,7 @@ export default {
       }  
       sessionStorage.setItem('routers', routersArr.join(','))  
     }  
-  } 
+  }
 }
 </script>
 

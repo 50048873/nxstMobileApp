@@ -1,17 +1,17 @@
 <template>
-  <div class="ReservoirDetailMonitorWaterlevel">
+  <div class="ReservoirDetailMonitorVideo">
     视频
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ReservoirDetailMonitorWaterlevel',
+  name: 'ReservoirDetailMonitorVideo',
 }
 </script>
 
 <style scoped lang="less">
-  .ReservoirDetailMonitorWaterlevel {
-
+  .ReservoirDetailMonitorVideo {
+    padding-bottom: 10px;
   }
 </style>

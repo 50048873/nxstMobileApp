@@ -1,5 +1,5 @@
 <template>
-  <div class="ReservoirDetailMonitorWaterlevel">
+  <div class="ReservoirDetailMonitorRainfall">
     <highcharts-column title="降水量过程图" xTitleText="（日期）" yTitleText="(mm)" ref="hcMonitor"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
   </div>
@@ -9,7 +9,7 @@
 import NTable from '@/components/base/NTable'
 import HighchartsColumn from '@/components/base/HighchartsColumn'
 export default {
-  name: 'ReservoirDetailMonitorWaterlevel',
+  name: 'ReservoirDetailMonitorRainfall',
   components: {
     NTable,
     HighchartsColumn
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .ReservoirDetailMonitorWaterlevel {
-
+  .ReservoirDetailMonitorRainfall {
+    padding-bottom: 10px;
   }
 </style>

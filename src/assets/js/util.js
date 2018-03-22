@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import {defaultDocumentTitle} from '@/assets/js/config'
 
 export let toString = Object.prototype.toString
 
@@ -45,7 +46,7 @@ export function normalizeRequestAnimationFrame() {
 };
 
 // 错误提示
-export function errorTip(text, filename) {
+export function errorTip(text) {
     let content =  `<div class="serverErrorTip animated fadeIn">${text}</div>`
     let $back = $(content).appendTo('body')
     setTimeout(() => {
@@ -84,7 +85,7 @@ export function serverErrorTip(err, filename) {
 
 // 设置文档标题
 export function setDocumentTitle(title) {
-    window.document.title = title
+    window.document.title = title || defaultDocumentTitle
 }
 
 // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug

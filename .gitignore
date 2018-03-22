@@ -3,6 +3,7 @@ node_modules/
 /dist/
 资料/
 备份/
+源文件/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

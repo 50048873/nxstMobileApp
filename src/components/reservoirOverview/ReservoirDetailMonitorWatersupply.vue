@@ -1,5 +1,5 @@
 <template>
-  <div class="ReservoirDetailMonitorWaterlevel">
+  <div class="ReservoirDetailMonitorWatersupply">
     <highcharts-column title="供水量过程图" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" ref="hcMonitor"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
   </div>
@@ -10,7 +10,7 @@ import NTable from '@/components/base/NTable'
 import HighchartsColumn from '@/components/base/HighchartsColumn'
 
 export default {
-  name: 'ReservoirDetailMonitorWaterlevel',
+  name: 'ReservoirDetailMonitorWatersupply',
   components: {
     NTable,
     HighchartsColumn
@@ -28,7 +28,7 @@ export default {
         },
         {
           date: '2',
-          value: '340.00'
+          value: '340.20'
         }
       ]
     }
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .ReservoirDetailMonitorWaterlevel {
+  .ReservoirDetailMonitorWatersupply {
     padding-bottom: 10px;
     .hc-waterlevel {
       margin: 10px 0;

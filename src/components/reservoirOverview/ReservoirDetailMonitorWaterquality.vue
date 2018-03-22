@@ -1,5 +1,5 @@
 <template>
-  <div class="ReservoirDetailMonitorWaterlevel">
+  <div class="ReservoirDetailMonitorWaterquality">
     <h6>日报信息</h6>
     <table class="table">
       <thead>
@@ -107,12 +107,12 @@
 
 <script>
 export default {
-  name: 'ReservoirDetailMonitorWaterlevel',
+  name: 'ReservoirDetailMonitorWaterquality',
 }
 </script>
 
 <style scoped lang="less">
-  .ReservoirDetailMonitorWaterlevel {
+  .ReservoirDetailMonitorWaterquality {
     padding-bottom: 10px;
     h6 {
       padding: 10px;

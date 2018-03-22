@@ -27,7 +27,8 @@
 
 <script>
 import api from '@/assets/js/api'
-import {success} from '@/assets/js/config'
+import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
+import * as session from '@/assets/js/session'
 export default {
   name: 'ReservoirDetailMember',
   data() {
@@ -49,6 +50,7 @@ export default {
   },
   created() {
     this.getReservoirDetailMember()
+    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

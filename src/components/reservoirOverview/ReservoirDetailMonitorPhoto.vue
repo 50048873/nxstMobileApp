@@ -33,7 +33,6 @@
 <script>
 import api from '@/assets/js/api'
 import {success, ON} from '@/assets/js/config'
-import {mapGetters, mapMutations} from 'vuex'
 import $ from 'jquery'
 export default {
   name: 'ReservoirDetailMonitorPhoto',
@@ -42,9 +41,6 @@ export default {
       reservoirDetailMonitorPhoto: [],
       currentIndex: 0
     }
-  },
-  computed: {
-    ...mapGetters(['documentTitle'])
   },
   methods: {
     getReservoirDetailMonitorPhoto() {
@@ -96,7 +92,6 @@ export default {
     }
   },
   created() {
-    this.setDocumentTitle(this.documentTitle)
     this.getReservoirDetailMonitorPhoto()
   }
 }

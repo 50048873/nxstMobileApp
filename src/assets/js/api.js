@@ -1,9 +1,10 @@
 import $ from 'jquery'
+import {baseUrl} from '@/assets/js/config'
 
 let login = function(data) {
 	return $.ajax({
 		type: 'POST',
-		url: '/api/login',
+		url: baseUrl + '/api/login',
 		data: data
 	})
 }
@@ -11,21 +12,22 @@ let login = function(data) {
 let getNewsMarquee = function() {
   return $.ajax({
     type: 'GET',
-    url: '/api/newsMarquee'
+    url: baseUrl + '/api/newsMarquee'
   })
 }
 
 let getReservoirList = function() {
   return $.ajax({
     type: 'GET',
-    url: '/api/reservoirList'
+    url: baseUrl + '/api/reservoirList',
+    //url: baseUrl + '/znb/reservoirSurveyController/getReservoirBasicInfo.do'
   })
 }
 
 let getReservoirDetailInfo = function(data) {
   return $.ajax({
     type: 'GET',
-    url: '/api/reservoirDetail/info',
+    url: baseUrl + '/api/reservoirDetail/info',
     data: data
   })
 }
@@ -33,21 +35,21 @@ let getReservoirDetailInfo = function(data) {
 let getReservoirDetailMember = function() {
   return $.ajax({
     type: 'GET',
-    url: '/api/reservoirDetail/member'
+    url: baseUrl + '/api/reservoirDetail/member'
   })
 }
 
 let getReservoirDetailInspection = function() {
   return $.ajax({
     type: 'GET',
-    url: '/api/reservoirDetail/inspection'
+    url: baseUrl + '/api/reservoirDetail/inspection'
   })
 }
 
 let getReservoirDetailMonitorPhoto = function() {
   return $.ajax({
     type: 'GET',
-    url: '/api/reservoirDetail/monitor/photo'
+    url: baseUrl + '/api/reservoirDetail/monitor/photo'
   })
 }
 
