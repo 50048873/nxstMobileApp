@@ -26,16 +26,7 @@ export default {
         title1: '月份',
         title2: '供水量（万m<sup>3</sup>）'
       },
-      tdData: [
-        {
-          date: '1',
-          value: '340.00'
-        },
-        {
-          date: '2',
-          value: '340.20'
-        }
-      ],
+      tdData: [],
 
       type: '1',
       startTime: this.dateFormat(getFirstDayOfMonth(), 'yyyy-mm-dd'),
@@ -47,16 +38,12 @@ export default {
       let res = []
       if (isArray(arr)) {
         arr.forEach((item) => {
+          let obj = {}
           for (let key in item) {
-            let obj = {}
-            if (key === 'recordTime') {
-              obj[date] = item[key]
-            }
-            if (key === 'gsl') {
-              obj[value] = item[key]
-            }
-            res.push(obj)
+            obj['date'] = item['recordTime']
+            obj['value'] = item['gsl']
           }
+          res.push(obj)
         })
         return res
       }
@@ -73,7 +60,7 @@ export default {
         .then((res) => {
           if (res.status === success) {
             this.tdData = this.convert(res.data)
-            console.log(JSON.stringify(res.data, null, 2))
+            console.log(JSON.stringify(this.tdData, null, 2))
           } else {
             this.hint(res.msg)
           }
