@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="system-menu">
     <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
-    <div class="system-menu">
+    <div class="menu">
       <nav>
         <router-link class="item" to="/oa">
           <div class="iconWrap">
@@ -112,12 +112,14 @@ export default {
   @import '../assets/less/variable.less';
   .system-menu {
     position: absolute;
-    top: 38px;
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 18px 18px 30px;
     overflow-y: auto; 
+    .menu {
+      padding: 18px 18px 30px;
+    }
     nav {
       display: flex;
       text-align: center;

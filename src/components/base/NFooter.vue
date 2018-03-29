@@ -1,6 +1,6 @@
 <template>
   <nav class="n-footer line-top">
-    <router-link :to="item.href" v-for="(item, index) in data" :key="index">
+    <router-link :to="{ path: item.href, query: { pid: pid }}" v-for="(item, index) in data" :key="index">
       <div class="iconWrap">
         <span :class="{'redDot': item.new}"></span>
         <i :class="item.icon"></i>
@@ -18,6 +18,9 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    pid: {
+      type: String
     }
   }
 }

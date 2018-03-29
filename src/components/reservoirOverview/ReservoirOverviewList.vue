@@ -2,19 +2,19 @@
   <div>
     <better-scroll class="n-list" v-if="reservoirList.length">
       <ul>
-        <li v-for="item in reservoirList" @click="showDetail(item.id)">
+        <li v-for="item in reservoirList" @click="showDetail(item.pid)">
           <div class="top line-top line-bottom">
             <div class="thumbnail" v-lazy:background-image="item.icon"></div>
             <div class="des">
-              <h3 class="ellipsis">{{item.name}}</h3>
+              <h3 class="ellipsis">{{item.ennm}}</h3>
               <div class="des-content">
                 <p class="ellipsis">
                   <span>库容：</span>
-                  <em class="em">{{item.kr}}m<sup>3</sup></em>
+                  <em class="em">{{item.ttst}}m<sup>3</sup></em>
                 </p>
                 <p class="ellipsis">
                   <span>当前水位：</span>
-                  <em class="em">{{item.dqsw}}m</em>
+                  <em class="em">{{item.z}}m</em>
                 </p>
                 <p class="ellipsis">
                   <span>工程规模：</span>
@@ -28,13 +28,13 @@
           </div>
           <div class="date line-bottom">
             <span>最近一次巡查：</span>
-            <time>{{item.date}}</time>
+            <time>{{item.tm}}</time>
           </div>
         </li>
         <li></li>
       </ul>
     </better-scroll>
-    <n-loading v-if="!reservoirList.length"></n-loading>
+    <no-data v-if="!reservoirList.length"></no-data>
   </div>
 </template>
 
@@ -58,13 +58,16 @@ export default {
         .then((res) => {
           if (res.status === success) {
             this.reservoirList = res.data
+          } else {
+            this.status = res.status
+            this.hint(res.msg)
           }
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirOverviewList.vue')
         })
     },
-    showDetail(id) {
-      this.$router.push({path: '/reservoirDetail', query: {id}})
+    showDetail(pid) {
+      this.$router.push({path: '/reservoirDetail', query: {pid}})
     }
   },
   created() {

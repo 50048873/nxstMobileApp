@@ -1,21 +1,111 @@
 <template>
     <ul class="ReservoirDetailInspection">
-      <li class="detail line-bottom" :class="{'line-top': index !== 0}" v-for="(item, index) in reservoirDetailInfo">
-        <h3 class="iconWrap" :style="{color: colors[index]}">
+      <li class="outList line-bottom">
+        <h3 class="iconWrap" :style="{color: colors[0]}">
           <i>图标</i>
-          <span>{{item.title}}</span>
+          <span>基本信息</span>
         </h3>
-        <div class="detail-content">
-          <ul>
-            <li v-for="item2 in item.des">
-              <span class="name" :style="{'flex': `0 0 ${item.maxWordLen + 3}em`}">
-                <i>图标</i>
-                <em>{{item2.title}}</em>
-              </span>
-              <span class="content">{{item2.content}}</span>
-            </li>
-          </ul>
-        </div>
+        <ul class="childrenWrap childrenWrap-1">
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>水库名称</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.ennm}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>工程规模</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.gcgm | gcgmFilter}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>东经</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.lgtd}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>北纬</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.lttd}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>所在地</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.dmstatpl}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>管理单位</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.adunnm}}</span>
+          </li>
+        </ul>
+      </li>
+      <li class="outList line-top line-bottom">
+        <h3 class="iconWrap" :style="{color: colors[1]}">
+          <i>图标</i>
+          <span>水文水库特征</span>
+        </h3>
+        <ul class="childrenWrap childrenWrap-2">
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>总库容（亿m<sup>3</sup>）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.ttst}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>坝顶高程（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.wetpht}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>最大坝高（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.zdbg}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>坝长（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.bdzcd}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>防洪限制水位（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.zxzsw}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>设计洪水位（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.dsfllv}}</span>
+          </li>
+          <li>
+            <span class="name">
+              <i>图标</i>
+              <em>校核洪水位（m）</em>
+            </span>
+            <span class="content">{{reservoirDetailInfo.chfllv}}</span>
+          </li>
+        </ul>
       </li>
     </ul>
 </template>
@@ -24,35 +114,29 @@
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import * as session from '@/assets/js/session'
+import {gcgmFilter} from '@/assets/js/mixin'
 let colors = ['#0c6ac9', '#1ca6ab']
 export default {
   name: 'ReservoirDetailInfo',
+  mixins: [gcgmFilter],
   data() {
     return {
-      reservoirDetailInfo: [],
+      reservoirDetailInfo: {},
       colors: colors
     }
   },
   methods: {
-    maxWordLen(arr) {
-      arr.forEach((item) => {
-        let des = item.des
-        let arr = []
-        des.forEach((item2) => {
-          arr.push(item2.title.length)
-        })
-        item.maxWordLen = Math.max.apply(Math, arr)
-      })
-      return arr
-    },
     getReservoirDetailInfo() {
-      api.getReservoirDetailInfo({id: this.$route.query.id})
+      api.getReservoirDetailInfo({pid: this.$route.query.pid})
         .then((res) => {
           if (res.status === success) {
-            this.reservoirDetailInfo = this.maxWordLen(res.data)
-            const documentTitle = this.reservoirDetailInfo[0].des[0].content
+            if (!res.data) return
+            this.reservoirDetailInfo = res.data
+            const documentTitle = this.reservoirDetailInfo.ennm
             this.setDocumentTitle(documentTitle)
             session.setItem(documentTitle_reservoirDetail, documentTitle)
+          } else {
+            this.hint(res.msg)
           }
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirDetailInfo.vue')
@@ -74,7 +158,7 @@ export default {
     bottom: @footer-height;
     left: 0;
     overflow-y: auto;
-    .detail {
+    .outList {
       margin-bottom: 12px;
       background-color: white;
       .iconWrap {
@@ -96,7 +180,8 @@ export default {
           transform: scaleY(0.5);
         }
       }
-      .detail-content {
+  
+      .childrenWrap {
         padding: 10px 30px;
         li {
           display: inline-flex;
@@ -116,6 +201,20 @@ export default {
           .content {
             flex: 1;
             color: @color-text;
+          }
+        }
+      }
+      .childrenWrap-1 {
+        li {
+          .name {
+            flex: 0 0 7em;
+          }
+        }
+      }
+      .childrenWrap-2 {
+        li {
+          .name {
+            flex: 0 0 12em;
           }
         }
       }

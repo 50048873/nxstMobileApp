@@ -15,3 +15,30 @@ export let dateFormat = {
     }
 	}
 }
+
+export let gcgmFilter = {
+  filters: {
+    gcgmFilter(val) {
+      if (!val) return
+      let res = ''
+      switch (val) {
+        case 'Ⅰ':
+          res = '大(１)型'
+          break
+        case 'Ⅱ':
+          res = '大(２)型'
+          break
+        case 'Ⅲ':
+          res = '中型'
+          break
+        case 'Ⅳ':
+          res = '小(１)型'
+          break
+        case 'Ⅴ':
+          res = '小(２)型'
+          break
+      }
+      return res
+    }
+  }
+}

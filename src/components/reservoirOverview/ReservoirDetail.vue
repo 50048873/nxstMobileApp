@@ -1,9 +1,11 @@
 <template>
   <div>
     <transition name="fade">
-      <router-view class="router-view-fade"></router-view>
+      <keep-alive>
+        <router-view class="router-view-fade"></router-view>
+      </keep-alive>
     </transition>
-    <n-footer :data="data"></n-footer>
+    <n-footer :data="data" :pid="$route.query.pid"></n-footer>
   </div>
 </template>
 
@@ -36,6 +38,9 @@ export default {
     return {
       data: data
     }
-  }
+  }/*,
+  created() {
+    console.log(this.$route.query.pid)
+  }*/
 }
 </script>

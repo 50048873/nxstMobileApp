@@ -85,11 +85,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           msg:  appData.reservoirDetailMember.msg
         });
       })
-      app.get('/api/reservoirDetail/inspection', function (req, res) { 
+      app.post('/api/reservoirDetail/inspection', function (req, res) { 
         res.json({
           status: appData.ReservoirDetailInspection.status,
           data: appData.ReservoirDetailInspection.data,
           msg:  appData.ReservoirDetailInspection.msg
+        });
+      })
+      app.get('/api/reservoirDetail/inspection/patrolPoint', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailInspection_patrolPoint.status,
+          data: appData.ReservoirDetailInspection_patrolPoint.data,
+          msg:  appData.ReservoirDetailInspection_patrolPoint.msg
         });
       })
       app.get('/api/reservoirDetail/monitor/photo', function (req, res) { 

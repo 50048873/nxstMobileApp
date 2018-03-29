@@ -1,73 +1,71 @@
 <template>
   <div class="ReservoirDetailInspectionAdd">
-    <form enctype="multipart/form-data">
+    <form ref="formEle">
       <div class="item line-bottom">
         <h6>签到点</h6>
         <div class="inputBox">
-          <label for="yhd">
+          <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
-              <input type="radio" name="qdd" id="yhd" value="yhd" checked="checked">
+              <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
               <i class="fa fa-circle"></i>
             </span>
-            <span>溢洪道</span>
+            <span>{{item.PATROL_NAME}}</span>
           </label>
-          <label for="db">
+          <!-- <label for="db">
             <span class="iconWrap">
-              <input type="radio" name="qdd" id="db" value="db">
+              <input type="checkbox" id="db" value="db" disabled="disabled" checked="checked">
               <i class="fa fa-circle"></i>
             </span>
             <span>大坝</span>
           </label>
           <label for="lsy">
             <span class="iconWrap">
-              <input type="radio" name="qdd" id="lsy" value="lsy">
+              <input type="checkbox" id="lsy" value="lsy" disabled="disabled">
               <i class="fa fa-circle"></i>
             </span>
             <span>量水堰</span>
-          </label>
+          </label> -->
         </div>
       </div>
       <div class="item line-bottom">
         <h6>巡查部位</h6>
-        <div class="inputBox arrow-r">
-          <select class="select" name="select1">
-            <option selected="selected" value="1">坝顶1</option>
-            <option value="2">坝顶2</option>
-            <option value="3">坝顶3</option>
+        <label class="inputBox arrow-r" for="pointId">
+          <select class="select" id="pointId" name="pointId" v-model="pointId" required>
+            <option disabled value="">请选择</option>
+            <option :value="item.ID" v-for="item in patrolPoint">{{item.PATROL_NAME}}</option>
           </select>
-        </div>
+        </label>
       </div>
       <div class="item line-bottom">
         <h6>巡查时间</h6>
-        <div class="inputBox arrow-r datetimeBox">
-          <input class="datetimeLocal" type="datetime-local" step="1" v-model="datetime">
-          <span class="realDatetimeLocal">{{datetime | dateFormat('yyyy-mm-dd HH:MM:ss')}}</span>
-          
-        </div>
+        <label class="inputBox arrow-r datetimeBox" for="checkDate">
+          <input class="datetimeLocal" id="checkDate" type="checkDate-local" step="1" v-model="checkDate" required>
+          <span class="realDatetimeLocal">{{checkDate | dateFormat('yyyy-mm-dd HH:MM:ss')}}</span>
+        </label>
       </div>
       <div class="item line-bottom">
         <h6>巡查状态</h6>
         <div class="inputBox">
           <label for="normal">
             <span class="iconWrap">
-              <input type="radio" name="xczt" id="normal" value="normal" checked="checked">
+              <input type="radio" name="patrolState" id="normal" value="0" checked="checked" v-model="patrolState" required>
               <i class="fa fa-circle"></i>
             </span>
             <span>正常</span>
           </label>
           <label for="abnormal">
             <span class="iconWrap">
-              <input type="radio" name="xczt" id="abnormal" value="abnormal">
+              <input type="radio" name="patrolState" id="abnormal" value="1" v-model="patrolState">
               <i class="fa fa-circle"></i>
             </span>
             <span>异常</span>
           </label>
         </div>
       </div>
-      <div class="condition">
+      <div class="patrolInfo">
         <h6>情况说明</h6>
-        <textarea class="weui-textarea" placeholder="请输入检查情况" v-model="condition"></textarea>
-        <p class="explain">至少10个字符，已输入{{condition.length}}个字符</p>
+        <textarea class="weui-textarea" name="patrolInfo" placeholder="请输入检查情况" v-model="patrolInfo"></textarea>
+        <p class="explain">至少10个字符，已输入{{patrolInfo.length}}个字符</p>
       </div>
 
       <div class="weui-gallery" id="gallery">
@@ -92,7 +90,7 @@
       </div>
       
       <div class="submitWrap">
-        <button class="btn c-theme">提交</button>
+        <button class="btn" :class="{'c-theme': !disabled}" @click.prevent="submit" :disabled="disabled">提交</button>
       </div>
     </form>
   </div>
@@ -100,94 +98,222 @@
 
 <script>
 import {dateFormat} from '@/assets/js/mixin'
-import {androidInputBugFix} from '@/assets/js/util'
+import {androidInputBugFix, getUuid, createObjectURL, dataURLtoFile, compress} from '@/assets/js/util'
+import {success} from '@/assets/js/config'
 import $ from 'jquery'
+import api from '@/assets/js/api'
 export default {
   name: 'ReservoirDetailInspectionAdd',
   mixins: [dateFormat],
   data() {
     return {
-      datetime: this.getDefaultDateTime(),
-      condition: '',
-      placeholder: require('@/assets/img/pic_160.png')
+      pointName: '',
+      pointId: '',
+      checkDate: this.getDefaultDateTime(),
+      patrolState: '',
+      patrolInfo: '',
+
+      patrolPoint: [],  // 巡检点列表
+      signPoint: [],
+      disabled: false
     }
   },
   methods: {
+    getReservoirDetailInspectionAdd_patrolPoint() {
+      let params = {
+        pid: this.$route.query.pid//,
+        //date: '', // 需要统计哪天，时间格式为“yyyy-MM-dd”
+        //is_sign: '' // 是否是签到点0否1是，不填获得所有巡检点
+      }
+      api.getReservoirDetailInspectionAdd_patrolPoint(params)
+        .then((res) => {
+          if (res.status === success) {
+            this.patrolPoint = res.data
+            /*
+              返回字段里（签到点业务逻辑）：
+              IS_SIGN: 1表示签到点（要显示的内容），0表示非签到点
+              POINTCOUNT: 大于0表示已签到（要选中的内容），0表示未签到
+            */
+            this.signPoint = this.patrolPoint.filter((item) => {
+              return item.IS_SIGN === '1'
+            })
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirDetailInspectionAdd.vue')
+        })
+    },
     getDefaultDateTime() {
-      let datetime = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss').split(' ').join('T')
-      return datetime
+      let checkDate = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss').split(' ').join('T')
+      return checkDate
     },
-    compress(img, width, height, ratio) {        
-     var canvas, ctx, img64;
-           
-     canvas = document.createElement('canvas');        
-     canvas.width = width;
-     canvas.height = height;
-           
-     ctx = canvas.getContext("2d");        
-     ctx.drawImage(img, 0, 0, width, height);
-           
-     img64 = canvas.toDataURL("image/jpeg", ratio);
-           
-     return img64;
+    readAsDataURL(file) {
+      let reader = new FileReader()
+      reader.readAsDataURL(file)
+      return new Promise((resolve, reject, c) => {
+        reader.onerror = () => {
+          //console.log(`error: ${reader}`)
+          reject(reader.error.code)
+        }
+        /*reader.onprogress = (event) => {
+          console.log('progress')
+          if (event.lengthComputable) {
+            console.log(`${event.loaded / event.total}%`)
+          }
+        }*/
+        reader.onload = () => {
+          //console.log('load: ', reader)
+          if (reader.result) {
+            resolve(reader.result)
+          }
+        }
+      })
     },
-    update() {
+    showImg(src) {
+      let $uploaderFiles = $("#uploaderFiles"),
+          tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>'
+      $uploaderFiles.append($(tmpl.replace('#url#', src)))
+    },
+    fileChange() {
       let _this = this,
-          maxSize = 500 * 1024
-      let tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+          maxSize = 500 * 1024,
           $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
           $uploaderInput = $("#uploaderInput"),
           $uploaderFiles = $("#uploaderFiles")
 
-      $uploaderInput.on("change", function(e){
-        let src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files
-        for (let i = 0, len = files.length; i < len; ++i) {
-          let file = files[i]
-          console.log(file)
-          if (url) {
-              src = url.createObjectURL(file)
-          } else {
-              src = e.target.result
-          }
-          if (file.size > maxSize) {
-            let image = new Image();
-            image.src = src;
-                   
-            image.onload = function(){
-              let w = $(image).width(),
-                  h = $(image).height()
-                  console.log(w,h)
-              src = _this.compress(image, 1024, 800, 0.8);
-              console.log(src.length)
-              console.log(file.size)
-            }
+      _this.files = []
+
+      $uploaderInput.on("change", (e) => {
+        let src = '', 
+            files = e.target.files,
+            len = files.length
+
+        for (let i = 0; i < len; ++i) {
+          let file = files[i],
+              fileType = file.type,
+              fileName = file.name
+
+          if (!/image/.test(fileType)) {
+            this.hint('只能传入png, jpeg, jpg, gif格式的图片')
+            return
           }
           
-          $uploaderFiles.append($(tmpl.replace('#url#', src)))
+          if (file.size > maxSize) {
+            let image = new Image(),
+                src = createObjectURL(file)
+            image.src = src;
+            image.onload = function(){
+              let w = image.width,
+                  h = image.height,
+                  ratio = w / h,
+                  maxSide = 1024,
+                  rate = w / maxSide
+
+              // 宽或高小于等于1024不用压缩
+              if (ratio >= 1 && w < maxSide) {
+                return
+              } else if ( ratio < 1 && h < maxSide) {
+                return
+              }
+              src = compress(image, w / rate, h / rate, 0.8, fileType);
+
+              _this.files.push(dataURLtoFile(src, fileName))
+
+              if (src.length > maxSize) {
+                this.hint(`上传文件尺寸应小于${maxSize}byte`)
+                return
+              }
+              _this.showImg(src)
+              //console.log(`压缩前的大小：${file.size/1024}kb；压缩后的大小：${src.length/1024}kb`)
+            }
+          } else {
+            _this.readAsDataURL(file)
+              .then((src) => {
+                _this.showImg(src)
+                _this.files.push(dataURLtoFile(src, fileName))
+              }, (err) => {
+                _this.hint(`错误码：${err}`)
+              })
+          }
         }
       })
+
       $uploaderFiles.on("click", "li", function(){
-        _this.$li = $(this)
+        let $this = $(this)
+        _this.$li = $this
+        _this.index = $uploaderFiles.find('.weui-uploader__file').index($this)
         $galleryImg.attr("style", this.getAttribute("style"))
         $gallery.fadeIn(100)
       });
+
       $gallery.on("click", function(e){
         let target = e.target
         if (target.className.indexOf('weui-icon-delete') > -1) {
           _this.$li.remove()
+          _this.files.splice(_this.index, 1)
           delete _this.$li
           $uploaderInput.val(null)
         }
         $gallery.fadeOut(100)
       });
+    },
+    validate() {
+      if (!this.pointId) {
+        this.hint('请选择巡查部位')
+        return false
+      } 
+      if (!this.checkDate) {
+        this.hint('请选择巡查时间')
+        return false
+      }
+      if (!this.patrolState) {
+        this.hint('请选择巡查状态')
+        return false
+      }  
+      if (this.patrolInfo && this.patrolInfo.length < 10) {
+        this.hint(`情况说明应至少10个字符，已输入${this.patrolInfo.length}个字符`)
+        return false
+      }
+      return true
+    },
+    submit() {
+      if (!this.validate()) return
+      this.disabled = true
+      let formEle = this.$refs.formEle
+      let params = new FormData(formEle)
+      params.append('pid', this.$route.query.pid)
+      params.append('id', getUuid(32, 16))
+      params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'yyyy-mm-dd HH:MM:ss'))
+      params.append('files', this.files)
+
+      this.patrolPoint.forEach((item) => {
+        if (item.ID === this.pointId) {
+          params.append('patrolName', item.PATROL_NAME)
+        }
+      })
+
+      api.getReservoirDetailInspectionAdd(params)
+        .then((res) => {
+          if (res.status === success) {
+            this.hint(res.msg)
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirDetailMember.vue')
+        }).always(() => {
+          this.disabled = false
+        })
     }
   },
   created() {
+    this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
-    this.$nextTick(() => {
-      this.update()
-    })
     androidInputBugFix()
+  },
+  mounted() {
+    this.fileChange()
   }
 }
 </script>
@@ -261,7 +387,7 @@ export default {
           }
         }
       }
-      .condition {
+      .patrolInfo {
         margin: 10px 10px 0 10px;
         h6 {
           padding-bottom: 4px;

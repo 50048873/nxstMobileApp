@@ -2,26 +2,26 @@
   <div>
     <ul class="ReservoirDetailMember">
       <li class="line-bottom" v-for="item in reservoirDetailMember">
-        <a :href="`tel:${item.mobile}`" class="mobileIcon"><i class="fa fa-phone-square"></i></a>
-        <div class="avatar" v-lazy:background-image="item.avatar"></div>
+        <a :href="`tel:${item.phone}`" class="mobileIcon"><i class="fa fa-phone-square"></i></a>
+        <div class="avatar" v-lazy:background-image="item.imgUrl"></div>
         <div class="info">
-          <h3>钱江</h3>
+          <h3>{{item.name}}</h3>
           <p>
             <span>电话：</span>
-            <a class="mobile" :href="`tel:${item.mobile}`">{{item.mobile}}</a>
+            <a class="phone" :href="`tel:${item.phone}`">{{item.phone}}</a>
           </p>
           <p>
             <span>职务：</span>
-            <span>{{item.role}}</span>
+            <span>{{item.job}}</span>
           </p>
           <p>
             <span>岗位职责：</span>
-            <span>{{item.duty}}</span>
+            <span>{{item.postDuties}}</span>
           </p>
         </div>
       </li>
     </ul>
-    <n-loading v-if="!reservoirDetailMember.length"></n-loading>
+    <no-data v-if="!this.reservoirDetailMember || !reservoirDetailMember.length"></no-data>
   </div>
 </template>
 
@@ -29,6 +29,8 @@
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import * as session from '@/assets/js/session'
+// 暂时用王忠燕本机的图片资源，等服务器上有图片时再切换
+const baseUrl = 'http://10.100.50.170:8080/znb/'
 export default {
   name: 'ReservoirDetailMember',
   data() {
@@ -37,11 +39,36 @@ export default {
     }
   },
   methods: {
+    recursion(arr) {
+      var result = []
+      var getData = function fn(arr) {
+        arr.forEach((item) => {
+          let obj = {}
+          for (let i in item) {
+            if (i !== 'childrens') {
+              if (i === 'imgUrl') {
+                obj[i] = baseUrl + item[i]
+              } else {
+                obj[i] = item[i]
+              }
+            }
+          }
+          result.push(obj)
+          if (item.childrens && item.childrens.length) {
+            fn(item.childrens)
+          }
+        })
+      }
+      getData(arr)
+      return result
+    },
     getReservoirDetailMember() {
-      api.getReservoirDetailMember()
+      api.getReservoirDetailMember({pid: this.$route.query.pid})
         .then((res) => {
           if (res.status === success) {
-            this.reservoirDetailMember = res.data
+            this.reservoirDetailMember = this.recursion(res.data)
+          } else {
+            this.hint(res.msg)
           }
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirDetailMember.vue')
@@ -94,7 +121,7 @@ export default {
         p {
           font-size: 12px;
           line-height: 1.5;
-          .mobile {
+          .phone {
             color: #1c9ee5;
           }
         }

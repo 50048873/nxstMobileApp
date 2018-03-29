@@ -45,9 +45,10 @@ export function normalizeRequestAnimationFrame() {
     }
 };
 
-// 错误提示
-export function errorTip(text) {
+// 提示
+export function hint(text) {
     let content =  `<div class="serverErrorTip animated fadeIn">${text}</div>`
+    if ($('body > .serverErrorTip').length) return
     let $back = $(content).appendTo('body')
     setTimeout(() => {
         $back.removeClass('fadeIn').addClass('fadeOut')
@@ -67,6 +68,7 @@ export function errorTip(text) {
 // 服务器错误提示
 export function serverErrorTip(err, filename) {
     let content =  `<div class="serverErrorTip animated fadeIn"><p>错误状态码：${err.status}</p><p>错误描叙：${err.statusText}</p><p>错误文件：${filename}</p></div>`
+    if ($('body > .serverErrorTip').length) return
     let $back = $(content).appendTo('body')
     setTimeout(() => {
         $back.removeClass('fadeIn').addClass('fadeOut')
@@ -105,3 +107,112 @@ export function androidInputBugFix(){
         })
     }
 }
+
+// 全局loading
+export let loading = {
+    $loading: null,
+    show() {
+        let content =  `<div class="n-loading">
+                            <img width="24" height="24" src="/static/img/loading.gif">
+                            <span class="desc">请求中...</span>
+                        </div>`
+        this.$loading = $(content).appendTo('body')
+    },
+    hide() {
+        this.$loading.remove()
+    }
+};
+
+/*
+* 生成uuid
+* 这个可以指定长度和基数。比如
+    // 8 character ID (base=16)
+    uuid(32, 16) // "098F4D35"
+* */
+export let getUuid = function (len, radix) {
+    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    let uuid = [], i;
+    radix = radix || chars.length;
+
+    if (len) {
+        // Compact form
+        for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random()*radix];
+    } else {
+        // rfc4122, version 4 form
+        let r;
+
+        // rfc4122 requires these characters
+        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+        uuid[14] = '4';
+
+        // Fill in random data.  At i==19 set the high bits of clock sequence as
+        // per rfc4122, sec. 4.1.5
+        for (i = 0; i < 36; i++) {
+            if (!uuid[i]) {
+                r = 0 | Math.random()*16;
+                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+            }
+        }
+    }
+
+    return uuid.join('');
+};
+
+// 对象URL（blob URL），指的是引用保存在File或Blob中数据的URL
+export function createObjectURL(blob) {
+    if (window.URL) {
+        return window.URL.createObjectURL(blob)
+    } else if (window.webkitURL) {
+        return window.webkitURL.createObjectURL(blob)
+    } else if (window.mozURL) {
+        return window.mozURL.createObjectURL(blob)
+    } else {
+        return null
+    }
+}
+
+// dataURL转换为Blob对象
+export function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
+
+// dataURL转换为File对象
+export function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+
+// 压缩图片并输出dataURL格式
+export function compress(img, width, height, ratio, fileType) {        
+ let canvas, ctx, img64;
+       
+ canvas = document.createElement('canvas');        
+ canvas.width = width;
+ canvas.height = height;
+       
+ ctx = canvas.getContext("2d");        
+ ctx.drawImage(img, 0, 0, width, height);
+       
+ img64 = canvas.toDataURL(fileType, ratio);
+       
+ return img64;
+}
+
+// 获取当月第一天
+export function getFirstDayOfMonth() {        
+    let date = new Date(),
+        year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = 1
+    return new Date(`${year}-${month}-${day}`)
+}
+

@@ -13,7 +13,7 @@
           <input :type="passwordMode" placeholder="字母、数字、6-20位" v-model="password" :class="{VALID: passwordValid}" autocomplete="new-password">
           <i class="nxst-eye extend-click" :class="{VALID: passwordToText}" @click="showPassword"></i>
         </div>
-        <div class="errorTip" v-show="!clean && !validate">
+        <div class="hint" v-show="!clean && !validate">
           <i class="nxst-exclamation-mark"></i>
           <span>{{errorText}}</span>
         </div>
@@ -128,7 +128,7 @@ export default {
           this.autoLogin(lastLoginUser)
         }
       }, (err) => {
-        this.errorTip(err)
+        this.hint(err)
       })
     }
   },
@@ -208,7 +208,7 @@ export default {
       .username, .password {
         position: relative;
       }
-      .errorTip {
+      .hint {
         margin-top: -10px;
         margin-bottom: 20px;
         color: @color-error;

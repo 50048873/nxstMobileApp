@@ -13,7 +13,8 @@
 import NOnline from '@/components/base/NOnline'
 import {getItem} from '@/assets/js/store'
 import {loginInfo, success} from '@/assets/js/config'
-import {getMax, isArray, handleOnLineOrOffline} from '@/assets/js/util'
+import {getMax, isArray, handleOnLineOrOffline, loading} from '@/assets/js/util'
+import $ from 'jquery'
 export default { 
   name: 'app', 
   components: {
@@ -24,6 +25,21 @@ export default {
       transitionName: 'slideToLeft' 
     } 
   }, 
+  methods: {
+    initAjaxLoading() {
+      $.ajaxSetup({
+        beforeSend: function () {
+          loading.show()
+        },
+        complete: function () {
+          loading.hide()
+        },
+        error: function () {
+          loading.hide()
+        }
+      })
+    }
+  },
   watch: {  
     '$route'(to, from)  {  
       let toPath = to.path,
@@ -45,6 +61,9 @@ export default {
       }  
       sessionStorage.setItem('routers', routersArr.join(','))  
     }  
+  },
+  created() {
+    this.initAjaxLoading()
   }
 }
 </script>

@@ -2,22 +2,23 @@
   <div>
     <ul class="ReservoirDetailInspection">
       <li class="line-bottom" v-for="item in ReservoirDetailInspection">
-        <time class="title">{{item.date}}</time>
+        <time class="title">{{item.CHECK_DATE | dateFormat('yyyy月mm月dd日')}}</time>
         <div class="content">
           <div class="status">
-            <i :class="item.status ? 'nxst-zc' : 'nxst-yc'"></i>
+            <i :class="item.PATROL_STATE === '1' ? 'nxst-zc' : 'nxst-yc'"></i>
           </div>
           <p>
             <span>巡查时间：</span>
-            <time>{{item.date}}</time>
+            <time>{{item.CHECK_DATE}}</time>
           </p>
           <p>
             <span>巡查结果：</span>
-            <span>{{item.result}}</span>
+            <span>{{item.PATROL_INFO}}</span>
           </p>
         </div>
       </li>
     </ul>
+    <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
     <n-add top="430" left="18" @add="add"></n-add>
   </div>
 </template>
@@ -27,29 +28,47 @@ import NAdd from '@/components/base/NAdd'
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import * as session from '@/assets/js/session'
+import {isArray, getFirstDayOfMonth} from '@/assets/js/util'
+import {dateFormat} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailInspection',
   components: {
     NAdd
   },
+  mixins: [dateFormat],
   data() {
     return {
-      ReservoirDetailInspection: []
+      ReservoirDetailInspection: [],
+      startDate: this.dateFormat(getFirstDayOfMonth(), 'yyyy-mm-dd'),
+      endDate: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },
   methods: {
+    order(arr) {
+      if (!isArray(arr)) return
+      return arr.sort((a, b) => {
+        return a.PATROL_STATE - b.PATROL_STATE
+      })
+    },
     getReservoirDetailInspection() {
-      api.getReservoirDetailInspection()
+      let params = {
+        pid: this.$route.query.pid,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      api.getReservoirDetailInspection(params)
         .then((res) => {
           if (res.status === success) {
-            this.ReservoirDetailInspection = res.data
+            this.ReservoirDetailInspection = this.order(res.data)
+          } else {
+            this.hint(res.msg)
           }
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirDetailInspection.vue')
         })
     },
     add() {
-      this.$router.push('/reservoirDetail/inspection/add')
+      this.$router.push({path: '/reservoirDetail/inspection/add', query: {pid: this.$route.query.pid}})
     }
   },
   created() {

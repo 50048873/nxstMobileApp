@@ -26,193 +26,168 @@
     "status": 1,
     "data": [
       {
-        "id": "1",
-        "name": "鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库鲁家窑水库",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 0,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/750/h/750"
+        "adunnm": null,
+        "fhkr": null,
+        "ennm": "中庄水库",
+        "pid": "349f62e00a414c2918d16d8b894d083",
+        "lttd": null,
+        "cfhwlfst": null,
+        "vlfl": "1",
+        "krxs": null,
+        "sklx": null,
+        "ennmcd": "NX002",
+        "dmstatpl": null,
+        "regNum": null,
+        "chflst": null,
+        "gattype": null,
+        "ttst": null,
+        "lgtd": null,
+        "dsflst": null,
+        "aduncd": null,
+        "checkTimes": 16,
+        "chfllv": null,
+        "gcgm": null,
+        "stcd": null,
+        "organizationCode": "NXST00001",
+        "dsfllv": null,
+        "tm": null,
+        "z": null,
+        "sklb": null,
+        "shortName": "中庄水库"
       },
       {
-        "id": "2",
-        "name": "水库名",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 1,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/750/h/750"
-      },
-      {
-        "id": "3",
-        "name": "水库名",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 1,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/750/h/750"
-      },
-      {
-        "id": "4",
-        "name": "水库名",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 0,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/750/h/750"
-      },
-      {
-        "id": "5",
-        "name": "水库名",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 1,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/750/h/750"
-      },
-      {
-        "id": "6",
-        "name": "水库名",
-        "kr": "0.3240",
-        "dqsw": "208.88",
-        "gcgm": "中型",
-        "status": 1,
-        "date": "2018年1月15日 17:32",
-        "icon": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/114/h/114",
-        "image": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/750/h/750"
+        "adunnm": "东深电子股份有限公司",
+        "fhkr": null,
+        "ennm": "测试水库",
+        "pid": "349f62e00a414b42918d16d8b894d083",
+        "lttd": 256.369,
+        "cfhwlfst": null,
+        "vlfl": "1",
+        "krxs": null,
+        "sklx": null,
+        "ennmcd": null,
+        "dmstatpl": "宁夏枸杞之乡",
+        "regNum": null,
+        "chflst": null,
+        "gattype": null,
+        "ttst": 6689,
+        "lgtd": 195.63,
+        "dsflst": null,
+        "aduncd": null,
+        "checkTimes": 0,
+        "chfllv": 156.52,
+        "gcgm": "Ⅲ",
+        "stcd": null,
+        "organizationCode": null,
+        "dsfllv": 125.32,
+        "tm": "2018-03-13 16:33:43",
+        "z": 87.2,
+        "sklb": null,
+        "shortName": "测试水库"
       }
     ],
     "msg":  "成功"
   },
   "reservoirDetailInfo": {
     "status": 1,
-    "data": [
-      {
-        "title": "基本信息",
-        "des": [
-          {
-            "title": "水库名称",
-            "content": "鸭子荡水库鸭子荡水库鸭子荡水库鸭子鸭子荡水库鸭子荡水库鸭子荡水库鸭子"
-          },
-          {
-            "title": "工程规模",
-            "content": "中型"
-          },
-          {
-            "title": "东经",
-            "content": "106.256321459"
-          },
-          {
-            "title": "北纬",
-            "content": "38.265421542"
-          },
-          {
-            "title": "所在地",
-            "content": "灵武市挂井子沟"
-          },
-          {
-            "title": "管理单位",
-            "content": "宁东水务公司"
-          }
-        ]
-      },
-      {
-        "title": "水文水库特征",
-        "des": [
-          {
-            "title": "总库容",
-            "content": "2400"
-          },
-          {
-            "title": "坝顶高程",
-            "content": "1252.5"
-          },
-          {
-            "title": "最大坝高",
-            "content": "24.5"
-          },
-          {
-            "title": "坝长",
-            "content": "2330"
-          },
-          {
-            "title": "防洪限制水位",
-            "content": "1249.6"
-          },
-          {
-            "title": "设计洪水位",
-            "content": "1249.6"
-          },
-          {
-            "title": "校核洪水位",
-            "content": "1249.9"
-          }
-        ]
-      }
-    ],
-    "msg":  "水库详情信息"
+    "data": {
+        "wetpht": 52.32, 
+        "adunnm": "东深电子股份有限公司", 
+        "ennm": "测试水库", 
+        "lttd": 256.369, 
+        "chfllv": 156.52, 
+        "bdzcd": null, 
+        "zxzsw": 95.63, 
+        "gcgm": "Ⅲ", 
+        "dmstatpl": "宁夏枸杞之乡", 
+        "dsfllv": 125.32, 
+        "ttst": 6689, 
+        "zdbg": 96.52, 
+        "lgtd": 195.63
+    },
+    "msg":  "操作成功"
   },
   "reservoirDetailMember": {
     "status": 1,
     "data": [
       {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png"
+        "sex": "0",
+        "mdps": "admin",
+        "pid": "349f62e00a414c2918d16d8b894d083",
+        "dept": "监测部2",
+        "postDuties": "112312",
+        "leaderId": "-1",
+        "imgUrl": "upload\\personMgr\\ad25d7b690bc4e8487d98884f3db5b87.jpg",
+        "mddt": "2018-03-09 11:43:41",
+        "phone": "155555555552",
+        "name": "刘晓陌",
+        "id": "42701ef688614d1e8d37cad96808004",
+        "state": "0",
+        "job": "试试"
       },
       {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114"
-      },
-      {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114"
-      },
-      {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114"
-      },
-      {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114"
-      },
-      {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/8/a6/453f65f16b1391942af11511b7a90jpeg.jpeg?imageView2/1/w/114/h/114"
-      },
-      {
-        "name": "钱江",
-        "mobile": "13800000000",
-        "role": "村长",
-        "duty": "负责水库事务负责水库事务负责水库事务负责水库事务负责水库事务",
-        "avatar": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/114/h/114"
+        "sex": "1",
+        "mdps": "admin",
+        "pid": "349f62e00a414c2918d16d8b894d083",
+        "dept": "行政",
+        "postDuties": "负责",
+        "leaderId": "-1",
+        "imgUrl": null,
+        "mddt": "2018-03-08 16:59:22",
+        "phone": "123456789",
+        "childrens": [
+          {
+            "sex": "1",
+            "mdps": "admin",
+            "pid": "349f62e00a414c2918d16d8b894d083",
+            "dept": "行政",
+            "postDuties": "订单",
+            "leaderId": "42701ef6886141ea8db3f7cad968084",
+            "imgUrl": "upload\\personMgr\\cd83fea10e094ce5b886354fd953648a.png",
+            "mddt": "2018-03-27 09:26:30",
+            "phone": "13554344623",
+            "childrens": [
+              {
+                "sex": "0",
+                "mdps": "admin",
+                "pid": "349f62e00a414c2918d16d8b894d083",
+                "dept": "监测部2",
+                "postDuties": "112312",
+                "leaderId": "42701ef6886141ea8dbd37cad968084",
+                "imgUrl": null,
+                "mddt": "2018-03-09 11:45:29",
+                "phone": "155555555552",
+                "name": "刘晓陌111",
+                "id": "42701ef688614d1efd37cad96808004",
+                "state": "0",
+                "job": "试试"
+              },
+              {
+                "sex": "1",
+                "mdps": "admin",
+                "pid": "349f62e00a414c2918d16d8b894d083",
+                "dept": "开发部",
+                "postDuties": "负责PHP开发",
+                "leaderId": "42701ef6886141ea8dbd37cad968084",
+                "imgUrl": "\\upload\\personMgr\\7bb30e39afd14aa2bc98816ce26f42fa.jpg",
+                "mddt": "2018-03-08 17:45:26",
+                "phone": "123456789",
+                "name": "六六",
+                "id": "42701ef688614d1ea8d37cd96808004",
+                "state": "0",
+                "job": "php开发工程师1111"
+              }
+            ],
+            "name": "王忠燕",
+            "id": "42701ef6886141ea8dbd37cad968084",
+            "state": "0",
+            "job": "的  "
+          }
+        ],
+        "name": "留",
+        "id": "42701ef6886141ea8db3f7cad968084",
+        "state": "0",
+        "job": "人事"
       }
     ],
     "msg":  ""
@@ -221,29 +196,368 @@
     "status": 1,
     "data": [
       {
-        "date": "2018-01-13 11:36:05",
-        "status": 0,
-        "result": "巡查大坝未见异常"
+        "PERSON_NAME": "zhangsan",
+        "MDDT": "2018-03-15 00:00:00",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-03-14 00:00:00",
+        "PERSON_ID": "2",
+        "HAS_FILE": "0",
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "716887360aa404b993760498d05deb9",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "有异常情况",
+        "MDPS": "zhangsan"
       },
       {
-        "date": "2018-01-14 11:36:05",
-        "status": 1,
-        "result": "巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常巡查大坝未见异常"
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-21 15:15:15",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-03-08 00:00:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": "0",
+        "POINT_NAME": "大坝坝顶",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "ba3bd3f0cbe840dac4c7906778216ca",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "zhengchang",
+        "MDPS": "admin"
       },
       {
-        "date": "2018-01-15 11:36:05",
-        "status": 1,
-        "result": "巡查大坝未见异常"
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-22 17:53:46",
+        "POINT_ID": "3f318e9a8ec248648b210020500100",
+        "CHECK_DATE": "2018-03-22 12:00:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": "0",
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "da773b45987c4d67a53a293460709a5c",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "巡查正常",
+        "MDPS": "admin"
       },
       {
-        "date": "2018-01-16 11:36:05",
-        "status": 1,
-        "result": "巡查大坝未见异常"
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 13:51:45",
+        "POINT_ID": "3f318e9a8ec248649b21fd2205a1f4cf",
+        "CHECK_DATE": "2018-03-01 12:30:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": "1",
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "9da6655f91614695a090db7363a8fc3e",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "坝底有异常 有淤泥",
+        "MDPS": "admin"
       },
       {
-        "date": "2018-01-17 11:36:05",
-        "status": 1,
-        "result": "巡查大坝未见异常"
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-23 13:57:13",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-03-02 13:30:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": null,
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "f33c6f5e24fd479d9432325291f3c019",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常情况。",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 14:00:23",
+        "POINT_ID": "3f318e9a8ec248648b210020500100",
+        "CHECK_DATE": "2018-03-01 15:50:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": null,
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "39da616ab95141e08d6a3c9b4f26161a",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常情况 2018年3月23日",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "admin",
+        "MDDT": "2018-03-15 16:23:47",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-01-01 00:00:00",
+        "PERSON_ID": "1",
+        "HAS_FILE": "0",
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "716887360a2a404993760498d05deb9",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "有异常情况",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "admin",
+        "MDDT": "2018-03-15 16:25:29",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-01-01 00:00:00",
+        "PERSON_ID": "1",
+        "HAS_FILE": "0",
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "716887360a2a404d993760498d05deb9",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "有异常情况",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "admin",
+        "MDDT": "2018-03-18 15:47:29",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-03-15 12:23:00",
+        "PERSON_ID": "1",
+        "HAS_FILE": "1",
+        "POINT_NAME": "大坝坝顶",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "ba3bd3f0cbe8409dac4c7906778216ca",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "多对多",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "admin",
+        "MDDT": "2018-03-15 16:21:36",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-01-01 00:00:00",
+        "PERSON_ID": "1",
+        "HAS_FILE": "0",
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "716887360a2a404b993760498d05deb9",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "有异常情况",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-23 13:55:36",
+        "POINT_ID": "3f318e9a8ec248649b21fd2205a1f4cf",
+        "CHECK_DATE": "2018-03-02 12:30:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": "1",
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "1d01ac1c03794bbfb76e6bdb902ef411",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 13:57:49",
+        "POINT_ID": "3f054111a8ec248648b21fd20j00000",
+        "CHECK_DATE": "2018-03-01 13:45:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": null,
+        "POINT_NAME": "防洪闸门",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "cc048503492041df92d3afbd53626322",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常情况。 222",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-23 13:59:15",
+        "POINT_ID": "3f054ces1a8ec2454611121fd20dceg0",
+        "CHECK_DATE": "2018-03-02 14:45:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": null,
+        "POINT_NAME": "泄水渠",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "8d6c528eb496431bbe3b6ca33f878597",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常0000",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-23 14:29:00",
+        "POINT_ID": "3f318e9a8ec248649b21fd2205a1f4cf",
+        "CHECK_DATE": "2018-03-01 11:50:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": null,
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "c5cf428fdf1845489061d763aad4bea3",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常情况 2018年3月23日",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 13:50:32",
+        "POINT_ID": "3f318e9a8ec24864821fd2205a1f4cf",
+        "CHECK_DATE": "2018-03-01 12:00:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": null,
+        "POINT_NAME": "坝1顶",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "fa3a85836fc8499a9af76cc2fc43330c",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "坝顶正常",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 13:56:44",
+        "POINT_ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "CHECK_DATE": "2018-03-01 13:30:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": null,
+        "POINT_NAME": "溢洪道",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "36609b0ed9ca46a0905acc0d9179e7db",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "正常",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "刘晓陌",
+        "MDDT": "2018-03-23 13:58:56",
+        "POINT_ID": "3f054ces1a8ec2454611121fd20dceg0",
+        "CHECK_DATE": "2018-03-01 14:45:00",
+        "PERSON_ID": "42701ef688614d1e8d37cad96808004",
+        "HAS_FILE": null,
+        "POINT_NAME": "泄水渠",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "d99064a27c014739b1123d583c6abd17",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-23 14:00:03",
+        "POINT_ID": "3f318e9a8ec248648b210020500100",
+        "CHECK_DATE": "2018-03-02 15:00:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": null,
+        "POINT_NAME": "坝底",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "76055666efb54016a61080bbf679a74d",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "正常情况 最后一个点",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-24 14:35:13",
+        "POINT_ID": "3f054ces1a8ec2454611121fd20dceg0",
+        "CHECK_DATE": "2018-03-25 11:00:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": "0",
+        "POINT_NAME": "11111111111111",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "42701ef688614d1ea86f7cad980804",
+        "PATROL_STATE": "0",
+        "PATROL_INFO": "222222222",
+        "MDPS": "admin"
+      },
+      {
+        "PERSON_NAME": "王忠燕",
+        "MDDT": "2018-03-24 14:35:30",
+        "POINT_ID": "3f318e9a8ec248648b210020500100",
+        "CHECK_DATE": "2018-03-25 11:00:00",
+        "PERSON_ID": "42701ef6886141ea8dbd37cad968084",
+        "HAS_FILE": "0",
+        "POINT_NAME": "111165656111111",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "42701ef688ew614d1ea86f7cad980804",
+        "PATROL_STATE": "1",
+        "PATROL_INFO": "43353543",
+        "MDPS": "admin"
+      }
+    ],
+    "msg":  ""
+  },
+  "ReservoirDetailInspection_patrolPoint": {
+    "status": 1,
+    "data": [
+      {
+        "PATROL_NAME": "防洪闸门",
+        "PATROL_RADIUS": 0.5,
+        "MDDT": "2018-03-23 17:36:04",
+        "POINTCOUNT": 0,
+        "LGTD": 106.23654151,
+        "IS_SIGN": "0",
+        "PATROL_CODE": "ZZSKXC0007",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f054111a8ec248648b21fd20j00000",
+        "LTTD": 36.08541133,
+        "MDPS": "admin"
+      },
+      {
+        "PATROL_NAME": "泄水渠",
+        "PATROL_RADIUS": 0.5,
+        "MDDT": "2018-03-21 17:00:04",
+        "POINTCOUNT": 0,
+        "LGTD": 106.23625531,
+        "IS_SIGN": "1",
+        "PATROL_CODE": "ZZSKXC0008",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f054ces1a8ec2454611121fd20dceg0",
+        "LTTD": 36.08545133,
+        "MDPS": "admin"
+      },
+      {
+        "PATROL_NAME": "坝1顶",
+        "PATROL_RADIUS": 1.2,
+        "MDDT": "2018-03-13 09:51:32",
+        "POINTCOUNT": 1,
+        "LGTD": 106.23836789,
+        "IS_SIGN": "0",
+        "PATROL_CODE": "ZZSKXC0003",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f318e9a8ec24864821fd2205a1f4cf",
+        "LTTD": 36.01596133,
+        "MDPS": "admin"
+      },
+      {
+        "PATROL_NAME": "坝底",
+        "PATROL_RADIUS": 1.5,
+        "MDDT": "2018-03-22 17:36:04",
+        "POINTCOUNT": 0,
+        "LGTD": 106.23836789,
+        "IS_SIGN": "1",
+        "PATROL_CODE": "ZZSKXC0006",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f318e9a8ec248648b210020500100",
+        "LTTD": 36.01596133,
+        "MDPS": "admin"
+      },
+      {
+        "PATROL_NAME": "溢洪道",
+        "PATROL_RADIUS": 2.5,
+        "MDDT": "2018-03-22 17:13:21",
+        "POINTCOUNT": 0,
+        "LGTD": 106.23836789,
+        "IS_SIGN": "0",
+        "PATROL_CODE": "ZZSKXC0005",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f318e9a8ec248648b21fd205a1f4cf",
+        "LTTD": 36.01596133,
+        "MDPS": "admin"
+      },
+      {
+        "PATROL_NAME": "坝底",
+        "PATROL_RADIUS": 2.5,
+        "MDDT": "2018-03-12 14:03:13",
+        "POINTCOUNT": 0,
+        "LGTD": 106.23836789,
+        "IS_SIGN": "0",
+        "PATROL_CODE": "ZZSKXC0002",
+        "PID": "349f62e00a414c2918d16d8b894d083",
+        "ID": "3f318e9a8ec248649b21fd2205a1f4cf",
+        "LTTD": 36.01596133,
+        "MDPS": "admin"
       }
     ],
     "msg":  ""
@@ -252,52 +566,52 @@
     "status": 1,
     "data": [
       {
-        "date": "2018年01月13日 11:36",
+        "tm": "2018年01月13日 11:36",
         "icon": "http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月14日 11:36",
+        "tm": "2018年01月14日 11:36",
         "icon": "http://fuss10.elemecdn.com/9/c6/f3bc84468820121112e79583c24efjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/c6/f3bc84468820121112e79583c24efjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月15日 11:36",
+        "tm": "2018年01月15日 11:36",
         "icon": "http://fuss10.elemecdn.com/4/e7/8277a6a2ea0a2e97710290499fc41jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/4/e7/8277a6a2ea0a2e97710290499fc41jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月16日 11:36",
+        "tm": "2018年01月16日 11:36",
         "icon": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月17日 11:36",
+        "tm": "2018年01月17日 11:36",
         "icon": "http://fuss10.elemecdn.com/6/54/f654985b4e185f06eb07f8fa2b2e8jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/6/54/f654985b4e185f06eb07f8fa2b2e8jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月18日 11:36",
+        "tm": "2018年01月18日 11:36",
         "icon": "http://fuss10.elemecdn.com/f/49/27f26ed00c025b2200a9ccbb7e67ejpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/f/49/27f26ed00c025b2200a9ccbb7e67ejpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月17日 11:36",
+        "tm": "2018年01月17日 11:36",
         "icon": "http://fuss10.elemecdn.com/a/94/7371083792c19df00e546b29e344cjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/a/94/7371083792c19df00e546b29e344cjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月18日 11:36",
+        "tm": "2018年01月18日 11:36",
         "icon": "http://fuss10.elemecdn.com/e/a3/5317c68dd618929b6ac05804e429ajpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/e/a3/5317c68dd618929b6ac05804e429ajpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月17日 11:36",
+        "tm": "2018年01月17日 11:36",
         "icon": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "date": "2018年01月18日 11:36",
+        "tm": "2018年01月18日 11:36",
         "icon": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/750/h/750"
       }
