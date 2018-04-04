@@ -11,20 +11,6 @@
             </span>
             <span>{{item.PATROL_NAME}}</span>
           </label>
-          <!-- <label for="db">
-            <span class="iconWrap">
-              <input type="checkbox" id="db" value="db" disabled="disabled" checked="checked">
-              <i class="fa fa-circle"></i>
-            </span>
-            <span>大坝</span>
-          </label>
-          <label for="lsy">
-            <span class="iconWrap">
-              <input type="checkbox" id="lsy" value="lsy" disabled="disabled">
-              <i class="fa fa-circle"></i>
-            </span>
-            <span>量水堰</span>
-          </label> -->
         </div>
       </div>
       <div class="item line-bottom">

@@ -1,7 +1,7 @@
 <template>
   <div class="n-tab line-bottom">
-    <router-link :to="item.path" v-for="(item, index) in data" :key="index">
-      <span v-if="item.icon"><i :class="item.icon">图标</i></span>
+    <router-link :to="getPath(item.path)" v-for="(item, index) in data" :key="index">
+      <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
       <span class="title">{{item.title}}</span>
     </router-link>
   </div>
@@ -14,6 +14,17 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    pid: {
+      type: String
+    }
+  },
+  methods: {
+    getPath(href) {
+      if (this.pid) {
+        return { path: href, query: { pid: this.pid }}
+      } 
+      return {path: href}
     }
   }
 }
@@ -28,15 +39,20 @@ export default {
     a {
       display: block;
       flex: 1;
-      color: @color-text;
+      color: @color-nav-default;
       height: 35px;
       line-height: 35px;
       &.ON {
         color: #0b65c3;
         border-bottom: 2px solid #0b65c3;
       }
+      .iconWrap {
+        position: relative;
+        top: 1px;
+      }
       .title {
         font-weight: bold;
+        padding-left: 2px;
       }
     }
   }

@@ -1,5 +1,4 @@
 export function setItem(key, value) {
-	console.log(key, value)
 	window.sessionStorage.setItem(key, value)
 };
 

@@ -1,11 +1,8 @@
 import * as type from '@/store/mutation-types'
 
 const mutations = {
-  [type.SET_DOCUMENTTITLE](state, documentTitle) {
-    state.documentTitle = documentTitle
-  },
-  [type.SET_RESERVOIRDETAILINFO](state, reservoirDetailInfo) {
-    state.reservoirDetailInfo = reservoirDetailInfo
+  [type.SET_RESERVOIRLIST](state, reservoirList) {
+    state.reservoirList = reservoirList
   }
 }
 

@@ -5,7 +5,7 @@
         <time class="title">{{item.CHECK_DATE | dateFormat('yyyy月mm月dd日')}}</time>
         <div class="content">
           <div class="status">
-            <i :class="item.PATROL_STATE === '1' ? 'nxst-zc' : 'nxst-yc'"></i>
+            <i :class="item.PATROL_STATE === '1' ? 'nxst-zc c-1b9be3' : 'nxst-yc c-red'"></i>
           </div>
           <p>
             <span>巡查时间：</span>
@@ -28,7 +28,7 @@ import NAdd from '@/components/base/NAdd'
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import * as session from '@/assets/js/session'
-import {isArray, getFirstDayOfMonth} from '@/assets/js/util'
+import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailInspection',
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       ReservoirDetailInspection: [],
-      startDate: this.dateFormat(getFirstDayOfMonth(), 'yyyy-mm-dd'),
+      startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endDate: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },

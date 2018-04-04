@@ -4,6 +4,7 @@
 
 <script>
 import Highcharts from 'highcharts/highstock';
+import {getDataByKey} from '@/assets/js/mixin'
 
 export default {
   name: 'HighchartsColumn',
@@ -20,67 +21,12 @@ export default {
       type: String,
       required: true
     },
-    options: {
-      type: Object,
-      default() {
-        return {
-          credits: {
-            enabled: false
-          },
-          title: {
-              text: this.title,
-              style: {fontSize: '14px'},
-              y: 15
-          },
-          xAxis: {
-              categories: ['01', '02', '03', '04', '05', '06', '07', '08'],
-              title: {
-                  text: this.xTitleText,
-                  align: 'high'
-              }
-          },
-          yAxis: {
-            lineWidth: 1,
-            tickWidth: 1,
-            title: {
-                text: this.yTitleText,
-                align: 'high'
-            }
-          },
-          legend: {
-              enabled: false
-          },
-          /*plotOptions: {
-              series: {
-                  label: {
-                      connectorAllowed: false
-                  },
-                  pointStart: 0 //设置x轴起始数
-              }
-          },*/
-          series: [{
-              name: '水位',
-              data: [43, 52, 57, 69, 97, 119, 133, 154],
-              color: '#c13430'
-          }],
-          responsive: {
-              rules: [{
-                  condition: {
-                      maxWidth: 500
-                  },
-                  chartOptions: {
-                      legend: {
-                          layout: 'horizontal',
-                          align: 'center',
-                          verticalAlign: 'bottom'
-                      }
-                  }
-              }]
-          }
-        }
-      }
+    data: {
+      type: Array,
+      required: true
     }
   },
+  mixins: [getDataByKey],
   data() {
     return {
       chart: null
@@ -91,7 +37,64 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = new Highcharts.Chart(this.$el, this.options);
+      let categories = this.getDataByKey(this.data, 'date'),
+          data = this.getDataByKey(this.data, 'value')
+      let options = {
+            credits: {
+              enabled: false
+            },
+            title: {
+                text: this.title,
+                style: {fontSize: '14px'},
+                y: 15
+            },
+            xAxis: {
+                categories: categories,
+                title: {
+                    text: this.xTitleText,
+                    align: 'high'
+                }
+            },
+            yAxis: {
+              lineWidth: 1,
+              tickWidth: 1,
+              title: {
+                  text: this.yTitleText,
+                  align: 'high'
+              }
+            },
+            legend: {
+                enabled: false
+            },
+            /*plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 0 //设置x轴起始数
+                }
+            },*/
+            series: [{
+                name: '水位',
+                data: data,
+                color: '#c13430'
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+          }
+      this.chart = new Highcharts.Chart(this.$el, options);
     }
   }
 }

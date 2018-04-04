@@ -27,13 +27,14 @@
 
 <script>
 import {dateFormat} from '@/assets/js/mixin'
+import {getSameDayOfPreMonth} from '@/assets/js/util'
 export default {
   name: 'NDialog',
   mixins: [dateFormat],
   data() {
     return {
       isVisible: false,
-      startDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
+      startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endDate: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },

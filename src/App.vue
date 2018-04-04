@@ -14,6 +14,7 @@ import NOnline from '@/components/base/NOnline'
 import {getItem} from '@/assets/js/store'
 import {loginInfo, success} from '@/assets/js/config'
 import {getMax, isArray, handleOnLineOrOffline, loading} from '@/assets/js/util'
+import * as session from '@/assets/js/session'
 import $ from 'jquery'
 export default { 
   name: 'app', 
@@ -44,7 +45,7 @@ export default {
     '$route'(to, from)  {  
       let toPath = to.path,
           fromPath = from.path
-      let routers = sessionStorage.getItem('routers')
+      let routers = session.getItem('routers')
       let routersArr = routers && routers.split(',') || []
       if (routersArr.length === 0) {  
         routersArr.push(fromPath)  
@@ -59,7 +60,7 @@ export default {
           routersArr.push(toPath)  
         } 
       }  
-      sessionStorage.setItem('routers', routersArr.join(','))  
+      session.setItem('routers', routersArr.join(','))  
     }  
   },
   created() {

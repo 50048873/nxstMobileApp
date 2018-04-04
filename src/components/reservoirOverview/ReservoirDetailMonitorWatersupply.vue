@@ -1,6 +1,6 @@
 <template>
   <div class="ReservoirDetailMonitorWatersupply">
-    <highcharts-column title="供水量过程图" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" ref="hcMonitor"></highcharts-column>
+    <highcharts-column title="供水量过程图" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitor" v-if="tdData.length"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
   </div>
 </template>
@@ -9,8 +9,8 @@
 import NTable from '@/components/base/NTable'
 import HighchartsColumn from '@/components/base/HighchartsColumn'
 import api from '@/assets/js/api'
-import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import {isArray, getFirstDayOfMonth} from '@/assets/js/util'
+import {success} from '@/assets/js/config'
+import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat} from '@/assets/js/mixin'
 
 export default {
@@ -29,7 +29,7 @@ export default {
       tdData: [],
 
       type: '1',
-      startTime: this.dateFormat(getFirstDayOfMonth(), 'yyyy-mm-dd'),
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },
@@ -59,8 +59,8 @@ export default {
       api.getReservoirDetailMonitor_watersupply(params)
         .then((res) => {
           if (res.status === success) {
+            //console.log(JSON.stringify(res.data, null, 2))
             this.tdData = this.convert(res.data)
-            console.log(JSON.stringify(this.tdData, null, 2))
           } else {
             this.hint(res.msg)
           }

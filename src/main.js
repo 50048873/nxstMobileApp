@@ -34,7 +34,6 @@ import '@/assets/weui/dist/style/weui.min.css'
 import '@/assets/less/common.less'
 import '@/assets/less/animate.less'
 import '@/assets/font/nxst/style.css'
-import '@/assets/font/font-awesome-4.7.0/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 

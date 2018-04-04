@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-tab :data="tab"></n-tab>
+    <n-tab :data="tab" :pid="$route.query.pid"></n-tab>
     <transition name="fade">
       <router-view class="scroolWrap router-view-fade"></router-view>
     </transition>

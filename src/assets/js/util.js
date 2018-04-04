@@ -109,11 +109,12 @@ export function androidInputBugFix(){
 }
 
 // 全局loading
+let loadingImg = require('@/assets/img/loading.gif')
 export let loading = {
     $loading: null,
     show() {
         let content =  `<div class="n-loading">
-                            <img width="24" height="24" src="/static/img/loading.gif">
+                            <img width="24" height="24" src="${loadingImg}">
                             <span class="desc">请求中...</span>
                         </div>`
         this.$loading = $(content).appendTo('body')
@@ -216,3 +217,35 @@ export function getFirstDayOfMonth() {
     return new Date(`${year}-${month}-${day}`)
 }
 
+// 获取当日上月同一天
+export function getSameDayOfPreMonth() {        
+    let date = new Date(),
+        year = date.getFullYear(),
+        month = date.getMonth(),
+        day = date.getDate()
+    return new Date(`${year}-${month}-${day}`)
+}
+
+export function getSurportCss(prop) { 
+    var div = document.createElement('div'),
+        prefixs = 'webkit moz ms'.split(' '),
+        len = prefixs.length;
+
+    if ( prop in div.style ) return prop;
+
+    var replaceStr = function(str){ 
+        var reg = /\b(\w)|\s(\w)/g; //  \b判断边界\s判断空格
+        return str.replace(reg,function(m){ 
+            return m.toUpperCase()
+        });
+    }
+    prop = replaceStr(prop);
+
+    while(len--) {
+        if ( prefixs[len] + prop in div.style ) {
+            return prefixs[len] + prop;
+        }
+    }
+    
+    return false; 
+};

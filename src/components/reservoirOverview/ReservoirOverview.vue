@@ -9,6 +9,10 @@
 
 <script>
 import NTab from '@/components/base/NTab'
+import api from '@/assets/js/api'
+import {success} from '@/assets/js/config'
+import {mapGetters, mapMutations} from 'vuex'
+import {SET_RESERVOIRLIST} from '@/store/mutation-types'
 export default {
   name: 'ReservoirOverview',
   components: {
@@ -20,18 +24,44 @@ export default {
         {
           title: '地图',
           path: '/reservoirOverview/map',
-          icon: ''
+          icon: 'nxst-map'
         },
         {
           title: '列表',
           path: '/reservoirOverview/list',
-          icon: ''
+          icon: 'nxst-list'
         }
       ]
     }
   },
+  methods: {
+    ...mapMutations([SET_RESERVOIRLIST]),
+    getReservoirList() {
+      api.getReservoirList()
+        .then((res) => {
+          if (res.status === success) {
+            res.data.forEach((item) => {
+              let random = Math.random()
+              if (random > 0.5) {
+                item.status = 1
+              } else {
+                item.status = 0
+              }
+            })
+            this.SET_RESERVOIRLIST(res.data)
+            //console.log(JSON.stringify(res.data, null , 2))
+          } else {
+            this.status = res.status
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirOverviewList.vue')
+        })
+    }
+  },
   created() {
-    this.setDocumentTitle('水库概览')
+      this.setDocumentTitle('水库概览')
+      this.getReservoirList()
   }
 }
 </script>

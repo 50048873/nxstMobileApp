@@ -99,11 +99,39 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           msg:  appData.ReservoirDetailInspection_patrolPoint.msg
         });
       })
+      app.post('/api/reservoirDetail/monitor/waterlevel', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailMonitor_waterlevel.status,
+          data: appData.ReservoirDetailMonitor_waterlevel.data,
+          msg:  appData.ReservoirDetailMonitor_waterlevel.msg
+        });
+      })
+      app.post('/api/reservoirDetail/monitor/rainfall', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailMonitor_rainfall.status,
+          data: appData.ReservoirDetailMonitor_rainfall.data,
+          msg:  appData.ReservoirDetailMonitor_rainfall.msg
+        });
+      })
       app.get('/api/reservoirDetail/monitor/photo', function (req, res) { 
         res.json({
           status: appData.ReservoirDetailMonitorPhoto.status,
           data: appData.ReservoirDetailMonitorPhoto.data,
           msg:  appData.ReservoirDetailMonitorPhoto.msg
+        });
+      })
+      app.get('/api/reservoirDetail/monitor/waterquality', function (req, res) { 
+        res.json({
+          status: appData.ReservoirDetailMonitor_waterquality.status,
+          data: appData.ReservoirDetailMonitor_waterquality.data,
+          msg:  appData.ReservoirDetailMonitor_waterquality.msg
+        });
+      })
+      app.post('/api/reservoirDetail/monitor/watersupply', function (req, res) { 
+        res.json({
+          status: appData.getReservoirDetailMonitor_watersupply.status,
+          data: appData.getReservoirDetailMonitor_watersupply.data,
+          msg:  appData.getReservoirDetailMonitor_watersupply.msg
         });
       })
     }

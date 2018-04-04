@@ -82,21 +82,57 @@ let getReservoirDetailInspectionAdd_patrolPoint = function(data) {
   })
 }
 
-// 监测 -> 供水量
-let getReservoirDetailMonitor_watersupply = function(data) {
+// 监测 -> 水位
+let getReservoirDetailMonitor_waterlevel = function(data) {
+  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/wrSwRController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/waterlevel')
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',
-    url: baseUrl + '/znb/tbWaterSupplyController/getAllData.do',
+    url: url,
+    data: JSON.stringify(data)
+  })
+}
+
+// 监测 -> 雨量
+let getReservoirDetailMonitor_rainfall = function(data) {
+  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/stPptnRController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/rainfall')
+  return $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
     data: JSON.stringify(data)
   })
 }
 
 // 监测 -> 图像
 let getReservoirDetailMonitorPhoto = function() {
+  //const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterSupplyController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
+  const baseUrl = window.location.origin
   return $.ajax({
     type: 'GET',
     url: baseUrl + '/api/reservoirDetail/monitor/photo'
+  })
+}
+
+// 监测 -> 水质
+let getReservoirDetailMonitor_waterquality = function(data) {
+  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterQualityController/getObjByPid.do') : (baseUrl +  '/api/reservoirDetail/monitor/waterquality')
+  return $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: JSON.stringify(data)
+  })
+}
+
+// 监测 -> 供水量
+let getReservoirDetailMonitor_watersupply = function(data) {
+  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterSupplyController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
+  return $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: JSON.stringify(data)
   })
 }
 
@@ -109,6 +145,9 @@ export default {
   getReservoirDetailInspection: getReservoirDetailInspection,
   getReservoirDetailInspectionAdd: getReservoirDetailInspectionAdd,
   getReservoirDetailInspectionAdd_patrolPoint: getReservoirDetailInspectionAdd_patrolPoint,
-  getReservoirDetailMonitor_watersupply: getReservoirDetailMonitor_watersupply,
-  getReservoirDetailMonitorPhoto: getReservoirDetailMonitorPhoto
+  getReservoirDetailMonitor_waterlevel: getReservoirDetailMonitor_waterlevel,
+  getReservoirDetailMonitor_rainfall: getReservoirDetailMonitor_rainfall,
+  getReservoirDetailMonitorPhoto: getReservoirDetailMonitorPhoto,
+  getReservoirDetailMonitor_waterquality: getReservoirDetailMonitor_waterquality,
+  getReservoirDetailMonitor_watersupply: getReservoirDetailMonitor_watersupply
 }

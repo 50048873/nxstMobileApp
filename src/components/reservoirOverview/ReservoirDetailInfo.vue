@@ -2,48 +2,48 @@
     <ul class="ReservoirDetailInspection">
       <li class="outList line-bottom">
         <h3 class="iconWrap" :style="{color: colors[0]}">
-          <i>图标</i>
-          <span>基本信息</span>
+          <i class="nxst-jbxx"></i>
+          <span class="title">基本信息</span>
         </h3>
         <ul class="childrenWrap childrenWrap-1">
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>水库名称</em>
             </span>
             <span class="content">{{reservoirDetailInfo.ennm}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>工程规模</em>
             </span>
             <span class="content">{{reservoirDetailInfo.gcgm | gcgmFilter}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>东经</em>
             </span>
             <span class="content">{{reservoirDetailInfo.lgtd}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>北纬</em>
             </span>
             <span class="content">{{reservoirDetailInfo.lttd}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>所在地</em>
             </span>
             <span class="content">{{reservoirDetailInfo.dmstatpl}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>管理单位</em>
             </span>
             <span class="content">{{reservoirDetailInfo.adunnm}}</span>
@@ -52,55 +52,55 @@
       </li>
       <li class="outList line-top line-bottom">
         <h3 class="iconWrap" :style="{color: colors[1]}">
-          <i>图标</i>
-          <span>水文水库特征</span>
+          <i class="nxst-sksw"></i>
+          <span class="title">水库水文特征</span>
         </h3>
         <ul class="childrenWrap childrenWrap-2">
           <li>
             <span class="name">
-              <i>图标</i>
-              <em>总库容（亿m<sup>3</sup>）</em>
+              <i class="nxst-q"></i>
+              <em>总库容（万m<sup>3</sup>）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.ttst}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>坝顶高程（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.wetpht}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>最大坝高（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.zdbg}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>坝长（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.bdzcd}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>防洪限制水位（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.zxzsw}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>设计洪水位（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.dsfllv}}</span>
           </li>
           <li>
             <span class="name">
-              <i>图标</i>
+              <i class="nxst-q"></i>
               <em>校核洪水位（m）</em>
             </span>
             <span class="content">{{reservoirDetailInfo.chfllv}}</span>
@@ -131,7 +131,7 @@ export default {
         .then((res) => {
           if (res.status === success) {
             if (!res.data) return
-            this.reservoirDetailInfo = res.data
+            this.reservoirDetailInfo = res.data[0]
             const documentTitle = this.reservoirDetailInfo.ennm
             this.setDocumentTitle(documentTitle)
             session.setItem(documentTitle_reservoirDetail, documentTitle)
@@ -166,6 +166,14 @@ export default {
         line-height: 60px;
         padding: 0 10px;
         position: relative;
+        .nxst-jbxx, .nxst-sksw {
+          font-size: 28px;
+          vertical-align: middle;
+        }
+        .title {
+          vertical-align: middle;
+          padding-left: 2px;
+        }
         &:after { 
           content: " ";
           position: absolute;
@@ -180,7 +188,6 @@ export default {
           transform: scaleY(0.5);
         }
       }
-  
       .childrenWrap {
         padding: 10px 30px;
         li {
@@ -193,9 +200,13 @@ export default {
             overflow-x: hidden;
             text-overflow: ellipsis;
             margin-right: 2em;
+            [class="nxst"] {
+              vertical-align: middle;
+            }
             //flex: 0 0 9em;
             em {
               font-style: normal;
+              padding-left: 2px;
             }
           }
           .content {

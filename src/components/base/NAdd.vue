@@ -19,7 +19,7 @@ export default {
   props: {
     iconClass: {
       type: String,
-      default: 'fa fa-plus'
+      default: 'nxst-add'
     },
     top: {
       type: [String, Number],
@@ -110,12 +110,12 @@ export default {
     border-radius: 50%;
     box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
     transition: background-color 0.4s;
-    .fa {
+    [class*="nxst"]{
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 32px;
+      font-size: 28px;
       color: white;
     }
   }

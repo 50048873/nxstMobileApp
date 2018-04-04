@@ -1,12 +1,11 @@
 <template>
   <nav class="n-footer line-top">
-    <router-link :to="{ path: item.href, query: { pid: pid }}" v-for="(item, index) in data" :key="index">
-      <div class="iconWrap">
-        <span :class="{'redDot': item.new}"></span>
+    <router-link :to="getPath(item.href)" v-for="(item, index) in data" :key="index">
+      <div class="iconWrap" :class="{back: !item.title}">
+        <span :class="{'redDot': item.new}" v-if="item.new"></span>
         <i :class="item.icon"></i>
-        图标
       </div>
-      <h3>{{item.title}}</h3>
+      <h3 v-if="item.title">{{item.title}}</h3>
     </router-link>
   </nav>
 </template>
@@ -21,6 +20,14 @@ export default {
     },
     pid: {
       type: String
+    }
+  },
+  methods: {
+    getPath(href) {
+      if (this.pid) {
+        return { path: href, query: { pid: this.pid }}
+      } 
+      return {path: href}
     }
   }
 }
@@ -37,12 +44,11 @@ export default {
     background-color: white;
     display: flex;
     text-align: center;
-    padding: 8px 0;
-    box-sizing: border-box;
+    align-items: center;
     a {
       display: block;
       flex: 1;
-      color: @color-text;
+      color: @color-nav-default;
       &.ON {
         color: #0e6fca;
       }
@@ -58,10 +64,30 @@ export default {
           border-radius: 50%;
           background-color: #ff002a;
         }
+        [class*="nxst"] {
+          font-size: 24px;
+        }
+        .nxst-zhsw {
+          display: inline-block;
+          transform: scale(1.25);
+        }
+        &.back {
+          width: 48px;
+          height: 48px;
+          background-color: #1c9ce5;
+          border-radius: 50%;
+          border: 1px solid @color-nav-default;
+          box-sizing: border-box;
+          .nxst-back {
+            position: relative;
+            top: 10px;
+            color: white;
+          }
+        }
       }
       h3 {
         line-height: 1;
-        margin-top: 8px;
+        padding-top: 2px;
       }
     }
   }

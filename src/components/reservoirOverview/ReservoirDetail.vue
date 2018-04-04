@@ -10,26 +10,32 @@
 </template>
 
 <script>
+import * as session from '@/assets/js/session'
 let data = [
   {
+    title: '信息',
+    icon: 'nxst-info',
+    href: '/reservoirDetail/info'
+  },
+  {
     title: '监测',
-    icon: 'nxst-',
+    icon: 'nxst-jc',
     href: '/reservoirDetail/monitor'
   },
   {
+    title: null,
+    icon: 'nxst-back',
+    href: '/reservoirOverview/map'
+  },
+  {
     title: '巡检',
-    icon: 'nxst-',
+    icon: 'nxst-xj',
     href: '/reservoirDetail/inspection'
   },
   {
     title: '人员',
-    icon: 'nxst-',
+    icon: 'nxst-member',
     href: '/reservoirDetail/member'
-  },
-  {
-    title: '信息',
-    icon: 'nxst-',
-    href: '/reservoirDetail/info'
   }
 ]
 export default {
@@ -38,9 +44,19 @@ export default {
     return {
       data: data
     }
-  }/*,
+  },
+  methods: {
+    initBack() {
+      let routers = session.getItem('routers');
+      if (routers && routers.indexOf(',')) {
+        let originHrefArr = routers.split(','),
+        originHref = originHrefArr[originHrefArr.length - 2]
+        data[2].href = originHref
+      } 
+    }
+  },
   created() {
-    console.log(this.$route.query.pid)
-  }*/
+    this.initBack()
+  }
 }
 </script>

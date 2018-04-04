@@ -26,6 +26,7 @@ import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/Re
 Vue.use(Router)
 
 let router = new Router({
+  base: '/znb/pages/app/app/reservoir',
   mode: 'history',
   linkActiveClass: 'ON',
   routes: [
@@ -76,7 +77,7 @@ let router = new Router({
     },
     {
       path: '/reservoirOverview',
-      redirect: '/reservoirOverview/list',
+      redirect: '/reservoirOverview/map',
       name: 'ReservoirOverview',
       component: ReservoirOverview,
       children: [
@@ -99,13 +100,18 @@ let router = new Router({
       component: ReservoirDetail,
       children: [
         {
+          path: '/reservoirDetail/info',
+          name: 'ReservoirDetailInfo',
+          component: ReservoirDetailInfo
+        },
+        {
           path: '/reservoirDetail/monitor',
-          redirect: '/reservoirDetail/monitor/watersupply',
+          redirect: '/reservoirDetail/monitor/waterlevel',
           name: 'ReservoirDetailMonitor',
           component: ReservoirDetailMonitor,
           children: [
             {
-              path: '/reservoirDetail/monitor/waterLevel',
+              path: '/reservoirDetail/monitor/waterlevel',
               name: 'ReservoirDetailMonitorWaterlevel',
               component: ReservoirDetailMonitorWaterlevel
             },
@@ -150,11 +156,6 @@ let router = new Router({
           path: '/reservoirDetail/member',
           name: 'ReservoirDetailMember',
           component: ReservoirDetailMember
-        },
-        {
-          path: '/reservoirDetail/info',
-          name: 'ReservoirDetailInfo',
-          component: ReservoirDetailInfo
         }
       ]
     }

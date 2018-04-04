@@ -11,23 +11,23 @@
 let data = [
   {
     title: '消息',
-    icon: 'nxst-',
+    icon: 'nxst-xx',
     href: '/home/message',
     new: true
   },
   {
     title: '智慧水务',
-    icon: 'nxst-',
+    icon: 'nxst-zhsw',
     href: '/home/systemMenu'
   },
   {
     title: '通讯录',
-    icon: 'nxst-',
+    icon: 'nxst-txl',
     href: '/home/addressBook'
   },
   {
     title: '我的',
-    icon: 'nxst-',
+    icon: 'nxst-me',
     href: '/home/me'
   }
 ]

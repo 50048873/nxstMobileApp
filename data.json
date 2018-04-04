@@ -90,10 +90,10 @@
   },
   "reservoirDetailInfo": {
     "status": 1,
-    "data": {
+    "data": [{
         "wetpht": 52.32, 
         "adunnm": "东深电子股份有限公司", 
-        "ennm": "测试水库", 
+        "ennm": "本地数据只有一条假数据", 
         "lttd": 256.369, 
         "chfllv": 156.52, 
         "bdzcd": null, 
@@ -104,7 +104,7 @@
         "ttst": 6689, 
         "zdbg": 96.52, 
         "lgtd": 195.63
-    },
+    }],
     "msg":  "操作成功"
   },
   "reservoirDetailMember": {
@@ -276,7 +276,7 @@
         "PID": "349f62e00a414c2918d16d8b894d083",
         "ID": "39da616ab95141e08d6a3c9b4f26161a",
         "PATROL_STATE": "0",
-        "PATROL_INFO": "正常情况 2018年3月23日",
+        "PATROL_INFO": "正常情况 2018-3月23日",
         "MDPS": "admin"
       },
       {
@@ -388,7 +388,7 @@
         "PID": "349f62e00a414c2918d16d8b894d083",
         "ID": "c5cf428fdf1845489061d763aad4bea3",
         "PATROL_STATE": "0",
-        "PATROL_INFO": "正常情况 2018年3月23日",
+        "PATROL_INFO": "正常情况 2018-3月23日",
         "MDPS": "admin"
       },
       {
@@ -562,61 +562,132 @@
     ],
     "msg":  ""
   },
+  "ReservoirDetailMonitor_waterlevel": {
+    "status": 1,
+    "data": [
+      {
+        "tm": "2018-03-06",
+        "z": 101.15
+      },
+      {
+        "tm": "2018-03-13",
+        "z": 87.2
+      }
+    ],
+    "msg": ""
+  },
+  "ReservoirDetailMonitor_rainfall": {
+    "status": 1,
+    "data": [
+      {
+        "tm": "2018-03-08",
+        "drp": 4100
+      },
+      {
+        "tm": "2018-03-09",
+        "drp": 4100
+      }
+    ],
+    "msg": ""
+  },
   "ReservoirDetailMonitorPhoto": {
     "status": 1,
     "data": [
       {
-        "tm": "2018年01月13日 11:36",
+        "tm": "2018-01-13 11:36",
         "icon": "http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月14日 11:36",
+        "tm": "2018-01-14 11:36",
         "icon": "http://fuss10.elemecdn.com/9/c6/f3bc84468820121112e79583c24efjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/c6/f3bc84468820121112e79583c24efjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月15日 11:36",
+        "tm": "2018-01-15 11:36",
         "icon": "http://fuss10.elemecdn.com/4/e7/8277a6a2ea0a2e97710290499fc41jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/4/e7/8277a6a2ea0a2e97710290499fc41jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月16日 11:36",
+        "tm": "2018-01-16 11:36",
         "icon": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月17日 11:36",
+        "tm": "2018-01-17 11:36",
         "icon": "http://fuss10.elemecdn.com/6/54/f654985b4e185f06eb07f8fa2b2e8jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/6/54/f654985b4e185f06eb07f8fa2b2e8jpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月18日 11:36",
+        "tm": "2018-01-18 11:36",
         "icon": "http://fuss10.elemecdn.com/f/49/27f26ed00c025b2200a9ccbb7e67ejpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/f/49/27f26ed00c025b2200a9ccbb7e67ejpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月17日 11:36",
+        "tm": "2018-01-17 11:36",
         "icon": "http://fuss10.elemecdn.com/a/94/7371083792c19df00e546b29e344cjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/a/94/7371083792c19df00e546b29e344cjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月18日 11:36",
+        "tm": "2018-01-18 11:36",
         "icon": "http://fuss10.elemecdn.com/e/a3/5317c68dd618929b6ac05804e429ajpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/e/a3/5317c68dd618929b6ac05804e429ajpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月17日 11:36",
+        "tm": "2018-01-17 11:36",
         "icon": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/750/h/750"
       },
       {
-        "tm": "2018年01月18日 11:36",
+        "tm": "2018-01-18 11:36",
         "icon": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/114/h/114",
         "image": "http://fuss10.elemecdn.com/d/22/260bd78ee6ac6051136c5447fe307jpeg.jpeg?imageView2/1/w/750/h/750"
       }
     ],
     "msg":  ""
+  },
+  "getReservoirDetailMonitor_waterquality": {
+    "status": 1,
+    "data": [],
+    "msg": ""
+  },
+  "getReservoirDetailMonitor_watersupply": {
+    "status": 1,
+    "data": [
+      {
+        "gsl": 19.49,
+        "recordTime": "2018-03-02"
+      },
+      {
+        "gsl": 15.88,
+        "recordTime": "2018-03-03"
+      },
+      {
+        "gsl": 19.79,
+        "recordTime": "2018-03-04"
+      },
+      {
+        "gsl": 12.17,
+        "recordTime": "2018-03-05"
+      },
+      {
+        "gsl": 16.64,
+        "recordTime": "2018-03-06"
+      },
+      {
+        "gsl": 16.01,
+        "recordTime": "2018-03-07"
+      },
+      {
+        "gsl": 17.64,
+        "recordTime": "2018-03-08"
+      },
+      {
+        "gsl": 12.43,
+        "recordTime": "2018-03-12"
+      }
+    ],
+    "msg": ""
   }
 }
 

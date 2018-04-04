@@ -9,8 +9,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in tdData">
-          <td>{{item.date}}</td>
+        <tr v-for="item in standardTdData">
+          <td><span class="date">{{item.date}}</span></td>
           <td>{{item.value}}</td>
         </tr>
       </tbody>
@@ -19,20 +19,21 @@
 </template>
 
 <script>
-/*let thData = {
-  title1: '月份',
-  title2: '供水量（万m<sup>3</sup>）'
-}
-let tdData = [
-  {
-    date: '1',
-    value: '340.00'
-  },
-  {
-    date: '2',
-    value: '340.00'
-  }
-]*/
+import {isArray} from '@/assets/js/util'
+// let thData = {
+//   title1: '月份',
+//   title2: '供水量（万m<sup>3</sup>）'
+// }
+// let tdData = [
+//   {
+//     date: '1',
+//     value: '340.00'
+//   },
+//   {
+//     date: '2',
+//     value: '340.00'
+//   }
+// ]
 export default {
   name: 'NTable',
   props: {
@@ -45,6 +46,40 @@ export default {
     },
     tdData: {
       type: Array
+    }
+  },
+  computed: {
+    standardTdData() {
+      let tdData = this.tdData
+      if (isArray(tdData) && tdData.length) {
+        let res = []
+        res.push(tdData[0])
+        tdData.reduce((prev, cur, index) => {
+          let obj = {}
+          obj.value = cur.value
+          if (prev.date.indexOf('-')) {
+            let prevArr = prev.date.split('-'),
+                curArr = cur.date.split('-'),
+                prevY = prevArr[0],
+                prevM = prevArr[1],
+                curY = curArr[0],
+                curM = curArr[1],
+                curD = curArr[2]
+            if (curY === prevY) {
+              obj.date = `${curM}-${curD}`
+            }
+            if (curM === prevM) {
+              obj.date = curD
+            }
+          } else {
+            obj.date = cur.date
+          }
+          res.push(obj)
+          return cur
+        })
+        return res
+      }
+      return tdData
     }
   }
 }
@@ -81,6 +116,11 @@ export default {
       &:nth-child(2n) {
         border-right: none;
       }
+    }
+    .date {
+      display: inline-block;
+      width: 6em;
+      text-align: right;
     }
   }
 </style>

@@ -4,7 +4,8 @@
 
 <script>
 import Highcharts from 'highcharts/highstock';
-
+import {isArray} from '@/assets/js/util'
+import {getDataByKey} from '@/assets/js/mixin'
 export default {
   name: 'HighchartsColumn',
   props: {
@@ -20,63 +21,12 @@ export default {
       type: String,
       required: true
     },
-    options: {
-      type: Object,
-      default() {
-        return {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: this.title,
-              style: {fontSize: '14px'},
-              y: 15
-          },
-          xAxis: {
-              categories: ['01', '02', '03', '04', '05'],
-              title: {
-                  text: this.xTitleText,
-                  align: 'high'
-              }
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: this.yTitleText,
-                  useHTML: true,
-                  align: 'high',
-                  //rotation: 0,
-                  //y: -10,
-                  //offset: 0
-              },
-              labels: {
-                  overflow: 'justify'
-              }
-          },
-          legend: {
-            enabled: false
-          },
-          tooltip: {
-              valueSuffix: 'mm'
-          },
-          plotOptions: {
-              bar: {
-                  dataLabels: {
-                      enabled: true
-                  }
-              }
-          },
-          credits: {
-              enabled: false
-          },
-          series: [{
-              name: '雨量',
-              data: [107, 31, 35, 203, 12]
-          }]
-        }
-      }
+    data: {
+      type: Array,
+      required: true
     }
   },
+  mixins: [getDataByKey],
   data() {
     return {
       chart: null
@@ -87,7 +37,60 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = new Highcharts.Chart(this.$el, this.options);
+      let categories = this.getDataByKey(this.data, 'date'),
+          data = this.getDataByKey(this.data, 'value')
+      let options = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: this.title,
+                style: {fontSize: '14px'},
+                y: 15
+            },
+            xAxis: {
+                categories: categories,
+                title: {
+                    text: this.xTitleText,
+                    align: 'high'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: this.yTitleText,
+                    useHTML: true,
+                    align: 'high',
+                    //rotation: 0,
+                    //y: -10,
+                    //offset: 0
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            legend: {
+              enabled: false
+            },
+            tooltip: {
+                valueSuffix: 'mm'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: '雨量',
+                data: data
+            }]
+          }
+      this.chart = new Highcharts.Chart(this.$el, options);
     }
   }
 }

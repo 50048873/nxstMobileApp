@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'nxst';
   src:
-    url('fonts/nxst.ttf?f161dl') format('truetype'),
-    url('fonts/nxst.woff?f161dl') format('woff'),
-    url('fonts/nxst.svg?f161dl#nxst') format('svg');
+    url('fonts/nxst.ttf?93sa0b') format('truetype'),
+    url('fonts/nxst.woff?93sa0b') format('woff'),
+    url('fonts/nxst.svg?93sa0b#nxst') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,19 +23,119 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.nxst-location-circle:before {
+.nxst-search:before {
+  content: "\e92e";
+}
+.nxst-minus:before {
+  content: "\e92d";
+}
+.nxst-clock:before {
+  content: "\e92c";
+}
+.nxst-back:before {
+  content: "\e92b";
+}
+.nxst-calendar:before {
+  content: "\e92a";
+}
+.nxst-tzxx:before {
+  content: "\e929";
+}
+.nxst-next:before {
+  content: "\e926";
+}
+.nxst-play:before {
+  content: "\e927";
+}
+.nxst-prev:before {
+  content: "\e928";
+}
+.nxst-rgtb:before {
+  content: "\e924";
+}
+.nxst-filter:before {
+  content: "\e925";
+}
+.nxst-add:before {
+  content: "\e923";
+}
+.nxst-phone:before {
+  content: "\e922";
+}
+.nxst-info:before {
+  content: "\e91b";
+}
+.nxst-jbxx:before {
+  content: "\e91c";
+}
+.nxst-jc:before {
+  content: "\e91d";
+}
+.nxst-member:before {
+  content: "\e91e";
+}
+.nxst-q:before {
+  content: "\e91f";
+}
+.nxst-sksw:before {
+  content: "\e920";
+}
+.nxst-xj:before {
+  content: "\e921";
+}
+.nxst-list:before {
+  content: "\e90b";
+}
+.nxst-map:before {
   content: "\e90c";
 }
-.nxst-location:before {
-  content: "\e90b";
+.nxst-warn:before {
+  content: "\e91a";
+}
+.nxst-gcgl:before {
+  content: "\e90e";
+}
+.nxst-kfys:before {
+  content: "\e90f";
+}
+.nxst-kjcx:before {
+  content: "\e910";
+}
+.nxst-me:before {
+  content: "\e911";
+}
+.nxst-skgl:before {
+  content: "\e912";
+}
+.nxst-sqyb:before {
+  content: "\e913";
+}
+.nxst-szgl:before {
+  content: "\e914";
+}
+.nxst-szygl:before {
+  content: "\e915";
+}
+.nxst-txl:before {
+  content: "\e916";
+}
+.nxst-xx:before {
+  content: "\e917";
+}
+.nxst-zhgl:before {
+  content: "\e918";
+}
+.nxst-zhsw:before {
+  content: "\e919";
 }
 .nxst-yc:before {
   content: "\e909";
-  color: #ff1e00;
 }
 .nxst-zc:before {
   content: "\e90a";
-  color: #1b9be3;
+}
+.nxst-oa:before {
+  content: "\e90d";
 }
 .nxst-trumpet:before {
   content: "\e908";
