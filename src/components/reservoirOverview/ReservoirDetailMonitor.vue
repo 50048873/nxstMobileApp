@@ -2,15 +2,13 @@
   <div>
     <n-tab :data="tab" :pid="$route.query.pid"></n-tab>
     <transition name="fade">
-      <router-view class="scroolWrap router-view-fade"></router-view>
+      <router-view class="scrollWrap router-view-fade"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
 import NTab from '@/components/base/NTab'
-import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import * as session from '@/assets/js/session'
 export default {
   name: 'ReservoirDetailMonitor',
   components: {
@@ -45,16 +43,13 @@ export default {
         }
       ]
     }
-  },
-  created() {
-    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>
 
 <style scoped lang="less">
   @import '../../assets/less/variable.less';
-  .scroolWrap {
+  .scrollWrap {
     position: absolute;
     top: @tab-height;
     right: 0;

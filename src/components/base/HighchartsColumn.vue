@@ -33,10 +33,10 @@ export default {
     }
   },
   mounted() {
-    this.initChart();
+    this.draw();
   },
   methods: {
-    initChart() {
+    draw() {
       let categories = this.getDataByKey(this.data, 'date'),
           data = this.getDataByKey(this.data, 'value')
       let options = {

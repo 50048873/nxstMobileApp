@@ -5,7 +5,7 @@ import store from './store'
 import VueLazyloader from 'vue-lazyload'
 Vue.use(VueLazyloader, {
   loading: require('@/assets/img/imageLoading.gif'),
-  error: require('@/assets/img/placeholder.jpg'),
+  error: require('@/assets/img/placeholder.png'),
   preLoad: 1.3,
   attempt: 1
 })
@@ -19,6 +19,8 @@ Vue.component('n-footer', NFooter)
 //Vue.component('n-reload', NReload)
 import NoData from '@/components/base/NoData'
 Vue.component('no-data', NoData)
+import NAdd from '@/components/base/NAdd'
+Vue.component('n-add', NAdd)
 
 // 注册自定义的方法
 import {hint, serverErrorTip, setDocumentTitle} from '@/assets/js/util'

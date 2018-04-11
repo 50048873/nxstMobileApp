@@ -1,3 +1,4 @@
 export default {
-  reservoirList: []
+  reservoirList: [],
+  warnConfig: {}
 }

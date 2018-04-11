@@ -1,24 +1,30 @@
 <template>
   <div class="ReservoirDetailMonitorRainfall">
-    <highcharts-column title="降水量过程图" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitor" v-if="tdData.length"></highcharts-column>
+    <highcharts-column title="降水量过程图" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData.length"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
+    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
+    <filter-dialog ref="filterDialog2" @confirm="filter"></filter-dialog>
+    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
 <script>
-import NTable from '@/components/base/NTable'
 import HighchartsColumn from '@/components/base/HighchartsColumn'
+import NTable from '@/components/base/NTable'
+import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall/FilterDialog'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
-import {dateFormat} from '@/assets/js/mixin'
+import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailMonitorRainfall',
   components: {
     NTable,
-    HighchartsColumn
+    HighchartsColumn,
+    FilterDialog
   },
-  mixins: [dateFormat],
+  mixins: [dateFormat, getBottomPosition, monitorAdd],
   data() {
     return {
       thData: {
@@ -33,6 +39,21 @@ export default {
     }
   },
   methods: {
+    showDialog() {
+      this.$refs.filterDialog2.show()
+    },
+    filter(date) {
+      this.type = date.type,
+      this.startTime = date.startTime
+      this.endTime = date.endTime
+      this.getReservoirDetailMonitor_rainfall()
+        .then((res) => {
+          if (!res.length) return
+          this.$nextTick(() => {
+            this.$refs.hcMonitorRainfall.draw()
+          })
+        })
+    },
     convert(arr) {
       let res = []
       if (isArray(arr)) {
@@ -55,11 +76,12 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime
       }
-      api.getReservoirDetailMonitor_rainfall(params)
+      return api.getReservoirDetailMonitor_rainfall(params)
         .then((res) => {
           if (res.status === success) {
-            console.log(JSON.stringify(res.data, null, 2))
+            //console.log(JSON.stringify(res.data, null, 2))
             this.tdData = this.convert(res.data)
+            return this.tdData
           } else {
             this.hint(res.msg)
           }

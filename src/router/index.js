@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {path} from '@/assets/js/config'
 import NHome from '@/components/NHome'
 import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
@@ -8,7 +9,7 @@ import NMessageNotice from '@/components/NMessageNotice'
 import AddressBook from '@/components/AddressBook'
 import NMe from '@/components/NMe'
 import ReservoirOverview from '@/components/reservoirOverview/ReservoirOverview'
-import ReservoirOverviewMap from '@/components/reservoirOverview/ReservoirOverviewMap'
+import ReservoirOverviewMap from '@/components/reservoirOverview/ReservoirOverviewMap/Map'
 import ReservoirOverviewList from '@/components/reservoirOverview/ReservoirOverviewList'
 import ReservoirDetail from '@/components/reservoirOverview/ReservoirDetail'
 import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailInfo'
@@ -16,17 +17,18 @@ import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirD
 import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
-import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel'
-import ReservoirDetailMonitorRainfall from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall'
+import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel/Waterlevel'
+import ReservoirDetailMonitorRainfall from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall/Rainfall'
 import ReservoirDetailMonitorPhoto from '@/components/reservoirOverview/ReservoirDetailMonitorPhoto'
 import ReservoirDetailMonitorVideo from '@/components/reservoirOverview/ReservoirDetailMonitorVideo'
-import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/ReservoirDetailMonitorWaterquality'
-import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply'
+import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/ReservoirDetailMonitorWaterquality/Waterquality'
+import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply/Watersupply'
+import ReservoirDetailMonitorAdd from '@/components/reservoirOverview/ReservoirDetailMonitorAdd'
 
 Vue.use(Router)
 
 let router = new Router({
-  base: '/znb/pages/app/app/reservoir',
+  base: path,
   mode: 'history',
   linkActiveClass: 'ON',
   routes: [
@@ -139,6 +141,11 @@ let router = new Router({
               path: '/reservoirDetail/monitor/watersupply',
               name: 'ReservoirDetailMonitorWatersupply',
               component: ReservoirDetailMonitorWatersupply
+            },
+            {
+              path: '/reservoirDetail/monitor/add',
+              name: 'ReservoirDetailMonitorAdd',
+              component: ReservoirDetailMonitorAdd
             }
           ]
         },

@@ -1,5 +1,8 @@
 import _dateFormat from 'dateformat'
 import {isArray} from '@/assets/js/util'
+import {path} from '@/assets/js/config'
+import api from '@/assets/js/api'
+import {success} from '@/assets/js/config'
 
 export let dateFormat = {
 	methods: {
@@ -76,11 +79,55 @@ export let getDataByKey = {
       let arr = []
       if (isArray(data) && data.length) {
         data.forEach((item) => {
-          arr.push(item[key])
+          arr.push(parseInt(item[key]))
         })
         return arr
       }
       return data
     }
   }
-}
+};
+
+export let getBottomPosition = {
+  methods: {
+    getBottomPosition(bottom) { 
+      let footer = 62
+      bottom = parseInt(bottom)
+      return footer + bottom
+    }
+  }
+};
+
+export let getStaticPath = {
+  methods: {
+    getStaticPath(imgUrl) { 
+      return path + imgUrl
+    }
+  }
+};
+
+export let monitorAdd = {
+  methods: {
+    monitorAdd() {
+      this.$router.push('/reservoirDetail/monitor/add')
+    }
+  }
+};
+
+export let getWarnConfig = {
+  methods: {
+    getWarnConfig({pid}) {
+      api.getWarnConfig({pid})
+        .then((res) => {
+          if (res.status === success) {
+            this.SET_WARNCONFIG(res.data)
+            //console.log(JSON.stringify(res.data, null , 2))
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirOverview.vue')
+        })
+    }
+  }
+};

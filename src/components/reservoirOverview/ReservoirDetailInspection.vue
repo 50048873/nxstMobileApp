@@ -19,15 +19,14 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <n-add top="430" left="18" @add="add"></n-add>
+    <n-add top="430" left="18" @click="add"></n-add>
   </div>
 </template>
 
 <script>
 import NAdd from '@/components/base/NAdd'
 import api from '@/assets/js/api'
-import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import * as session from '@/assets/js/session'
+import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat} from '@/assets/js/mixin'
 export default {
@@ -73,7 +72,6 @@ export default {
   },
   created() {
     this.getReservoirDetailInspection()
-    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

@@ -5,6 +5,7 @@
       <input type="text" placeholder="搜索">
     </div>
     <address-book-department></address-book-department>
+    <h6>最近联系的人</h6>
     <address-book-member></address-book-member>
   </div>
 </template>
@@ -41,6 +42,10 @@ export default {
         padding-left: 3em;
         box-sizing: border-box;
       }
+    }
+    h6 {
+      line-height: 38px;
+      text-indent: 10px;
     }
   }
 </style>

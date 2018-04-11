@@ -11,6 +11,7 @@
 
 <script>
 import * as session from '@/assets/js/session'
+import {documentTitle_reservoirDetail} from '@/assets/js/config'
 let data = [
   {
     title: '信息',
@@ -57,6 +58,7 @@ export default {
   },
   created() {
     this.initBack()
+    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

@@ -5,15 +5,26 @@
             <div class="weui-dialog__hd"><strong class="weui-dialog__title">筛查</strong></div>
             <div class="weui-dialog__bd">
               <div class="weui-cell">
-                  <div class="weui-cell__hd"><label for="" class="weui-label">开始日期</label></div>
+                  <div class="weui-cell__hd"><label for="startTime" class="weui-label">开始日期</label></div>
                   <div class="weui-cell__bd">
-                      <input class="weui-input" type="date" v-model="startDate">
+                      <input class="weui-input" id="startTime" type="date" v-model="startTime">
                   </div>
               </div>
               <div class="weui-cell">
-                  <div class="weui-cell__hd"><label for="" class="weui-label">结束日期</label></div>
+                  <div class="weui-cell__hd"><label for="endTime" class="weui-label">结束日期</label></div>
                   <div class="weui-cell__bd">
-                      <input class="weui-input" type="date" v-model="endDate">
+                      <input class="weui-input" id="endTime" type="date" v-model="endTime">
+                  </div>
+              </div>
+              <div class="weui-cell weui-cell_select">
+                  <div class="weui-cell__bd">
+                      <select class="weui-select" name="select1" v-model="type">
+                          <option selected="">类型</option>
+                          <option value="0">小时</option>
+                          <option value="1">日</option>
+                          <option value="2">月</option>
+                          <option value="3">年</option>
+                      </select>
                   </div>
               </div>
             </div>
@@ -34,8 +45,9 @@ export default {
   data() {
     return {
       isVisible: false,
-      startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endDate: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      type: '1',
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
+      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },
   methods: {
@@ -47,8 +59,9 @@ export default {
     },
     confirm() {
       let date = {
-        startDate: this.startDate,
-        endDate: this.endDate
+        type: this.type,
+        startTime: this.startTime,
+        endTime: this.endTime
       }
       this.eventHub.$emit('confirm', date)
       this.$emit('confirm', date)

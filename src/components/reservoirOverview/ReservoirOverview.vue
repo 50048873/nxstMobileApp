@@ -40,22 +40,13 @@ export default {
       api.getReservoirList()
         .then((res) => {
           if (res.status === success) {
-            res.data.forEach((item) => {
-              let random = Math.random()
-              if (random > 0.5) {
-                item.status = 1
-              } else {
-                item.status = 0
-              }
-            })
             this.SET_RESERVOIRLIST(res.data)
             //console.log(JSON.stringify(res.data, null , 2))
           } else {
-            this.status = res.status
             this.hint(res.msg)
           }
         }, (err) => {
-          this.serverErrorTip(err, 'ReservoirOverviewList.vue')
+          this.serverErrorTip(err, 'ReservoirOverview.vue')
         })
     }
   },

@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'nxst';
   src:
-    url('fonts/nxst.ttf?93sa0b') format('truetype'),
-    url('fonts/nxst.woff?93sa0b') format('woff'),
-    url('fonts/nxst.svg?93sa0b#nxst') format('svg');
+    url('fonts/nxst.ttf?ojbqms') format('truetype'),
+    url('fonts/nxst.woff?ojbqms') format('woff'),
+    url('fonts/nxst.svg?ojbqms#nxst') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,6 +23,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.nxst-circle:before {
+  content: "\e92f";
+}
 .nxst-search:before {
   content: "\e92e";
 }

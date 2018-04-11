@@ -7,7 +7,7 @@
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
-              <i class="fa fa-circle"></i>
+              <i class="nxst-circle"></i>
             </span>
             <span>{{item.PATROL_NAME}}</span>
           </label>
@@ -25,7 +25,7 @@
       <div class="item line-bottom">
         <h6>巡查时间</h6>
         <label class="inputBox arrow-r datetimeBox" for="checkDate">
-          <input class="datetimeLocal" id="checkDate" type="checkDate-local" step="1" v-model="checkDate" required>
+          <input class="datetimeLocal" id="checkDate" type="datetime-local" step="1" v-model="checkDate" required>
           <span class="realDatetimeLocal">{{checkDate | dateFormat('yyyy-mm-dd HH:MM:ss')}}</span>
         </label>
       </div>
@@ -35,14 +35,14 @@
           <label for="normal">
             <span class="iconWrap">
               <input type="radio" name="patrolState" id="normal" value="0" checked="checked" v-model="patrolState" required>
-              <i class="fa fa-circle"></i>
+              <i class="nxst-circle"></i>
             </span>
             <span>正常</span>
           </label>
           <label for="abnormal">
             <span class="iconWrap">
               <input type="radio" name="patrolState" id="abnormal" value="1" v-model="patrolState">
-              <i class="fa fa-circle"></i>
+              <i class="nxst-circle"></i>
             </span>
             <span>异常</span>
           </label>
@@ -330,14 +330,14 @@ export default {
             margin-left: 20px;
             .iconWrap {
               margin-right: 4px;
-              .fa-circle {
+              .nxst-circle {
                 color: #d7d7d7;
                 font-size: 16px;
               }
               input {
                 position: absolute;
                 left: -9999em;
-                &:checked + .fa-circle {
+                &:checked + .nxst-circle {
                   color: #10d67b;
                 }
               }

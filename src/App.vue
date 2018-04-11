@@ -12,10 +12,11 @@
 <script> 
 import NOnline from '@/components/base/NOnline'
 import {getItem} from '@/assets/js/store'
-import {loginInfo, success} from '@/assets/js/config'
-import {getMax, isArray, handleOnLineOrOffline, loading} from '@/assets/js/util'
+import {success} from '@/assets/js/config'
+import {loading} from '@/assets/js/util'
 import * as session from '@/assets/js/session'
 import $ from 'jquery'
+import api from '@/assets/js/api'
 export default { 
   name: 'app', 
   components: {
@@ -29,16 +30,33 @@ export default {
   methods: {
     initAjaxLoading() {
       $.ajaxSetup({
-        beforeSend: function () {
+        beforeSend: function (XMLHttpRequest) {
           loading.show()
+          XMLHttpRequest.setRequestHeader("_wx", true);
         },
         complete: function () {
-          loading.hide()
-        },
-        error: function () {
-          loading.hide()
+          loading.remove()
         }
       })
+      // $(window).ajaxStop(function(){
+      //  $(".n-loading").remove();
+      // });
+    },
+    getSessionUser() {
+      api.getSessionUser()
+        .then((res) => {
+          console.log(res)
+        }, (err) => {
+          console.log(err)
+        })
+    },
+    getListResourceNodeByUser() {
+      api.getListResourceNodeByUser()
+        .then((res) => {
+          console.log(res)
+        }, (err) => {
+          console.log(err)
+        })
     }
   },
   watch: {  
@@ -65,6 +83,8 @@ export default {
   },
   created() {
     this.initAjaxLoading()
+    //this.getSessionUser()
+    //this.getListResourceNodeByUser()
   }
 }
 </script>

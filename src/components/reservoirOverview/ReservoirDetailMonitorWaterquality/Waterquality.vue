@@ -188,17 +188,24 @@
         </tr>
       </tbody>
     </table>
+    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
+    <filter-dialog ref="filterDialog3" @confirm="filter"></filter-dialog>
   </div>
 </template>
 
 <script>
+import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorWaterquality/FilterDialog'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
-import {dateFormat} from '@/assets/js/mixin'
+import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailMonitorWaterquality',
-  mixins: [dateFormat],
+  components: {
+    FilterDialog
+  },
+  mixins: [dateFormat, getBottomPosition, monitorAdd],
   data() {
     return {
       data: {},
@@ -207,16 +214,31 @@ export default {
     }
   },
   methods: {
+    showDialog() {
+      this.$refs.filterDialog3.show()
+    },
+    filter(date) {
+      this.meterDate = date.meterDate
+      this.getReservoirDetailMonitor_waterquality()
+        .then((res) => {
+          if (!res) return
+          this.$nextTick(() => {
+            this.$refs.hcMonitorWaterlevel.draw()
+          })
+        })
+    },
     getReservoirDetailMonitor_waterquality() {
       let params = {
         pid: this.$route.query.pid,
         meterDate: this.meterDate
       }
-      api.getReservoirDetailMonitor_waterquality(params)
+      console.log(params)
+      return api.getReservoirDetailMonitor_waterquality(params)
         .then((res) => {
           if (res.status === success) {
-            console.log(JSON.stringify(res.data, null, 2))
+            //console.log(JSON.stringify(res.data, null, 2))
             this.data = res.data
+            return this.data
           } else {
             this.hint(res.msg)
           }
@@ -232,7 +254,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-  @import '../../assets/less/variable.less';
   .ReservoirDetailMonitorWaterquality {
     padding: 10px;
     .titleWrap {

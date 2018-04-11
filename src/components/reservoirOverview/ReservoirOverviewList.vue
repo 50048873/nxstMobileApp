@@ -21,7 +21,7 @@
                   <span :class="{'c-red': item.status}">{{item.z}}m</span>
                 </p>
                 <div class="status">
-                  <i :class="item.status ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
+                  <i :class="item.status == 2 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
                 </div>
               </div>
             </div>
@@ -42,14 +42,15 @@
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import BetterScroll from '@/components/base/BetterScroll'
-import {dateFormat, gcgmFilter} from '@/assets/js/mixin'
+import {dateFormat, gcgmFilter, getWarnConfig} from '@/assets/js/mixin'
 import {mapGetters, mapMutations} from 'vuex'
+import {SET_WARNCONFIG} from '@/store/mutation-types'
 export default {
   name: 'ReservoirOverviewList',
   components: {
     BetterScroll
   },
-  mixins: [dateFormat, gcgmFilter],
+  mixins: [dateFormat, gcgmFilter, getWarnConfig],
   // data() {
   //   return {
 
@@ -73,7 +74,9 @@ export default {
     //       this.serverErrorTip(err, 'ReservoirOverviewList.vue')
     //     })
     // },
+    ...mapMutations([SET_WARNCONFIG]),
     showDetail(pid) {
+      this.getWarnConfig({pid})
       this.$router.push({path: '/reservoirDetail', query: {pid}})
     },
     getGcgm(val) {

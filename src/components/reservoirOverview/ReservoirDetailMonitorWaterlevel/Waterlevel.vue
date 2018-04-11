@@ -1,31 +1,33 @@
 <template>
   <div class="ReservoirDetailMonitorWaterlevel">
-    <highcharts-line title="水位过程线" xTitleText="（日期）" yTitleText="(m)" :data="tdData" ref="hcMonitor" v-if="tdData.length"></highcharts-line>
+    <highcharts-line title="水位过程线" xTitleText="（日期）" yTitleText="(m)" :data="tdData" ref="hcMonitorWaterlevel" v-if="tdData.length"></highcharts-line>
     <n-table :thData="thData" :tdData="tdData"></n-table>
-    <n-add top="430" left="18" iconClass="nxst-filter" @add="add"></n-add>
-    <n-dialog ref="filterDialog" @confirm="filter"></n-dialog>
+    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
+    <filter-dialog ref="filterDialog1" @confirm="filter"></filter-dialog>
+    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
 <script>
 import NTable from '@/components/base/NTable'
 import HighchartsLine from '@/components/base/HighchartsLine'
-import NAdd from '@/components/base/NAdd'
-import NDialog from '@/components/base/NDialog'
+import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel/FilterDialog'
 import $ from 'jquery'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
-import {dateFormat} from '@/assets/js/mixin'
+import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
+import * as session from '@/assets/js/session'
+import {documentTitle_reservoirDetail} from '@/assets/js/config'
 export default {
   name: 'ReservoirDetailMonitorWaterlevel',
   components: {
     NTable,
     HighchartsLine,
-    NAdd,
-    NDialog
+    FilterDialog
   },
-  mixins: [dateFormat],
+  mixins: [dateFormat, getBottomPosition, monitorAdd],
   data() {
     return {
       thData: {
@@ -33,17 +35,24 @@ export default {
         title2: '水位（m）'
       },
       tdData: [],
-      date: '',
       startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },
   methods: {
-    add() {
-      this.$refs.filterDialog.show()
+    showDialog() {
+      this.$refs.filterDialog1.show()
     },
     filter(date) {
-      console.log(date)
+      this.startTime = date.startTime,
+      this.endTime = date.endTime
+      this.getReservoirDetailMonitor_waterlevel()
+        .then((res) => {
+          if (!res.length) return
+          this.$nextTick(() => {
+            this.$refs.hcMonitorWaterlevel.draw()
+          })
+        })
     },
     convert(arr) {
       let res = []
@@ -51,8 +60,8 @@ export default {
         arr.forEach((item) => {
           let obj = {}
           for (let key in item) {
-            obj['date'] = item['tm']
-            obj['value'] = item['z']
+            obj['date'] = item['curDate']
+            obj['value'] = item['avgz']
           }
           res.push(obj)
         })
@@ -66,11 +75,12 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime
       }
-      api.getReservoirDetailMonitor_waterlevel(params)
+      return api.getReservoirDetailMonitor_waterlevel(params)
         .then((res) => {
           if (res.status === success) {
             //console.log(JSON.stringify(res.data, null, 2))
             this.tdData = this.convert(res.data)
+            return this.tdData
           } else {
             this.hint(res.msg)
           }
@@ -81,6 +91,7 @@ export default {
   },
   created() {
     this.getReservoirDetailMonitor_waterlevel()
+    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

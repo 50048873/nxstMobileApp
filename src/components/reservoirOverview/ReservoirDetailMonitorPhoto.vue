@@ -21,7 +21,7 @@
     <transition name="fade">
       <div class="maskLayer" v-if="maskLayerIsVisible">
         <div class="content">
-          <img :src="gesture" alt="">
+          <img :src="getStaticPath('/static/img/gesture.png')" alt="">
           <button @click="hideMaskLayer">确定</button>
         </div>
       </div>
@@ -35,7 +35,7 @@ import {success, ON} from '@/assets/js/config'
 import $ from 'jquery'
 import {getSurportCss} from '@/assets/js/util'
 import * as local from '@/assets/js/store'
-import {dateFormat} from '@/assets/js/mixin'
+import {dateFormat, getStaticPath} from '@/assets/js/mixin'
 
 export default {
   name: 'ReservoirDetailMonitorPhoto',
@@ -43,11 +43,10 @@ export default {
     return {
       reservoirDetailMonitorPhoto: [],
       currentIndex: 0,
-      maskLayerIsVisible: false,
-      gesture: require('@/assets/img/gesture.png')
+      maskLayerIsVisible: false
     }
   },
-  mixins: [dateFormat],
+  mixins: [dateFormat, getStaticPath],
   methods: {
     click() {
       console.log('单击')

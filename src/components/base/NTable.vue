@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="tdData.length">
     <h6>数据列表</h6>
     <table class="table">
       <thead>
@@ -11,7 +11,7 @@
       <tbody>
         <tr v-for="item in standardTdData">
           <td><span class="date">{{item.date}}</span></td>
-          <td>{{item.value}}</td>
+          <td :class="getRedClass(item.value)">{{item.value}}</td>
         </tr>
       </tbody>
     </table>
@@ -20,6 +20,7 @@
 
 <script>
 import {isArray} from '@/assets/js/util'
+import {mapGetters} from 'vuex'
 // let thData = {
 //   title1: '月份',
 //   title2: '供水量（万m<sup>3</sup>）'
@@ -49,6 +50,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['warnConfig']),
     standardTdData() {
       let tdData = this.tdData
       if (isArray(tdData) && tdData.length) {
@@ -66,7 +68,11 @@ export default {
                 curM = curArr[1],
                 curD = curArr[2]
             if (curY === prevY) {
-              obj.date = `${curM}-${curD}`
+              if (curD) {
+                obj.date = `${curM}-${curD}`
+              } else {
+                obj.date = curM
+              }
             }
             if (curM === prevM) {
               obj.date = curD
@@ -80,6 +86,36 @@ export default {
         return res
       }
       return tdData
+    }
+  },
+  methods: {
+    getRedClass(val) {
+      /*
+        * 1:小于value1
+        * 2:大于value1
+        * 3:小于value1或大于value2
+      */
+      if (this.warnConfig && this.warnConfig.confValue1) {
+        let warnClass = 'c-red',
+            value1 = this.warnConfig.confValue1,
+            value2 = this.warnConfig.confValue2,
+            confType = this.warnConfig.confType * 1
+        switch (confType) {
+          case 1:
+            if (val < value1) {
+              return warnClass
+            }
+          case 2:
+            if (val > value1) {
+              return warnClass
+            }
+          case 3:
+            if (val < value1 || val > value2) {
+              return warnClass
+            }
+        }
+      }
+      return ''
     }
   }
 }

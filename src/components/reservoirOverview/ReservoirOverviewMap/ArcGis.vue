@@ -4,7 +4,7 @@
       <div class="mapTransform" ref="mapTransform" :style="getScale" @touchstart="start" @touchmove.prevent="move" @touchend="end">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-46 -303 706 1006">
           <g id="realMap">
-              <image style="overflow:visible;" width="1363" height="2049" xlink:href="/static/img/map.png"  transform="matrix(0.49 0 0 0.49 -22.8628 -303)"></image>
+              <image style="overflow:visible;" width="1363" height="2049" :xlink:href="getStaticPath('/static/img/map.png')"  transform="matrix(0.49 0 0 0.49 -22.8628 -303)"></image>
           </g>
           <g id="tip">
             <template v-for="item in reservoirList">
@@ -321,6 +321,7 @@
 <script>
 import $ from 'jquery'
 import {mapGetters, mapMutations} from 'vuex'
+import {getStaticPath} from '@/assets/js/mixin'
 export default {
   name: 'NMap',
   props: {
@@ -329,6 +330,7 @@ export default {
       default: 0.5
     }
   },
+  mixins: [getStaticPath],
   data() {
     return {
       scale: 1
@@ -414,13 +416,12 @@ export default {
   },
   created() {
     this.touch = {}
-    console.log(this)
   }
 }
 </script>
 
 <style scoped lang="less">
-  @import '../../assets/less/variable.less';
+  @import '../../../assets/less/variable.less';
   .NMap {
     .mapWrap {
       position: absolute;

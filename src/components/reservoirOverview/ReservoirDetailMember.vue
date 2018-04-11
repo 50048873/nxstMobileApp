@@ -27,8 +27,7 @@
 
 <script>
 import api from '@/assets/js/api'
-import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import * as session from '@/assets/js/session'
+import {success} from '@/assets/js/config'
 // 暂时用王忠燕本机的图片资源，等服务器上有图片时再切换
 const baseUrl = 'http://10.100.50.170:8080/znb/'
 export default {
@@ -47,7 +46,13 @@ export default {
           for (let i in item) {
             if (i !== 'childrens') {
               if (i === 'imgUrl') {
-                obj[i] = baseUrl + item[i]
+                let url = item[i]
+                if (url) { 
+                  if (url.indexOf('\\') > 1) {
+                    url = url.replace(/\\/g, '/')
+                  }
+                  obj[i] = baseUrl + url
+                }
               } else {
                 obj[i] = item[i]
               }
@@ -77,7 +82,6 @@ export default {
   },
   created() {
     this.getReservoirDetailMember()
-    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

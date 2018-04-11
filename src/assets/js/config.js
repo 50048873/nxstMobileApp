@@ -28,7 +28,10 @@ export const documentTitle_reservoirDetail = 'documentTitle_reservoirDetail'
 export const defaultDocumentTitle = '宁夏水投智慧水务平台'
 
 // 真实接口
-export const baseUrl = 'http://58.48.169.26:56012'
+export const baseUrl = 'http://sw.dse.cn:56016'
 
 // 调试接口
 //export const baseUrl = window.location.origin
+
+// 路径
+export const path = '/znb/pages/app/app/reservoir'

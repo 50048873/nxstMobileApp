@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-const serverUrl = 'http://58.48.169.26:56012'
+const serverUrl = 'http://sw.dse.cn:56016'
 
 let login = function(data) {
 	return $.ajax({
@@ -59,9 +59,9 @@ let getReservoirDetailInspection = function(data) {
 
 // 巡检 -> 上传
 let getReservoirDetailInspectionAdd = function(data) {
-  data.forEach((item, key) => {
-    console.log(key, ': ', item)
-  })
+  // data.forEach((item, key) => {
+  //   console.log(key, ': ', item)
+  // })
   return $.ajax({
     type: 'POST',
     contentType: false,
@@ -136,18 +136,61 @@ let getReservoirDetailMonitor_watersupply = function(data) {
   })
 }
 
+// 监测 -> 人工填报
+let getReservoirDetailMonitorAdd = function (data) {
+  const url = baseUrl +  '/znb/manualFillController/saveOrUpdate.do'
+  return $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: JSON.stringify(data)
+  })
+}
+
+// getSessionUser
+let getSessionUser = function () {
+  const url = baseUrl +  '/znb/sysController/getSessionUser.do'
+  return $.ajax({
+    type: 'GET',
+    url: url
+  })
+}
+
+// listResourceNodeByUser
+let getListResourceNodeByUser = function () {
+  const url = baseUrl +  '/znb/resourceController/listResourceNodeByUser.do'
+  return $.ajax({
+    type: 'POST',
+    url: url
+  })
+}
+
+// 查询预警设置
+let getWarnConfig = function(data) {
+  const url = baseUrl +  '/znb/tbWarnConfigController/getObjByPid.do'
+  return $.ajax({
+    type: 'GET',
+    url: url,
+    data: data
+  })
+}
+
 export default {
-	login: login,
-  getNewsMarquee: getNewsMarquee,
-  getReservoirList: getReservoirList,
-  getReservoirDetailInfo: getReservoirDetailInfo,
-  getReservoirDetailMember: getReservoirDetailMember,
-  getReservoirDetailInspection: getReservoirDetailInspection,
-  getReservoirDetailInspectionAdd: getReservoirDetailInspectionAdd,
-  getReservoirDetailInspectionAdd_patrolPoint: getReservoirDetailInspectionAdd_patrolPoint,
-  getReservoirDetailMonitor_waterlevel: getReservoirDetailMonitor_waterlevel,
-  getReservoirDetailMonitor_rainfall: getReservoirDetailMonitor_rainfall,
-  getReservoirDetailMonitorPhoto: getReservoirDetailMonitorPhoto,
-  getReservoirDetailMonitor_waterquality: getReservoirDetailMonitor_waterquality,
-  getReservoirDetailMonitor_watersupply: getReservoirDetailMonitor_watersupply
+	login,
+  getSessionUser,
+  getListResourceNodeByUser,
+  getNewsMarquee,
+  getReservoirList,
+  getReservoirDetailInfo,
+  getReservoirDetailMember,
+  getReservoirDetailInspection,
+  getReservoirDetailInspectionAdd,
+  getReservoirDetailInspectionAdd_patrolPoint,
+  getReservoirDetailMonitor_waterlevel,
+  getReservoirDetailMonitor_rainfall,
+  getReservoirDetailMonitorPhoto,
+  getReservoirDetailMonitor_waterquality,
+  getReservoirDetailMonitor_watersupply,
+  getReservoirDetailMonitorAdd,
+  getWarnConfig
 }

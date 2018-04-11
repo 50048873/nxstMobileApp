@@ -33,10 +33,10 @@ export default {
     }
   },
   mounted() {
-    this.initChart();
+    this.draw()
   },
   methods: {
-    initChart() {
+    draw() {
       let categories = this.getDataByKey(this.data, 'date'),
           data = this.getDataByKey(this.data, 'value')
       let options = {
@@ -77,7 +77,7 @@ export default {
             series: [{
                 name: '水位',
                 data: data,
-                color: '#c13430'
+                color: '#1b9ce4'
             }],
             responsive: {
                 rules: [{
@@ -94,7 +94,7 @@ export default {
                 }]
             }
           }
-      this.chart = new Highcharts.Chart(this.$el, options);
+      this.chart = new Highcharts.Chart(this.$el, options)
     }
   }
 }

@@ -111,16 +111,20 @@ export function androidInputBugFix(){
 // 全局loading
 let loadingImg = require('@/assets/img/loading.gif')
 export let loading = {
-    $loading: null,
+    $loading: [],
     show() {
         let content =  `<div class="n-loading">
                             <img width="24" height="24" src="${loadingImg}">
                             <span class="desc">请求中...</span>
                         </div>`
-        this.$loading = $(content).appendTo('body')
+        this.$loading.push($(content).appendTo('body'))
     },
-    hide() {
-        this.$loading.remove()
+    remove() {
+        if (!this.$loading.length) return
+        let len = this.$loading.length
+        for (let i = 0; i < len; i++) {
+            this.$loading[i].remove()
+        }
     }
 };
 
@@ -226,6 +230,7 @@ export function getSameDayOfPreMonth() {
     return new Date(`${year}-${month}-${day}`)
 }
 
+// 根据传入属性，返回浏览器支持的前缀
 export function getSurportCss(prop) { 
     var div = document.createElement('div'),
         prefixs = 'webkit moz ms'.split(' '),

@@ -9,6 +9,15 @@
         <i class="nxst-phone"></i>
       </div>
     </li>
+    <li class="line-bottom">
+      <div class="nameWrap">
+        <span class="portrait"></span>
+        <span class="name">名字</span>
+      </div>
+      <div class="phone">
+        <i class="nxst-phone"></i>
+      </div>
+    </li>
   </ul>
 </template>
 
