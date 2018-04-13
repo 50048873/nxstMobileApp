@@ -18,7 +18,7 @@
                 </p>
                 <p class="ellipsis">
                   <span>当前水位：</span>
-                  <span :class="{'c-red': item.status}">{{item.z}}m</span>
+                  <span :class="{'c-red': item.status == 2}">{{item.z}}m</span>
                 </p>
                 <div class="status">
                   <i :class="item.status == 2 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
@@ -51,29 +51,10 @@ export default {
     BetterScroll
   },
   mixins: [dateFormat, gcgmFilter, getWarnConfig],
-  // data() {
-  //   return {
-
-  //   }
-  // },
   computed: {
     ...mapGetters(['reservoirList'])
   },
   methods: {
-    // getReservoirList() {
-    //   api.getReservoirList()
-    //     .then((res) => {
-    //       if (res.status === success) {
-    //         this.reservoirList = res.data
-    //         //console.log(JSON.stringify(res.data, null , 2))
-    //       } else {
-    //         this.status = res.status
-    //         this.hint(res.msg)
-    //       }
-    //     }, (err) => {
-    //       this.serverErrorTip(err, 'ReservoirOverviewList.vue')
-    //     })
-    // },
     ...mapMutations([SET_WARNCONFIG]),
     showDetail(pid) {
       this.getWarnConfig({pid})
@@ -88,7 +69,6 @@ export default {
   },
   created() {
       this.setDocumentTitle('水库概览')
-      //this.getReservoirList()
   }
 }
 </script>

@@ -2,7 +2,9 @@
   <div>
     <n-tab :data="tab" :pid="$route.query.pid"></n-tab>
     <transition name="fade">
-      <router-view class="scrollWrap router-view-fade"></router-view>
+      <keep-alive>
+        <router-view class="scrollWrap router-view-fade"></router-view>
+      </keep-alive>
     </transition>
   </div>
 </template>

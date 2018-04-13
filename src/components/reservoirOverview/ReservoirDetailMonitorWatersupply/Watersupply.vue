@@ -1,10 +1,11 @@
 <template>
   <div class="ReservoirDetailMonitorWatersupply">
-    <highcharts-column title="供水量过程图" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitorWatersupply" v-if="tdData.length"></highcharts-column>
+    <highcharts-column title="供水量" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitorWatersupply" v-if="tdData.length"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog4" @confirm="filter"></filter-dialog>
+    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
@@ -46,11 +47,11 @@ export default {
     },
     filter(date) {
       this.type = date.type,
-      this.startTime = date.startTime
-      this.endTime = date.endTime
+      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
+      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
       this.getReservoirDetailMonitor_watersupply()
         .then((res) => {
-          if (!res) return
+          if (!res.length) return
           this.$nextTick(() => {
             this.$refs.hcMonitorWatersupply.draw()
           })

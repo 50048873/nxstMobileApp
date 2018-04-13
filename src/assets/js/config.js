@@ -35,3 +35,6 @@ export const baseUrl = 'http://sw.dse.cn:56016'
 
 // 路径
 export const path = '/znb/pages/app/app/reservoir'
+
+// 无数据默认值
+export const defaultTextByNoData = '--'

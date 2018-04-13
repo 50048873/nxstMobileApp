@@ -283,11 +283,13 @@ export default {
         .then((res) => {
           if (res.status === success) {
             this.hint(res.msg)
+            this.$router.back()
+            this.$destroy()
           } else {
             this.hint(res.msg)
           }
         }, (err) => {
-          this.serverErrorTip(err, 'ReservoirDetailMember.vue')
+          this.serverErrorTip(err, 'ReservoirDetailInspectionAdd.vue')
         }).always(() => {
           this.disabled = false
         })
@@ -297,9 +299,6 @@ export default {
     this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
     androidInputBugFix()
-  },
-  mounted() {
-    this.fileChange()
   }
 }
 </script>

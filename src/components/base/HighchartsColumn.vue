@@ -4,7 +4,7 @@
 
 <script>
 import Highcharts from 'highcharts/highstock';
-import {isArray} from '@/assets/js/util'
+import {isArray, standardDate} from '@/assets/js/util'
 import {getDataByKey} from '@/assets/js/mixin'
 export default {
   name: 'HighchartsColumn',
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     draw() {
-      let categories = this.getDataByKey(this.data, 'date'),
+      let categories = this.getDataByKey(standardDate(this.data), 'date'),
           data = this.getDataByKey(this.data, 'value')
       let options = {
             chart: {
@@ -57,6 +57,8 @@ export default {
             },
             yAxis: {
                 min: 0,
+                lineWidth: 1,
+                tickWidth: 1,
                 title: {
                     text: this.yTitleText,
                     useHTML: true,
@@ -73,7 +75,8 @@ export default {
               enabled: false
             },
             tooltip: {
-                valueSuffix: 'mm'
+                useHTML: true,
+                valueSuffix: this.yTitleText
             },
             plotOptions: {
                 bar: {
@@ -86,7 +89,7 @@ export default {
                 enabled: false
             },
             series: [{
-                name: '雨量',
+                name: this.title,
                 data: data
             }]
           }

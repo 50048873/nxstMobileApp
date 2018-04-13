@@ -1,31 +1,34 @@
 <template>
   <div class="ReservoirDetailMonitorPhoto">
-    <div class="viewArea">
-      <div class="bigPicWrap" @touchstart="start" @touchmove="move" @touchend.prevent="end" ref="bigPicWrap">
-        <ul id="bigPicUl">
-          <li v-for="item in reservoirDetailMonitorPhoto" v-lazy:background-image="item.image"></li>
-        </ul>
-      </div>
-      <div class="text">
-        <i class="nxst-clock"></i>
-        <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].tm | dateFormat}}</time>
-      </div>
-    </div>
-    <div class="thumbnail">
-      <ul id="thumbnailList">
-        <li v-for="(item, index) in reservoirDetailMonitorPhoto" :class="{ON: index === currentIndex}" @click="goTo(index)">
-          <img height="60px" v-lazy="item.icon" alt="">
-        </li>
-      </ul>
-    </div>
-    <transition name="fade">
-      <div class="maskLayer" v-if="maskLayerIsVisible">
-        <div class="content">
-          <img :src="getStaticPath('/static/img/gesture.png')" alt="">
-          <button @click="hideMaskLayer">确定</button>
+    <div v-show="reservoirDetailMonitorPhoto.length">
+      <div class="viewArea">
+        <div class="bigPicWrap" @touchstart="start" @touchmove="move" @touchend.prevent="end" ref="bigPicWrap">
+          <ul id="bigPicUl">
+            <li v-for="item in reservoirDetailMonitorPhoto" v-lazy:background-image="item.image"></li>
+          </ul>
+        </div>
+        <div class="text">
+          <i class="nxst-clock"></i>
+          <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].tm | dateFormat}}</time>
         </div>
       </div>
-    </transition>
+      <div class="thumbnail">
+        <ul id="thumbnailList">
+          <li v-for="(item, index) in reservoirDetailMonitorPhoto" :class="{ON: index === currentIndex}" @click="goTo(index)">
+            <img height="60px" v-lazy="item.icon" alt="">
+          </li>
+        </ul>
+      </div>
+      <transition name="fade">
+        <div class="maskLayer" v-if="maskLayerIsVisible">
+          <div class="content">
+            <img :src="getStaticPath('/static/img/gesture.png')" alt="">
+            <button @click="hideMaskLayer">确定</button>
+          </div>
+        </div>
+      </transition>
+    </div>
+    <no-data v-show="!reservoirDetailMonitorPhoto.length"></no-data>
   </div>
 </template>
 

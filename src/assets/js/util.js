@@ -7,6 +7,10 @@ export function isArray(arr) {
   return toString.call(arr) === "[object Array]"
 }
 
+export function isString(str) {
+  return toString.call(str) === "[object String]"
+}
+
 // 获取数组最大值
 export function getMax(arr) {
   if (toString.call(arr) === "[object Array]") {
@@ -63,6 +67,7 @@ export function hint(text) {
             }
         }, 2000)
     }, 2000)
+    return $back
 }
 
 // 服务器错误提示
@@ -221,13 +226,83 @@ export function getFirstDayOfMonth() {
     return new Date(`${year}-${month}-${day}`)
 }
 
+// 获取当年1月1日
+export function getNewYearDay(strDate) { 
+    let date
+    if (isString(strDate)) {
+        date = new Date(strDate)
+    } else {
+        date = new Date()
+    }      
+    let year = date.getFullYear()
+    return new Date(`${year}-1-1`)
+}
+
 // 获取当日上月同一天
-export function getSameDayOfPreMonth() {        
-    let date = new Date(),
-        year = date.getFullYear(),
+export function getSameDayOfPreMonth(strDate) { 
+    let date
+    if (isString(strDate)) {
+        date = new Date(strDate)
+    } else {
+        date = new Date()
+    }       
+    let year = date.getFullYear(),
         month = date.getMonth(),
         day = date.getDate()
     return new Date(`${year}-${month}-${day}`)
+}
+
+// 获取当日之前7天
+export function get7DayOfcurrentDay(strDate) { 
+    let date
+    if (isString(strDate)) {
+        date = new Date(strDate)
+    } else {
+        date = new Date()
+    }
+    let year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate()
+
+    if (day >= 7) {
+        day = day - 7
+    } else {
+        let _month
+        switch (month) {
+            case 1 || 3 || 5 || 7 || 8 || 10 || 12 :
+                _month = 31
+                break
+            case 4 || 6 || 9 || 11 :
+                _month = 30
+                break
+            default :
+                _month = 29
+        }
+        day = (day - 7) + _month
+        month = month - 1
+        if (month === 0) {
+            year = year - 1
+            month = 12
+        }
+    }
+    return new Date(`${year}-${month}-${day}`)
+}
+
+// 获取当日或指定日期早8点
+export function get8am(strDate) { 
+    let date
+    if (isString(strDate)) {
+        date = new Date(strDate)
+    } else {
+        date = new Date()
+    }      
+    let year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate(),
+        hour = '08',
+        minute = '00',
+        second = '00'
+    return new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`)
 }
 
 // 根据传入属性，返回浏览器支持的前缀
@@ -254,3 +329,56 @@ export function getSurportCss(prop) {
     
     return false; 
 };
+
+// 按数组对象里的日期格式化成标准
+export function standardDate(data) {
+  if (isArray(data) && data.length) {
+    data.forEach((item) => {
+      let index = item.date.indexOf(':')
+      if (index > -1) {
+          item.date = item.date.substr(0, index)
+      }
+    })
+    let res = []
+    res.push(data[0])
+    data.reduce((prev, cur, index) => {
+      let obj = {}
+      obj.value = cur.value
+      if (prev.date.indexOf('-')) {
+        let prevArr = prev.date.split('-'),
+            curArr = cur.date.split('-'),
+            prevY = prevArr[0],
+            prevM = prevArr[1],
+            prevD = prevArr[2],
+            curY = curArr[0],
+            curM = curArr[1],
+            curD = curArr[2]
+        if (curY === prevY) {
+          if (curD) {
+            obj.date = `${curM}-${curD}`
+          } else {
+            obj.date = curM
+          }
+          if (curM === prevM) {
+            obj.date = curD
+            if (curD.indexOf(' ') > -1) {
+              let _curD = curD.split(' '),
+                  _prevD = prevD.split(' ')
+              if (_curD[0] === _prevD[0]) {
+                obj.date = curD.split(' ')[1]
+              }
+            }
+          }
+        } else {
+          obj.date = cur.date
+        }
+      } else {
+        obj.date = cur.date
+      }
+      res.push(obj)
+      return cur
+    })
+    return res
+  }
+  return data
+}

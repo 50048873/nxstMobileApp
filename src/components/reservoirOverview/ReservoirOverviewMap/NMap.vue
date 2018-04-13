@@ -3,7 +3,7 @@
     <div class="mapWrap">
       <div class="mapTransform" ref="mapTransform" :style="getScale" @touchstart="start" @touchmove.prevent="move" @touchend="end">
         <div class="tips">
-          <img :src="getStaticPath('/static/img/map.png')" alt="">
+          <img id="map" :src="getStaticPath('/static/img/map.png')" :width="imgWidth" :height="imgHeight" alt="">
           <div class="tip" v-for="item in reservoirList" :style="getWarnPosition(item)" @click="showDetail(item.pid)">
             <div class="iconWrap"><i class="nxst-warn" :class="getWarnClass(item.status)"></i></div>
             <div class="des">
@@ -54,7 +54,9 @@ export default {
   mixins: [getStaticPath, getWarnConfig],
   data() {
     return {
-      scale: 1
+      scale: 1,
+      imgWidth: window.innerWidth - 20,
+      imgHeight: ((window.innerWidth - 20) * 2049 / 1363).toFixed(2)
     }
   },
   computed: {
@@ -75,7 +77,7 @@ export default {
       return status == abnormal ? 'warn' : ''
     },
     start(e) {
-      this.touch.initiated = true
+      //this.touch.initiated = true
       this.touch.startY = e.touches[0].pageY
       this.touch.startX = e.touches[0].pageX
 
@@ -87,9 +89,11 @@ export default {
       }
     },
     move(e) {
-      if (!this.touch.initiated) {
-        return
-      }
+      // if (!this.touch.initiated) {
+      //   return
+      // }
+
+      // if (this.scale === 1) return
 
       let deltaY = e.touches[0].pageY - this.touch.startY,
           deltaX = e.touches[0].pageX - this.touch.startX
@@ -99,7 +103,7 @@ export default {
 
     },
     end() {
-      this.touch.initiated = false
+      //this.touch.initiated = false
 
       this.$refs.mapTransform.style.transition = 'all 0.4s'
     },
@@ -124,14 +128,13 @@ export default {
         jd: [104.2869, 107.6536],
         wd: [35.2494, 39.8758]
       }
-      //图片内目标X坐标=取绝对值（目标经度-图片左边对应经度）/取绝对值（图片右边经度-图片左边对应经度）*（图片的宽度）
+      
       //图片内目标Y坐标=取绝对值（目标纬度-图片上边对应纬度）/取绝对值（图片下边纬度-图片上边对应纬度）*（图片的高度）
-      let top = Math.abs(item.lttd - nx.wd[1]) / Math.abs(nx.wd[0] - nx.wd[1]) * 533.67 + 'px',
-          left = Math.abs(item.lgtd - nx.jd[0]) / Math.abs(nx.jd[1] - nx.jd[0]) * 355 + 'px'
-      return {
-        top,
-        left
-      }
+      //图片内目标X坐标=取绝对值（目标经度-图片左边对应经度）/取绝对值（图片右边经度-图片左边对应经度）*（图片的宽度）
+      let top = Math.abs(item.lttd - nx.wd[1]) / Math.abs(nx.wd[0] - nx.wd[1]) * this.imgHeight - 20 + 'px',
+          left = Math.abs(item.lgtd - nx.jd[0]) / Math.abs(nx.jd[1] - nx.jd[0]) * this.imgWidth - 20 + 'px'
+
+      return item.status == normal ? {top, left} : {top, left, zIndex: 1}
     }
   },
   created() {

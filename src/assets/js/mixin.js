@@ -8,6 +8,9 @@ export let dateFormat = {
 	methods: {
 		dateFormat(time, formatter) {
       formatter = formatter ? formatter : 'mm-dd HH:MM'
+      if (typeof time === 'string' && time.indexOf('T')) {
+        time = time.split('T').join(' ')
+      }
       return _dateFormat(time, formatter)
     }
 	},
@@ -79,7 +82,11 @@ export let getDataByKey = {
       let arr = []
       if (isArray(data) && data.length) {
         data.forEach((item) => {
-          arr.push(parseInt(item[key]))
+          let val = item[key]
+          if (key === 'value') {
+            val = parseFloat(val)
+          }
+          arr.push(val)
         })
         return arr
       }

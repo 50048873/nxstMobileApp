@@ -67,6 +67,10 @@ export default {
         [class*="nxst"] {
           font-size: 24px;
         }
+        .nxst-jc, .nxst-xj {
+          display: inline-block;
+          transform: scale(1.05);
+        }
         .nxst-zhsw {
           display: inline-block;
           transform: scale(1.25);

@@ -2,10 +2,10 @@
   <div>
     <ul class="ReservoirDetailInspection">
       <li class="line-bottom" v-for="item in ReservoirDetailInspection">
-        <time class="title">{{item.CHECK_DATE | dateFormat('yyyy月mm月dd日')}}</time>
+        <time class="title">{{item.CHECK_DATE | dateFormat('yyyy月mm月dd日')}}大坝巡检</time>
         <div class="content">
           <div class="status">
-            <i :class="item.PATROL_STATE === '1' ? 'nxst-zc c-1b9be3' : 'nxst-yc c-red'"></i>
+            <i :class="item.PATROL_STATE == 1 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
           </div>
           <p>
             <span>巡查时间：</span>
@@ -19,7 +19,7 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <n-add top="430" left="18" @click="add"></n-add>
+    <n-add bottom="82" left="18" @click="add"></n-add>
   </div>
 </template>
 
@@ -58,7 +58,8 @@ export default {
       api.getReservoirDetailInspection(params)
         .then((res) => {
           if (res.status === success) {
-            this.ReservoirDetailInspection = this.order(res.data)
+            this.ReservoirDetailInspection = res.data
+            //console.log(JSON.stringify(this.ReservoirDetailInspection, null, 2))
           } else {
             this.hint(res.msg)
           }
@@ -67,12 +68,44 @@ export default {
         })
     },
     add() {
+      //this.$destroy()
       this.$router.push({path: '/reservoirDetail/inspection/add', query: {pid: this.$route.query.pid}})
     }
   },
+  beforeCreate(){
+    //console.log('beforeCreate')
+  },
   created() {
+    //console.log('created')
     this.getReservoirDetailInspection()
+  },
+  beforeMount(){
+    //console.log('beforeMount')
+  },
+  mounted(){
+    //console.log('mounted')
+  },
+  beforeUpdate(){
+    //console.log('beforeUpdate')
+  },
+  updated(){
+    //console.log('updated')
+  },
+  activated(){
+    //console.log(111,'activated')
+    //this.$forceUpdate()
+    this.getReservoirDetailInspection()
+  },
+  deactivated(){
+    //console.log('deactivated')
+  },
+  beforeDestroy(){
+    //console.log('beforeDestroy')
+  },
+  destroyed(){
+    //console.log('destroyed')
   }
+
 }
 </script>
 

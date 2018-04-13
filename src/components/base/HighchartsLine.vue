@@ -5,6 +5,7 @@
 <script>
 import Highcharts from 'highcharts/highstock';
 import {getDataByKey} from '@/assets/js/mixin'
+import {isArray, standardDate} from '@/assets/js/util'
 
 export default {
   name: 'HighchartsColumn',
@@ -37,7 +38,7 @@ export default {
   },
   methods: {
     draw() {
-      let categories = this.getDataByKey(this.data, 'date'),
+      let categories = this.getDataByKey(standardDate(this.data), 'date'),
           data = this.getDataByKey(this.data, 'value')
       let options = {
             credits: {

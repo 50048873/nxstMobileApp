@@ -58,7 +58,7 @@
         </div>
       </li>
     </ul>
-    <h6 class="title">水质九参数</h6>
+    <h6 class="title">水质34参数</h6>
     <ul class="quality">
       <li class="line-bottom">
         <h6 class="h6">测量日期</h6>

@@ -9,8 +9,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in standardTdData">
-          <td><span class="date">{{item.date}}</span></td>
+        <tr v-for="item in data">
+          <td><span class="date" :class="{datetime: getDatetime}">{{item.date}}</span></td>
           <td :class="getRedClass(item.value)">{{item.value}}</td>
         </tr>
       </tbody>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {isArray} from '@/assets/js/util'
+import {isArray, standardDate} from '@/assets/js/util'
 import {mapGetters} from 'vuex'
 // let thData = {
 //   title1: '月份',
@@ -51,44 +51,25 @@ export default {
   },
   computed: {
     ...mapGetters(['warnConfig']),
-    standardTdData() {
-      let tdData = this.tdData
-      if (isArray(tdData) && tdData.length) {
-        let res = []
-        res.push(tdData[0])
-        tdData.reduce((prev, cur, index) => {
-          let obj = {}
-          obj.value = cur.value
-          if (prev.date.indexOf('-')) {
-            let prevArr = prev.date.split('-'),
-                curArr = cur.date.split('-'),
-                prevY = prevArr[0],
-                prevM = prevArr[1],
-                curY = curArr[0],
-                curM = curArr[1],
-                curD = curArr[2]
-            if (curY === prevY) {
-              if (curD) {
-                obj.date = `${curM}-${curD}`
-              } else {
-                obj.date = curM
-              }
-            }
-            if (curM === prevM) {
-              obj.date = curD
-            }
-          } else {
-            obj.date = cur.date
-          }
-          res.push(obj)
-          return cur
-        })
-        return res
+    data() {
+      return standardDate(this.tdData)
+    },
+    getDatetime() {
+      let data = this.tdData,
+          len = data.length,
+          isDatetime = false
+      for (let i = 0; i < len; i++) {
+        let item = data[i]
+        if (item.date.length > 10) {
+          isDatetime = true
+          break
+        }
       }
-      return tdData
+      return isDatetime
     }
   },
   methods: {
+    
     getRedClass(val) {
       /*
         * 1:小于value1
@@ -156,6 +137,11 @@ export default {
     .date {
       display: inline-block;
       width: 6em;
+      text-align: right;
+    }
+    .datetime {
+      display: inline-block;
+      width: 8em;
       text-align: right;
     }
   }
