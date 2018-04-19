@@ -295,7 +295,7 @@ export default {
     return {
       isSubmitting:false,
       title:"数据格式不正确",
-      pattern:"/^([0-9])+(\.[0-9]+)?$/",
+      pattern:"^([0-9])+(\.[0-9]+)?$",
       form: {
         pid: getUuid(32, 16),
         z: "",
