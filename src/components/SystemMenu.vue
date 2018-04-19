@@ -103,7 +103,6 @@ export default {
   },
   created() {
     this.getNewsMarquee()
-    this.setDocumentTitle('宁夏水投智慧水务平台')
   }
 }
 </script>

@@ -11,7 +11,7 @@
 
 <script> 
 import NOnline from '@/components/base/NOnline'
-import {getItem} from '@/assets/js/store'
+import * as store from '@/assets/js/store'
 import {success} from '@/assets/js/config'
 import {loading} from '@/assets/js/util'
 import * as session from '@/assets/js/session'
@@ -30,6 +30,9 @@ export default {
   methods: {
     initAjaxLoading() {
       $.ajaxSetup({
+        xhrFields: {
+          withCredentials: true
+        },
         beforeSend: function (XMLHttpRequest) {
           loading.show()
           XMLHttpRequest.setRequestHeader("_wx", true);

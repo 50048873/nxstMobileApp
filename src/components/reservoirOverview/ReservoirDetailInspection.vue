@@ -19,22 +19,19 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <n-add bottom="82" left="18" @click="add"></n-add>
+    <n-add left="20" :bottom="getBottomPosition(84)" @click="add"></n-add>
+    <n-add left="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="toPatrolPath"></n-add>
   </div>
 </template>
 
 <script>
-import NAdd from '@/components/base/NAdd'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
-import {dateFormat} from '@/assets/js/mixin'
+import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailInspection',
-  components: {
-    NAdd
-  },
-  mixins: [dateFormat],
+  mixins: [dateFormat, getBottomPosition],
   data() {
     return {
       ReservoirDetailInspection: [],
@@ -70,6 +67,9 @@ export default {
     add() {
       //this.$destroy()
       this.$router.push({path: '/reservoirDetail/inspection/add', query: {pid: this.$route.query.pid}})
+    },
+    toPatrolPath() {
+      this.$router.push({path: '/reservoirDetail/inspection/patrolPath', query: {pid: this.$route.query.pid}})
     }
   },
   beforeCreate(){

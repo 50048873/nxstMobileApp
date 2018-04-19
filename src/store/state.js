@@ -1,4 +1,7 @@
+import {loadDocumentTitle} from '@/assets/js/cache'
+
 export default {
   reservoirList: [],
-  warnConfig: {}
+  warnConfig: {},
+  documentTitle: loadDocumentTitle()
 }

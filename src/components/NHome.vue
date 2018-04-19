@@ -7,7 +7,9 @@
   </div>
 </template>
 <script>
-
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+import api from '@/assets/js/api'
+import {success} from '@/assets/js/config'
 let data = [
   {
     title: '消息',
@@ -38,8 +40,34 @@ export default {
       data: data
     }
   },
+  computed: {
+    ...mapGetters(['documentTitle'])
+  },
+  methods: {
+    ...mapActions([
+      'saveDocumentTitle'
+    ]),
+    initTitle() {
+      const code = '30001'
+      if (this.documentTitle) {
+        this.setDocumentTitle(this.documentTitle)
+        return
+      }
+      api.getDictValueByCode({code})
+        .then((res) => {
+          if (res.status === success) {
+            this.saveDocumentTitle(res.data.VALUE)
+            this.setDocumentTitle(this.documentTitle)
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'NHome.vue')
+        })
+    }
+  },
   created() {
-    this.setDocumentTitle('宁夏水投智慧水务平台')
+    this.initTitle()
   }
 }
 </script>

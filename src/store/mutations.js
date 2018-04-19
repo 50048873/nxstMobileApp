@@ -6,6 +6,9 @@ const mutations = {
   },
   [type.SET_WARNCONFIG](state, warnConfig) {
     state.warnConfig = warnConfig
+  },
+  [type.SET_DOCUMENT_TITLE](state, documentTitle) {
+    state.documentTitle = documentTitle
   }
 }
 
