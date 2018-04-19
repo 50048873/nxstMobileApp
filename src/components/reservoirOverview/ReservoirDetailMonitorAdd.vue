@@ -269,12 +269,12 @@
       <li class="line-bottom">
         <label class="label" for="sxjw">三溴甲烷</label>
         <div class="inputBox">
-          <input type="text" id="sxjw" name="sxjw" placeholder="≤0.1mg/L" v-model="form.quality.sxjw">
+          <input type="text"  id="sxjw" name="sxjw" placeholder="≤0.1mg/L" v-model="form.quality.sxjw">
         </div>
       </li>
     </ul>
     <div class="submitWrap">
-      <button type="button" class="btn btn-on" @click="submit">提交</button>
+      <button type="button" v-bind:class="[isSubmitting?'btn btn-off':'btn btn-on']" :disabled="isSubmitting"  @click="submit">{{isSubmitting?"提交中...":"提交"}}</button>
     </div>
   </form>
 </template>
@@ -290,6 +290,7 @@ export default {
   mixins: [dateFormat],
   data() {
     return {
+      isSubmitting:false,
       form: {
         pid: getUuid(32, 16),
         z: "",
@@ -348,20 +349,22 @@ export default {
       })
     },
     getReservoirDetailMonitorAdd() {
-      console.log(this.form)
       return api.getReservoirDetailMonitorAdd(this.form)
         .then((res) => {
           if (res.status === success) {
-            console.log(JSON.stringify(res.data, null, 2))
+            this.isSubmitting = false;
             this.$router.back()
           } else {
             this.hint(res.msg)
+            this.isSubmitting = false;
           }
         }, (err) => {
-          this.serverErrorTip(err, 'ReservoirDetailMonitorAdd.vue')
+          this.serverErrorTip(err, 'ReservoirDetailMonitorAdd.vue');
+           this.isSubmitting = false;
         })
     },
     submit() {
+      this.isSubmitting = true;
       this.getReservoirDetailMonitorAdd()
     }
   },
