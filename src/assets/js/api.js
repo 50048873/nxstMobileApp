@@ -175,6 +175,31 @@ let getWarnConfig = function(data) {
   })
 }
 
+let getOrganizationList = ()=>{
+  const url = baseUrl+'/znb/CommonCtrl/listOrganization.do'
+  return $.ajax({
+    type:'GET',
+    url
+  })
+}
+
+let getBranchList = (data)=>{
+  const url = baseUrl+'/znb/CommonCtrl/getDepartmentByOrganization.do'
+  return $.ajax({
+    type:'POST',
+    url,
+    data
+  })
+}
+
+let getMemberList =(data)=>{
+  const url = baseUrl+'/znb/CommonCtrl/getUserByDepartment.do'
+  return $.ajax({
+    type:'POST',
+    url,
+    data
+  })
+}
 export default {
 	login,
   getSessionUser,
@@ -192,5 +217,8 @@ export default {
   getReservoirDetailMonitor_waterquality,
   getReservoirDetailMonitor_watersupply,
   getReservoirDetailMonitorAdd,
-  getWarnConfig
+  getWarnConfig,
+  getOrganizationList,
+  getBranchList,
+  getMemberList
 }

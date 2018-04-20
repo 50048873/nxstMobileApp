@@ -7,8 +7,8 @@ import NMessage from '@/components/NMessage'
 import NMessageMessage from '@/components/NMessageMessage'
 import NMessageNotice from '@/components/NMessageNotice'
 import AddressBook from '@/components/AddressBook'
-import AddressBranchList from "@/components/AddressBranchList";
-import AddressMemberList from "@/components/AddressMemberList";
+import AddressBookBranchList from "@/components/AddressBookBranchList";
+import AddressBookMemberList from "@/components/AddressBookMemberList";
 import NMe from '@/components/NMe'
 import ReservoirOverview from '@/components/reservoirOverview/ReservoirOverview'
 import ReservoirOverviewMap from '@/components/reservoirOverview/ReservoirOverviewMap/Map'
@@ -74,14 +74,14 @@ let router = new Router({
           component: AddressBook
         },
         {
-          path: "/home/addressBranchList",
-          name: "AddressBranchList",
-          component: AddressBranchList
+          path: "/home/addressBookBranchList",
+          name: "AddressBookBranchList",
+          component: AddressBookBranchList
         },
         {
-          path: "/home/addressMemberList",
-          name: "AddressMemberList",
-          component: AddressMemberList
+          path: "/home/addressBookMemberList",
+          name: "AddressBookMemberList",
+          component: AddressBookMemberList
         },
         {
           path: "/home/me",
