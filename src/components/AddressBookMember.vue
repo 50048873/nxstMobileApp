@@ -1,34 +1,28 @@
 <template>
-  <ul class="AddressBookDepartmentList">
     <li class="line-top line-bottom">
       <div class="nameWrap">
         <span class="portrait"></span>
-        <span class="name">名字</span>
+        <span class="name">{{userName}}</span>
       </div>
       <div class="phone">
         <i class="nxst-phone"></i>
       </div>
     </li>
-    <li class="line-bottom">
-      <div class="nameWrap">
-        <span class="portrait"></span>
-        <span class="name">名字</span>
-      </div>
-      <div class="phone">
-        <i class="nxst-phone"></i>
-      </div>
-    </li>
-  </ul>
 </template>
 
 <script>
 export default {
-  name: 'AddressBookDepartmentList'
+  name: 'AddressBookDepartmentList',
+  props:{
+    userName:{
+      type:String,
+      default:""
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
-  .AddressBookDepartmentList {
     li {
       display: flex;
       justify-content: space-between;
@@ -37,6 +31,7 @@ export default {
       .nameWrap {
         display: inline-flex;
         align-items: center;
+        color:#333;
         .portrait {
           display: inline-block;
           width: 38px;
@@ -56,5 +51,4 @@ export default {
         color: #fba254;
       }
     }
-  }
 </style>

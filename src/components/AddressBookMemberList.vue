@@ -1,51 +1,61 @@
 <template>
-  <div class="address-book">
+  <div class="address-book-memberlist">
     <div class="searchWrap">
       <i class="nxst-search"></i>
       <input type="text" placeholder="搜索">
     </div>
+    <div class="memberCount">
+      <span>{{branchName}}</span>
+      <span>200</span>
+    </div>
     <ul>
-      <template v-for="(item, index) in organizationList">
-        <router-link class="item" :to="{path:'addressBookBranchList',query:{shortName:encodeURI(item.SHORT_NAME),ogId:item.ID}}">
-          <address-book-department :shortName="item.SHORT_NAME"></address-book-department>
-        </router-link>
-      </template>
+      <template v-for="(item, index) in memberList">
+        <a :href="'tel:'+item.TELEPHONE">
+          <address-book-member :userName="item.NAME"></address-book-member>
+        </a>
+     </template>
     </ul>
-    <h6>最近联系的人</h6>
-    <address-book-member></address-book-member>
   </div>
 </template>
 
 <script>
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-import AddressBookDepartment from '@/components/AddressBookDepartment'
 import AddressBookMember from '@/components/AddressBookMember'
 export default {
-  name: 'AddressBook',
+  name: 'AddressBookMemberList',
   components: {
-    AddressBookDepartment,
     AddressBookMember
   },
   data(){
     return{
-      organizationList:[]
-    }
+      branchName:"",
+      bcId:"",
+      memberList:[]
+    } 
   },
   created(){
-    this.getOrganizationList()
+    this.bcId = this.$route.query.bcId;
+    this.branchName = decodeURI(this.$route.query.shortName)
   },
-  methods:{
-    getOrganizationList(){
-      api.getOrganizationList().then((res)=>{
+   beforeMount(){
+    if(this.bcId){
+      this.getMemberList()
+    }else{
+      this.hint("参数缺失！")
+    }
+  },
+   methods:{
+    getMemberList(){
+      return api.getMemberList({id:this.bcId}).then((res)=>{
         if(res.status===success){
           if(!res.data) return
-          this.organizationList = res.data
+          this.memberList = res.data;
         }else{
           this.hint(res.mes)
         }
       },(err)=>{
-        this.serverErrorTip(err, 'AddressBook.vue')
+        this.serverErrorTip(err, 'AddressBookMemberList.vue')
       })
     }
   }
@@ -53,8 +63,8 @@ export default {
 </script>
 
 <style scoped lang="less">
-  @import '../assets/less/variable.less';
-  .address-book {
+ @import '../assets/less/variable.less';
+  .address-book-memberlist {
     position: absolute;
     top: 0;
     bottom: @tab-height;
@@ -85,9 +95,12 @@ export default {
         box-sizing: border-box;
       }
     }
-    h6 {
-      line-height: 38px;
-      text-indent: 10px;
+    .memberCount{
+      background-color: #fff;
+      padding:5px 10px;
+      display:flex;
+      justify-content: space-between;
+      color:#065dbc;
     }
   }
 </style>

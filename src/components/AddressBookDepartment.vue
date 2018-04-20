@@ -1,35 +1,32 @@
 <template>
-  <ul class="AddressBookDepartmentList">
     <li class="line-top line-bottom">
-      <div>职能部门</div>
+      <div>{{shortName}}</div>
       <div class="memberCount">
         <span>200</span>
         <span class="arrow-r"></span>
       </div>
     </li>
-    <li class="line-bottom">
-      <h3>职能部门</h3>
-      <div class="memberCount">
-        <span>200</span>
-        <span class="arrow-r"></span>
-      </div>
-    </li>
-  </ul>
 </template>
 
 <script>
 export default {
-  name: 'AddressBookDepartmentList'
+  name: 'AddressBookDepartmentList',
+  props:{
+    shortName:{
+      type:String,
+      default:""
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
-  .AddressBookDepartmentList {
     li {
       display: flex;
       justify-content: space-between;
       padding: 10px;
       background-color: white;
+      color:#333;
       .memberCount {
        flex: 1;
        text-align: right;
@@ -38,5 +35,4 @@ export default {
        }
       }
     }
-  }
 </style>

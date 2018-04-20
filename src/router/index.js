@@ -7,6 +7,8 @@ import NMessage from '@/components/NMessage'
 import NMessageMessage from '@/components/NMessageMessage'
 import NMessageNotice from '@/components/NMessageNotice'
 import AddressBook from '@/components/AddressBook'
+import AddressBookBranchList from "@/components/AddressBookBranchList";
+import AddressBookMemberList from "@/components/AddressBookMemberList";
 import NMe from '@/components/NMe'
 import ReservoirOverview from '@/components/reservoirOverview/ReservoirOverview'
 import ReservoirOverviewMap from '@/components/reservoirOverview/ReservoirOverviewMap/Map'
@@ -26,138 +28,149 @@ import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/Re
 import ReservoirDetailMonitorAdd from '@/components/reservoirOverview/ReservoirDetailMonitorAdd'
 import PatrolPath from '@/components/reservoirOverview/PatrolPath'
 
+
 Vue.use(Router)
 
 let router = new Router({
   base: path,
-  mode: 'history',
-  linkActiveClass: 'ON',
+  mode: "history",
+  linkActiveClass: "ON",
   routes: [
     {
-      path: '/',
-      redirect: '/home'
+      path: "/",
+      redirect: "/home"
     },
     {
-      path: '/home',
-      redirect: '/home/systemMenu',
-      name: 'NHome',
+      path: "/home",
+      redirect: "/home/systemMenu",
+      name: "NHome",
       component: NHome,
       children: [
         {
-          path: '/home/message',
-          redirect: '/home/message/message',
-          name: 'NMessage',
+          path: "/home/message",
+          redirect: "/home/message/message",
+          name: "NMessage",
           component: NMessage,
           children: [
             {
-              path: '/home/message/message',
-              name: 'NMessageMessage',
+              path: "/home/message/message",
+              name: "NMessageMessage",
               component: NMessageMessage
             },
             {
-              path: '/home/message/notice',
-              name: 'NMessageNotice',
+              path: "/home/message/notice",
+              name: "NMessageNotice",
               component: NMessageNotice
             }
           ]
         },
         {
-          path: '/home/systemMenu',
-          name: 'SystemMenu',
+          path: "/home/systemMenu",
+          name: "SystemMenu",
           component: SystemMenu
         },
         {
-          path: '/home/addressBook',
-          name: 'AddressBook',
+          path: "/home/addressBook",
+          name: "AddressBook",
           component: AddressBook
         },
         {
-          path: '/home/me',
-          name: 'NMe',
+          path: "/home/addressBookBranchList",
+          name: "AddressBookBranchList",
+          component: AddressBookBranchList
+        },
+        {
+          path: "/home/addressBookMemberList",
+          name: "AddressBookMemberList",
+          component: AddressBookMemberList
+        },
+        {
+          path: "/home/me",
+          name: "NMe",
           component: NMe
         }
       ]
     },
     {
-      path: '/reservoirOverview',
-      redirect: '/reservoirOverview/map',
-      name: 'ReservoirOverview',
+      path: "/reservoirOverview",
+      redirect: "/reservoirOverview/map",
+      name: "ReservoirOverview",
       component: ReservoirOverview,
       children: [
         {
-          path: '/reservoirOverview/map',
-          name: 'ReservoirOverviewMap',
+          path: "/reservoirOverview/map",
+          name: "ReservoirOverviewMap",
           component: ReservoirOverviewMap
         },
         {
-          path: '/reservoirOverview/list',
-          name: 'ReservoirOverviewList',
+          path: "/reservoirOverview/list",
+          name: "ReservoirOverviewList",
           component: ReservoirOverviewList
         }
       ]
     },
     {
-      path: '/reservoirDetail',
-      redirect: '/reservoirDetail/info',
-      name: 'ReservoirDetail',
+      path: "/reservoirDetail",
+      redirect: "/reservoirDetail/info",
+      name: "ReservoirDetail",
       component: ReservoirDetail,
       children: [
         {
-          path: '/reservoirDetail/info',
-          name: 'ReservoirDetailInfo',
+          path: "/reservoirDetail/info",
+          name: "ReservoirDetailInfo",
           component: ReservoirDetailInfo
         },
         {
-          path: '/reservoirDetail/monitor',
-          redirect: '/reservoirDetail/monitor/waterlevel',
-          name: 'ReservoirDetailMonitor',
+          path: "/reservoirDetail/monitor",
+          redirect: "/reservoirDetail/monitor/waterlevel",
+          name: "ReservoirDetailMonitor",
           component: ReservoirDetailMonitor,
           children: [
             {
-              path: '/reservoirDetail/monitor/waterlevel',
-              name: 'ReservoirDetailMonitorWaterlevel',
+              path: "/reservoirDetail/monitor/waterlevel",
+              name: "ReservoirDetailMonitorWaterlevel",
               component: ReservoirDetailMonitorWaterlevel
             },
             {
-              path: '/reservoirDetail/monitor/rainfall',
-              name: 'ReservoirDetailMonitorRainfall',
+              path: "/reservoirDetail/monitor/rainfall",
+              name: "ReservoirDetailMonitorRainfall",
               component: ReservoirDetailMonitorRainfall
             },
             {
-              path: '/reservoirDetail/monitor/photo',
-              name: 'ReservoirDetailMonitorPhoto',
+              path: "/reservoirDetail/monitor/photo",
+              name: "ReservoirDetailMonitorPhoto",
               component: ReservoirDetailMonitorPhoto
             },
             {
-              path: '/reservoirDetail/monitor/video',
-              name: 'ReservoirDetailMonitorVideo',
+              path: "/reservoirDetail/monitor/video",
+              name: "ReservoirDetailMonitorVideo",
               component: ReservoirDetailMonitorVideo
             },
             {
-              path: '/reservoirDetail/monitor/waterquality',
-              name: 'ReservoirDetailMonitorWaterquality',
+              path: "/reservoirDetail/monitor/waterquality",
+              name: "ReservoirDetailMonitorWaterquality",
               component: ReservoirDetailMonitorWaterquality
             },
             {
-              path: '/reservoirDetail/monitor/watersupply',
-              name: 'ReservoirDetailMonitorWatersupply',
+              path: "/reservoirDetail/monitor/watersupply",
+              name: "ReservoirDetailMonitorWatersupply",
               component: ReservoirDetailMonitorWatersupply
             },
             {
-              path: '/reservoirDetail/monitor/add',
-              name: 'ReservoirDetailMonitorAdd',
+              path: "/reservoirDetail/monitor/add",
+              name: "ReservoirDetailMonitorAdd",
               component: ReservoirDetailMonitorAdd
             }
           ]
         },
         {
-          path: '/reservoirDetail/inspection',
-          name: 'ReservoirDetailInspection',
+          path: "/reservoirDetail/inspection",
+          name: "ReservoirDetailInspection",
           component: ReservoirDetailInspection
         },
         {
-          path: '/reservoirDetail/inspection/add',
-          name: 'ReservoirDetailInspectionAdd',
+          path: "/reservoirDetail/inspection/add",
+          name: "ReservoirDetailInspectionAdd",
           component: ReservoirDetailInspectionAdd
         },
         {
@@ -173,6 +186,6 @@ let router = new Router({
       ]
     }
   ]
-})
+});
 
 export default router
