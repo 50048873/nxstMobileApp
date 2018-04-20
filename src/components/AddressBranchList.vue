@@ -4,22 +4,22 @@
       <i class="nxst-search"></i>
       <input type="text" placeholder="搜索">
     </div>
-    <router-link class="item" to="/home/addressBranchList">
+    <div class="memberCount">
+      <span>职能部门</span>
+      <span>200</span>
+    </div>
+    <router-link class="item" to="/home/addressMemberList">
       <address-book-department></address-book-department>
     </router-link>
-    <h6>最近联系的人</h6>
-    <address-book-member></address-book-member>
   </div>
 </template>
 
 <script>
 import AddressBookDepartment from '@/components/AddressBookDepartment'
-import AddressBookMember from '@/components/AddressBookMember'
 export default {
-  name: 'AddressBook',
+  name: 'AddressBranchList',
   components: {
-    AddressBookDepartment,
-    AddressBookMember
+    AddressBookDepartment
   }
 }
 </script>
@@ -45,9 +45,12 @@ export default {
         box-sizing: border-box;
       }
     }
-    h6 {
-      line-height: 38px;
-      text-indent: 10px;
+    .memberCount{
+      background-color: #fff;
+      padding:5px 10px;
+      display:flex;
+      justify-content: space-between;
+      color:#065dbc;
     }
   }
 </style>
