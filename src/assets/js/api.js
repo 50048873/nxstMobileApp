@@ -105,12 +105,13 @@ let getReservoirDetailMonitor_rainfall = function(data) {
 }
 
 // 监测 -> 图像
-let getReservoirDetailMonitorPhoto = function() {
-  //const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterSupplyController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
-  const baseUrl = window.location.origin
+let getReservoirDetailMonitorPhoto = function(data) {
+  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/cmUploadFilesController/listAllFiles.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
   return $.ajax({
-    type: 'GET',
-    url: baseUrl + '/api/reservoirDetail/monitor/photo'
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: JSON.stringify(data)
   })
 }
 
@@ -200,6 +201,28 @@ let getMemberList =(data)=>{
     data
   })
 }
+
+// 根据字典code获取字典项值
+let getDictValueByCode = function(code) {
+  const url = 'http://sw.dse.cn:56012/znb/CommonCtrl/getDictValueByCode.do'
+  return $.ajax({
+    type: 'GET',
+    url: url,
+    data: code
+  })
+}
+
+// 查询服务器信息
+let getServerInfo = function (data) {
+  const url = baseUrl +  '/znb/cmVideoServerController/getServerInfo.do'
+  return $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: JSON.stringify(data)
+  })
+}
+
 export default {
 	login,
   getSessionUser,
@@ -220,5 +243,8 @@ export default {
   getWarnConfig,
   getOrganizationList,
   getBranchList,
-  getMemberList
+  getMemberList,
+  getDictValueByCode,
+  getServerInfo
+
 }

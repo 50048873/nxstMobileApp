@@ -21,11 +21,12 @@ import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetai
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
 import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel/Waterlevel'
 import ReservoirDetailMonitorRainfall from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall/Rainfall'
-import ReservoirDetailMonitorPhoto from '@/components/reservoirOverview/ReservoirDetailMonitorPhoto'
+import ReservoirDetailMonitorPhoto from '@/components/reservoirOverview/ReservoirDetailMonitorPhoto/photo'
 import ReservoirDetailMonitorVideo from '@/components/reservoirOverview/ReservoirDetailMonitorVideo'
 import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/ReservoirDetailMonitorWaterquality/Waterquality'
 import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply/Watersupply'
 import ReservoirDetailMonitorAdd from '@/components/reservoirOverview/ReservoirDetailMonitorAdd'
+import PatrolPath from '@/components/reservoirOverview/PatrolPath'
 
 
 Vue.use(Router)
@@ -173,8 +174,13 @@ let router = new Router({
           component: ReservoirDetailInspectionAdd
         },
         {
-          path: "/reservoirDetail/member",
-          name: "ReservoirDetailMember",
+          path: '/reservoirDetail/inspection/patrolPath',
+          name: 'PatrolPath',
+          component: PatrolPath
+        },
+        {
+          path: '/reservoirDetail/member',
+          name: 'ReservoirDetailMember',
           component: ReservoirDetailMember
         }
       ]

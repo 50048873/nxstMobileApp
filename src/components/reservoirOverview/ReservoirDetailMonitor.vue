@@ -42,6 +42,10 @@ export default {
         {
           title: '供水量',
           path: '/reservoirDetail/monitor/watersupply'
+        },
+        {
+          title: '人工填报',
+          path: '/reservoirDetail/monitor/add'
         }
       ]
     }

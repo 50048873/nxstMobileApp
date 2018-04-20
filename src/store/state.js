@@ -1,4 +1,7 @@
+import {getItem} from '@/assets/js/session'
+
 export default {
   reservoirList: [],
-  warnConfig: {}
+  warnConfig: {},
+  documentTitle: getItem('documentTitle')
 }

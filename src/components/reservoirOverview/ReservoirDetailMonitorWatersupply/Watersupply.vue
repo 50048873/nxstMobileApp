@@ -2,7 +2,7 @@
   <div class="ReservoirDetailMonitorWatersupply">
     <highcharts-column title="供水量" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitorWatersupply" v-if="tdData.length"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
-    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog4" @confirm="filter"></filter-dialog>
     <no-data v-if="!tdData.length"></no-data>
@@ -12,7 +12,6 @@
 <script>
 import NTable from '@/components/base/NTable'
 import HighchartsColumn from '@/components/base/HighchartsColumn'
-import NAdd from '@/components/base/NAdd'
 import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply/FilterDialog'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
@@ -24,7 +23,6 @@ export default {
   components: {
     NTable,
     HighchartsColumn,
-    NAdd,
     FilterDialog
   },
   mixins: [dateFormat, getBottomPosition, monitorAdd],

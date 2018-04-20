@@ -48,6 +48,7 @@ import '@/assets/less/common.less'
 import '@/assets/less/animate.less'
 import '@/assets/font/nxst/style.css'
 
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

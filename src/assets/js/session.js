@@ -1,7 +1,9 @@
-export function setItem(key, value) {
-	window.sessionStorage.setItem(key, value)
-};
+import storage from 'good-storage'
+
+export function setItem(key, title) {
+  return storage.session.set(key, title)
+}
 
 export function getItem(key) {
-	return window.sessionStorage.getItem(key)
-};
+  return storage.session.get(key)
+}

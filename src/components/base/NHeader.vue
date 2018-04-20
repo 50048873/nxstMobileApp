@@ -8,12 +8,13 @@
 </template>
 
 <script>
+import {defaultDocumentTitle} from '@/assets/js/config'
 export default {
   name: 'NHeader',
   props: {
     title: {
       type: String,
-      default: '宁夏水投智慧水务平台'
+      default: defaultDocumentTitle
     },
     isBack: {
       type: Boolean,

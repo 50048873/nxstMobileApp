@@ -1,18 +1,9 @@
-export function setItem(key, value) {
-	if (!key || !value) return
-	return window.localStorage.setItem(key, value)
-};
+import storage from 'good-storage'
+
+export function setItem(key, title) {
+  return storage.set(key, title)
+}
 
 export function getItem(key) {
-	if (!key) return
-	return window.localStorage.getItem(key)
-};
-
-export function clearAll() {
-	window.localStorage.clear();
-};
-
-export function removeItem(key) {
-	if (!key) return
-	return window.localStorage.removeItem(key)
-};
+  return storage.get(key)
+}
