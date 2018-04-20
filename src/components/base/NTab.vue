@@ -1,5 +1,5 @@
 <template>
-  <div class="n-tab line-bottom">
+  <div class="n-tab line-bottom" :class="{slider: data.length > 6}">
     <router-link :to="getPath(item.path)" v-for="(item, index) in data" :key="index">
       <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
       <span class="title">{{item.title}}</span>
@@ -35,16 +35,13 @@ export default {
   .n-tab {
     text-align: center;
     background-color: white;
-    white-space: nowrap;
-    overflow-x: auto;
+    display: flex;
     a {
       position: relative;
-      display: inline-block;
+      flex: 1;
       color: @color-nav-default;
       height: 35px;
       line-height: 35px;
-      padding-right: 0.8em;
-      padding-left: 0.8em;
       &.ON {
         color: #0b65c3;
         &:after {
@@ -64,6 +61,17 @@ export default {
       .title {
         font-weight: bold;
         padding-left: 2px;
+      }
+    }
+    &.slider {
+      display: block;
+      white-space: nowrap;
+      overflow-x: auto;
+      a {
+        display: inline-block;
+        padding-right: 0.8em;
+        padding-left: 0.8em;
+        flex: none;
       }
     }
   }

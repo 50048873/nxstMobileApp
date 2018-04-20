@@ -140,6 +140,7 @@ export default {
       api.getReservoirDetailMonitorPhoto(params)
         .then((res) => {
           if (res.status === success) {
+            console.log(JSON.stringify(res.data, null, 2))
             this.reservoirDetailMonitorPhoto = res.data
             this.$nextTick(() => {
               this.initParam()
