@@ -14,7 +14,7 @@
                 </p>
                 <p class="ellipsis">
                   <span>当前蓄水量：</span>
-                  <span></span>
+                  <span>{{item.w}}</span>
                 </p>
                 <p class="ellipsis">
                   <span>当前水位：</span>
@@ -66,9 +66,6 @@ export default {
       }
       return ''
     }
-  },
-  created() {
-      this.setDocumentTitle('水库概览')
   }
 }
 </script>

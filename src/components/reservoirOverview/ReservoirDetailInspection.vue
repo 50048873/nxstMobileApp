@@ -20,15 +20,16 @@
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
     <n-add left="20" :bottom="getBottomPosition(84)" @click="add"></n-add>
-    <n-add left="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="toPatrolPath"></n-add>
+    <n-add left="20" :bottom="getBottomPosition(20)" iconClass="nxst-path" @click="toPatrolPath"></n-add>
   </div>
 </template>
 
 <script>
 import api from '@/assets/js/api'
-import {success} from '@/assets/js/config'
+import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
+import * as session from '@/assets/js/session'
 export default {
   name: 'ReservoirDetailInspection',
   mixins: [dateFormat, getBottomPosition],
@@ -72,40 +73,22 @@ export default {
       this.$router.push({path: '/reservoirDetail/inspection/patrolPath', query: {pid: this.$route.query.pid}})
     }
   },
-  beforeCreate(){
-    //console.log('beforeCreate')
-  },
   created() {
-    //console.log('created')
     this.getReservoirDetailInspection()
   },
-  beforeMount(){
-    //console.log('beforeMount')
-  },
-  mounted(){
-    //console.log('mounted')
-  },
-  beforeUpdate(){
-    //console.log('beforeUpdate')
-  },
-  updated(){
-    //console.log('updated')
-  },
   activated(){
-    //console.log(111,'activated')
     //this.$forceUpdate()
     this.getReservoirDetailInspection()
   },
-  deactivated(){
-    //console.log('deactivated')
-  },
-  beforeDestroy(){
-    //console.log('beforeDestroy')
-  },
-  destroyed(){
-    //console.log('destroyed')
+  watch: {  
+    '$route'(to, from)  {  
+      let toPath = to.path
+      if (toPath === "/reservoirDetail/inspection") {
+        let documentTitle = session.getItem(documentTitle_reservoirDetail)
+        documentTitle && this.setDocumentTitle(documentTitle)
+      }
+    }  
   }
-
 }
 </script>
 

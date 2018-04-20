@@ -2,7 +2,7 @@
   <div class="ReservoirDetailMonitorWaterlevel">
     <highcharts-line title="水位过程线" xTitleText="（日期）" yTitleText="(m)" :data="tdData" ref="hcMonitorWaterlevel" v-if="tdData.length"></highcharts-line>
     <n-table :thData="thData" :tdData="tdData"></n-table>
-    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog1" @confirm="filter"></filter-dialog>
     <no-data v-if="!tdData.length"></no-data>
@@ -18,8 +18,8 @@ import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
-import * as session from '@/assets/js/session'
-import {documentTitle_reservoirDetail} from '@/assets/js/config'
+//import * as session from '@/assets/js/session'
+//import {documentTitle_reservoirDetail} from '@/assets/js/config'
 export default {
   name: 'ReservoirDetailMonitorWaterlevel',
   components: {
@@ -91,7 +91,6 @@ export default {
   },
   created() {
     this.getReservoirDetailMonitor_waterlevel()
-    this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
   }
 }
 </script>

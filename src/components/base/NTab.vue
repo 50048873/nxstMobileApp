@@ -33,18 +33,29 @@ export default {
 <style scoped lang="less">
   @import '../../assets/less/variable.less';
   .n-tab {
-    display: flex;
     text-align: center;
     background-color: white;
+    white-space: nowrap;
+    overflow-x: auto;
     a {
-      display: block;
-      flex: 1;
+      position: relative;
+      display: inline-block;
       color: @color-nav-default;
       height: 35px;
       line-height: 35px;
+      padding-right: 0.8em;
+      padding-left: 0.8em;
       &.ON {
         color: #0b65c3;
-        border-bottom: 2px solid #0b65c3;
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: #0b65c3;
+        }
       }
       .iconWrap {
         position: relative;

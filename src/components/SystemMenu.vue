@@ -2,6 +2,7 @@
   <div class="system-menu">
     <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
     <div class="menu">
+      <h3 class="title line-bottom">企业管理</h3>
       <nav>
         <router-link class="item" to="/oa">
           <div class="iconWrap iconWrap-1">
@@ -11,6 +12,18 @@
           <h3>OA系统</h3>
         </router-link>
         <div class="divide"></div>
+        <router-link class="item" to="/comprehensive">
+          <div class="iconWrap iconWrap-9">
+            <i class="nxst-zhgl"></i>
+          </div>
+          <h3>综合管理</h3>
+        </router-link>
+        <div class="divide"></div>
+        <div class="item hidden"></div>
+      </nav>
+      <div class="divide"></div>
+      <h3 class="title line-bottom">业务管理</h3>
+      <nav>
         <router-link class="item" to="/reservoirOverview">
           <div class="iconWrap iconWrap-2">
             <i class="nxst-skgl"></i>
@@ -24,21 +37,28 @@
           </div>
           <h3>水资源管理</h3>
         </router-link>
-      </nav>
-      <div class="divide"></div>
-      <nav>
+        <div class="divide"></div>
         <router-link class="item" to="/customerService">
           <div class="iconWrap iconWrap-4">
             <i class="nxst-kfys"></i>
           </div>
           <h3>客服营收</h3>
         </router-link>
-        <div class="divide"></div>
+      </nav>
+      <div class="divide"></div>
+      <nav>
         <router-link class="item" to="/engineering">
           <div class="iconWrap iconWrap-5">
             <i class="nxst-gcgl"></i>
           </div>
           <h3>工程管理</h3>
+        </router-link>
+        <div class="divide"></div>
+        <router-link class="item" to="/waterQuality">
+          <div class="iconWrap iconWrap-7">
+            <i class="nxst-szgl"></i>
+          </div>
+          <h3>水质管理</h3>
         </router-link>
         <div class="divide"></div>
         <router-link class="item" to="/waterRegimen">
@@ -50,13 +70,6 @@
       </nav>
       <div class="divide"></div>
       <nav>
-        <router-link class="item" to="/waterQuality">
-          <div class="iconWrap iconWrap-7">
-            <i class="nxst-szgl"></i>
-          </div>
-          <h3>水质管理</h3>
-        </router-link>
-        <div class="divide"></div>
         <router-link class="item" to="/scienceTechnology">
           <div class="iconWrap iconWrap-8">
             <i class="nxst-kjcx"></i>
@@ -64,12 +77,9 @@
           <h3>科技创新</h3>
         </router-link>
         <div class="divide"></div>
-        <router-link class="item" to="/comprehensive">
-          <div class="iconWrap iconWrap-9">
-            <i class="nxst-zhgl"></i>
-          </div>
-          <h3>综合管理</h3>
-        </router-link>
+        <div class="item hidden"></div>
+        <div class="divide"></div>
+        <div class="item hidden"></div>
       </nav>
     </div>
   </div>
@@ -113,15 +123,23 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: @footer-height;
     left: 0;
     overflow-y: auto; 
+    padding-bottom: 15px;
     .menu {
-      padding: 18px 18px 30px;
+      //padding: 18px 18px 30px;
+      .title {
+        font-weight: bold;
+        line-height: 1;
+        padding: 10px 15px 6px;
+        margin-bottom: 15px;
+      }
     }
     nav {
       display: flex;
       text-align: center;
+      padding: 0 15px;
       .item {
         display: block;
         flex: 1;
@@ -197,7 +215,7 @@ export default {
       }
     }
     .divide {
-      height: 12px;
+      height: 15px;
     }
   }
 </style>

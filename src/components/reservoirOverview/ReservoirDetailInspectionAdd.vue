@@ -299,6 +299,14 @@ export default {
     this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
     androidInputBugFix()
+  },
+  watch: {  
+    '$route'(to, from)  {  
+      let toPath = to.path
+      if (toPath === "/reservoirDetail/inspection/add") {
+        this.setDocumentTitle('新增巡查记录')
+      }
+    }  
   }
 }
 </script>

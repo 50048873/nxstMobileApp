@@ -1,7 +1,7 @@
-import {loadDocumentTitle} from '@/assets/js/cache'
+import {getItem} from '@/assets/js/session'
 
 export default {
   reservoirList: [],
   warnConfig: {},
-  documentTitle: loadDocumentTitle()
+  documentTitle: getItem('documentTitle')
 }

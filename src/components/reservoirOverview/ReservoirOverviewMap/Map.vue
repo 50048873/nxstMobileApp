@@ -14,6 +14,10 @@ export default {
   components: {
     HighchartsMap,
     NMap
+  },
+  created() {
+    // console.log('map')
+    //   this.setDocumentTitle('水库概览')
   }
 }
 </script>

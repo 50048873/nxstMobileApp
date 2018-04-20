@@ -1,7 +1,7 @@
 <template>
   <nav class="n-footer line-top">
     <router-link :to="getPath(item.href)" v-for="(item, index) in data" :key="index">
-      <div class="iconWrap" :class="{back: !item.title}">
+      <div class="iconWrap" :class="{back: item.icon === 'nxst-back'}">
         <span :class="{'redDot': item.new}" v-if="item.new"></span>
         <i :class="item.icon"></i>
       </div>
@@ -44,7 +44,9 @@ export default {
     background-color: white;
     display: flex;
     text-align: center;
-    align-items: center;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    box-sizing: border-box;
     a {
       display: block;
       flex: 1;
@@ -76,22 +78,23 @@ export default {
           transform: scale(1.25);
         }
         &.back {
-          width: 48px;
-          height: 48px;
+          width: 34px;
+          height: 34px;
           background-color: #1c9ce5;
           border-radius: 50%;
           border: 1px solid @color-nav-default;
           box-sizing: border-box;
           .nxst-back {
             position: relative;
-            top: 10px;
+            top: 4px;
             color: white;
+            font-size: 22px;
           }
         }
       }
       h3 {
         line-height: 1;
-        padding-top: 2px;
+        padding-top: 4px;
       }
     }
   }

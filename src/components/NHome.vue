@@ -9,7 +9,7 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import api from '@/assets/js/api'
-import {success} from '@/assets/js/config'
+import {success, defaultDocumentTitle} from '@/assets/js/config'
 let data = [
   {
     title: '消息',
@@ -52,6 +52,8 @@ export default {
       if (this.documentTitle) {
         this.setDocumentTitle(this.documentTitle)
         return
+      } else {
+        this.setDocumentTitle(defaultDocumentTitle)
       }
       api.getDictValueByCode({code})
         .then((res) => {

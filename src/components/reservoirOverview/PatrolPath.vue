@@ -1,22 +1,29 @@
 <template>
-  <div>
+  <div class="PatrolPath">
     <h1>巡查轨迹测试页面</h1>
+    <!-- <iframe style="width:100%;height:50%;" :src="this.getStaticPath('/static/ArcGisTest2.html')" frameborder="0"></iframe> -->
     <div id="viewDiv" class="balt-theme"></div>
   </div>
 </template>
 
 <script>
 import * as esriLoader from 'esri-loader';
+import {getStaticPath} from '@/assets/js/mixin'
 export default {
   data() {
     return {
       
     }
   },
+  mixins: [getStaticPath],
   methods: {
     init1() {
+      // const options = {
+      //   url: 'https://js.arcgis.com/4.6/'
+      // };
       const options = {
-        url: 'https://js.arcgis.com/4.6/'
+        url: 'http://localhost:8088/arcgis_js_api/library/4.6/dojo/dojo.js',
+        css: 'http://localhost:8088/arcgis_js_api/library/4.6/esri/css/main.css'
       };
       esriLoader.loadModules(['esri/views/MapView', 'esri/WebMap'], options)
         .then(([MapView, WebMap]) => {
@@ -112,23 +119,34 @@ export default {
     }
   },
   mounted() {    
-    this.init2()
+    this.init1()
   },
   created() {
 
   }
 }
 </script>
+<style lang="less" scoped>
+  @import '../../assets/less/variable.less';
+  .PatrolPath {
+    position: absolute;
+    top: 0;
+    bottom: @footer-height;
+    width: 100%;
+    overflow-y: auto;
+  }
+</style>
 <style>
-@import url('https://js.arcgis.com/4.6/esri/css/main.css');
+/*@import url('http://localhost:8088/arcgis_js_api/library/4.6/esri/css/main.css');*/
 .mapTitle:hover,
 .mapTitle.focus {
   color: #9f9f9f;
 }
 
 #viewDiv {
-  height: calc(100vh - 7rem);
+  height: 60%;
   width: 100%;
+  background-color: lime;
 }
 
 table th {

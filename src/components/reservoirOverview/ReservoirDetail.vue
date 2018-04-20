@@ -24,7 +24,7 @@ let data = [
     href: '/reservoirDetail/monitor'
   },
   {
-    title: null,
+    title: '返回',
     icon: 'nxst-back',
     href: '/reservoirOverview/map'
   },
@@ -59,6 +59,15 @@ export default {
   created() {
     this.initBack()
     this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
+  },
+  watch: {  
+    '$route'(to, from)  {  
+      let toPath = to.path
+      if (toPath.indexOf('inspection/add') === -1) {
+        let documentTitle = session.getItem(documentTitle_reservoirDetail)
+        documentTitle && this.setDocumentTitle(documentTitle)
+      }
+    }  
   }
 }
 </script>

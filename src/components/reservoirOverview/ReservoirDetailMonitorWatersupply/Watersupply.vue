@@ -2,7 +2,7 @@
   <div class="ReservoirDetailMonitorWatersupply">
     <highcharts-column title="供水量" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitorWatersupply" v-if="tdData.length"></highcharts-column>
     <n-table :thData="thData" :tdData="tdData"></n-table>
-    <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add>
+    <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog4" @confirm="filter"></filter-dialog>
     <no-data v-if="!tdData.length"></no-data>

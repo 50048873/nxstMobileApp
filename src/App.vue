@@ -11,7 +11,6 @@
 
 <script> 
 import NOnline from '@/components/base/NOnline'
-import * as store from '@/assets/js/store'
 import {success} from '@/assets/js/config'
 import {loading} from '@/assets/js/util'
 import * as session from '@/assets/js/session'
