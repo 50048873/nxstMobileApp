@@ -13,7 +13,7 @@
         <h6 class="h6">时间</h6>
         <div class="inputBox">
           <label class="dateLabel" for="zTime">{{form.zTime}}</label>
-          <input class="date"  type="date" id="zTime" name="zTime" v-model="form.zTime">
+          <input class="date"  type="date"  id="zTime" name="zTime" v-model="form.zTime">
           <span class="arrow-r"></span>
         </div>
       </li>
@@ -360,18 +360,18 @@ export default {
           return
         }else{
           return api.getReservoirDetailMonitorAdd(this.form)
-        .then((res) => {
-          if (res.status === success) {
-            this.isSubmitting = false;
-            this.$router.back()
-          } else {
-            this.hint(res.msg)
-            this.isSubmitting = false;
-          }
-        }, (err) => {
-          this.serverErrorTip(err, 'ReservoirDetailMonitorAdd.vue');
-           this.isSubmitting = false;
-        })
+            .then((res) => {
+              if (res.status === success) {
+                this.isSubmitting = false;
+                this.$router.back()
+              } else {
+                this.hint(res.msg)
+                this.isSubmitting = false;
+              }
+            }, (err) => {
+              this.serverErrorTip(err, 'ReservoirDetailMonitorAdd.vue');
+              this.isSubmitting = false;
+            })
         }
       });
       
@@ -412,15 +412,19 @@ export default {
         .inputBox {
          flex: 1;
          text-align: right;
+         position: relative;
          .dateLabel {
           display: inline-block;
           width: 90%;
          }
          .date {
           display: inline-block;
-          width: 0;
-          height: 0;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
           overflow: hidden;
+          opacity: 0;
          }
          input {
           width: 100%;
