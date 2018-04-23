@@ -12,6 +12,9 @@
 <script>
 import * as session from '@/assets/js/session'
 import {documentTitle_reservoirDetail} from '@/assets/js/config'
+import api from '@/assets/js/api'
+import {success, ON} from '@/assets/js/config'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 let data = [
   {
     title: '信息',
@@ -47,6 +50,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'saveFilePathUrl'
+    ]),
     initBack() {
       let routers = session.getItem('routers');
       if (routers && routers.indexOf(',')) {
@@ -54,11 +60,26 @@ export default {
         originHref = originHrefArr[originHrefArr.length - 2]
         data[2].href = originHref
       } 
+    },
+    getFilePathUrl() {
+      api.getFilePathUrl()
+        .then((res) => {
+          if (res.status === success) {
+            if (res.data && res.data.filePathUrl) {
+              this.saveFilePathUrl(res.data.filePathUrl)
+            }
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirDetail.vue')
+        })
     }
   },
   created() {
     this.initBack()
     this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
+    this.getFilePathUrl()
   },
   watch: {  
     '$route'(to, from)  {  

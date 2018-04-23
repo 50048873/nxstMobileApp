@@ -9,6 +9,9 @@ const mutations = {
   },
   [type.SET_DOCUMENT_TITLE](state, documentTitle) {
     state.documentTitle = documentTitle
+  },
+  [type.SET_FILE_PATH_URL](state, filePathUrl) {
+    state.filePathUrl = filePathUrl
   }
 }
 

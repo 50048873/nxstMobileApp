@@ -223,6 +223,15 @@ let getServerInfo = function (data) {
   })
 }
 
+// 获取文件请求url地址
+let getFilePathUrl = function() {
+  const url = baseUrl + '/znb/CommonCtrl/getFilePathUrl.do'
+  return $.ajax({
+    type: 'GET',
+    url: url
+  })
+}
+
 export default {
 	login,
   getSessionUser,
@@ -245,6 +254,6 @@ export default {
   getBranchList,
   getMemberList,
   getDictValueByCode,
-  getServerInfo
-
+  getServerInfo,
+  getFilePathUrl
 }

@@ -382,3 +382,11 @@ export function standardDate(data) {
   }
   return data
 }
+
+// 节流
+export function throttle(fn, context, time) {
+    clearTimeout(fn.tId)
+    fn.tId = setTimeout(function() {
+        fn.call(context)
+    }, time || 100)
+}

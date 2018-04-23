@@ -21,7 +21,7 @@
               <div class="weui-cell weui-cell_select">
                   <div class="weui-cell__bd">
                     <select class="weui-select" name="select1" v-model="fileFirst" required>
-                        <option selected="">类型</option>
+                        <option value="" selected="">类型</option>
                         <template v-for="item in fileFirstData">
                           <option :value="siteList.channelId" v-for="siteList in item.siteList">{{siteList.videoName || '不知名'}}</option>
                         </template>

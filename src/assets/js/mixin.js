@@ -1,5 +1,5 @@
 import _dateFormat from 'dateformat'
-import {isArray} from '@/assets/js/util'
+import {isArray, isString} from '@/assets/js/util'
 import {path} from '@/assets/js/config'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
@@ -135,6 +135,17 @@ export let getWarnConfig = {
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirOverview.vue')
         })
+    }
+  }
+};
+
+export let convertPath = {
+  methods: {
+    convertPath(url, searchCharacter, replaceCharacter) {
+      if (isString(url) && url.indexOf(searchCharacter) > -1) {
+        return url.replace(searchCharacter, replaceCharacter)
+      }
+      return url
     }
   }
 };

@@ -1,21 +1,21 @@
 <template>
-  <div class="ReservoirDetailMonitorPhoto">
+  <div class="ReservoirDetailMonitorPhoto" ref="ReservoirDetailMonitorPhoto">
     <div v-show="reservoirDetailMonitorPhoto.length">
       <div class="viewArea">
         <div class="bigPicWrap" @touchstart="start" @touchmove="move" @touchend.prevent="end" ref="bigPicWrap">
           <ul id="bigPicUl">
-            <li v-for="item in reservoirDetailMonitorPhoto" v-lazy:background-image="item.image"></li>
+            <li v-for="item in reservoirDetailMonitorPhoto" v-lazy:background-image="filePathUrl + convertPath(item.filePath, '\\', '/')"></li>
           </ul>
         </div>
         <div class="text">
           <i class="nxst-clock"></i>
-          <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].tm | dateFormat}}</time>
+          <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].fileTime | dateFormat}}</time>
         </div>
       </div>
-      <div class="thumbnail">
+      <div class="thumbnail" ref="thumbnail">
         <ul id="thumbnailList">
           <li v-for="(item, index) in reservoirDetailMonitorPhoto" :class="{ON: index === currentIndex}" @click="goTo(index)">
-            <img height="60px" v-lazy="item.icon" alt="">
+            <img height="60px" v-lazy="filePathUrl + convertPath(item.fileCompress, '\\', '/')" alt="">
           </li>
         </ul>
       </div>
@@ -39,9 +39,10 @@ import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorP
 import api from '@/assets/js/api'
 import {success, ON} from '@/assets/js/config'
 import $ from 'jquery'
-import {getSurportCss, getSameDayOfPreMonth } from '@/assets/js/util'
+import {getSurportCss, getSameDayOfPreMonth, throttle} from '@/assets/js/util'
 import * as local from '@/assets/js/store'
-import {dateFormat, getStaticPath, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
+import {dateFormat, getStaticPath, getBottomPosition, monitorAdd, convertPath} from '@/assets/js/mixin'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 export default {
   name: 'ReservoirDetailMonitorPhoto',
@@ -55,14 +56,17 @@ export default {
       maskLayerIsVisible: false,
 
       page: 1,
-      pageSize: 10,
+      pageSize: 5,
       fileBiz: '', // 水库pid
       fileFirst: '',
       startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
     }
   },
-  mixins: [dateFormat, getStaticPath, getBottomPosition, monitorAdd],
+  computed: {
+    ...mapGetters(['filePathUrl'])
+  },
+  mixins: [dateFormat, getStaticPath, getBottomPosition, monitorAdd, convertPath],
   methods: {
     showDialog() {
       this.$refs.filterDialog5.show()
@@ -71,6 +75,8 @@ export default {
       this.fileFirst = date.fileFirst,
       this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
       this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.page = 1
+      this.getReservoirDetailMonitorPhoto()
     },
     click() {
       console.log('单击')
@@ -112,6 +118,8 @@ export default {
       }
 
       this.near();
+
+      this.loadMore()
     },
     near() {
       let moveDistance = `translate3d(${-this.currentIndex * this.moveW}px, 0, 0)`
@@ -127,7 +135,13 @@ export default {
       let activeElement = $('#thumbnailList li').eq(index)[0]
       activeElement.scrollIntoViewIfNeeded()
     },
-    getReservoirDetailMonitorPhoto() {
+    loadMore() {
+      if (this.currentIndex + 1 === this.pageSize * this.page) {
+        this.page++
+        this.getReservoirDetailMonitorPhoto(true)
+      }
+    },
+    getReservoirDetailMonitorPhoto(isAppended) {
       let params = {
         page: this.page,
         pageSize: this.pageSize,
@@ -136,12 +150,19 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime
       }
-      console.log(params)
+      //console.log(params)
       api.getReservoirDetailMonitorPhoto(params)
         .then((res) => {
           if (res.status === success) {
-            console.log(JSON.stringify(res.data, null, 2))
-            this.reservoirDetailMonitorPhoto = res.data
+            //console.log(JSON.stringify(res.data, null, 2))
+            if (isAppended) {
+              if (res.data && res.data.rows && res.data.rows.length) {
+                this.reservoirDetailMonitorPhoto = this.reservoirDetailMonitorPhoto.concat(res.data.rows)
+              } 
+            } else {
+              this.reservoirDetailMonitorPhoto = res.data.rows
+            }
+            
             this.$nextTick(() => {
               this.initParam()
             })
@@ -179,11 +200,32 @@ export default {
           this.maskLayerIsVisible = true
         }
       })
+    },
+    addScrollEvent() {
+      let $thumbnail = $(this.$refs.thumbnail),
+          paddingLeft = parseInt($(this.$refs.ReservoirDetailMonitorPhoto).css('paddingLeft')),
+          outLeft = window.innerWidth - paddingLeft
+      let load = function() {
+        let $lis = $thumbnail.find('li'),
+            $lastLi = $lis.last(),
+            index = $lis.index($lastLi),
+            left = $lastLi.offset().left
+        if (outLeft > left && (index + 1 === this.pageSize * this.page)) {
+          this.page++
+          this.getReservoirDetailMonitorPhoto(true)
+        }
+      }
+      $thumbnail.scroll(() => {
+        throttle(load, this)
+      })
     }
   },
   created() {
     this.getReservoirDetailMonitorPhoto()
     this.initMaskLayerIsVisible()
+  },
+  mounted() {
+    this.addScrollEvent()
   }
 }
 </script>

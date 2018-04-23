@@ -1,6 +1,5 @@
 <template>
   <div class="system-menu">
-    <news-marquee :data="newsMarquee" v-if="newsMarquee.length"></news-marquee>
     <div class="menu">
       <h3 class="title line-bottom">企业管理</h3>
       <nav>
@@ -86,34 +85,10 @@
 </template>
 
 <script>
-import NewsMarquee from '@/components/NewsMarquee'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 export default {
-  name: 'SystemMenu',
-  components: {
-    NewsMarquee
-  },
-  data() {
-    return {
-      newsMarquee: []
-    }
-  },
-  methods: {
-    getNewsMarquee() {
-      api.getNewsMarquee()
-        .then((res) => {
-          if (res.status === success) {
-            this.newsMarquee = res.data
-          }
-        }, (err) => {
-          this.serverErrorTip(err, 'NHome.vue')
-        })
-    },
-  },
-  created() {
-    this.getNewsMarquee()
-  }
+  name: 'SystemMenu'
 }
 </script>
 
