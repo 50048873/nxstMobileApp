@@ -15,31 +15,38 @@ import {documentTitle_reservoirDetail} from '@/assets/js/config'
 import api from '@/assets/js/api'
 import {success, ON} from '@/assets/js/config'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {handleAuth} from '@/assets/js/util'
+
 let data = [
   {
     title: '信息',
     icon: 'nxst-info',
-    href: '/reservoirDetail/info'
+    href: '/reservoirDetail/info',
+    flag:true
   },
   {
     title: '监测',
     icon: 'nxst-jc',
-    href: '/reservoirDetail/monitor'
+    href: '/reservoirDetail/monitor',
+    flag:handleAuth("check")
   },
   {
     title: '返回',
     icon: 'nxst-back',
-    href: '/reservoirOverview/map'
+    href: '/reservoirOverview/map',
+    flag:true
   },
   {
     title: '巡检',
     icon: 'nxst-xj',
-    href: '/reservoirDetail/inspection'
+    href: '/reservoirDetail/inspection',
+    flag:handleAuth("tour")
   },
   {
     title: '人员',
     icon: 'nxst-member',
-    href: '/reservoirDetail/member'
+    href: '/reservoirDetail/member',
+    flag:handleAuth("member")
   }
 ]
 export default {

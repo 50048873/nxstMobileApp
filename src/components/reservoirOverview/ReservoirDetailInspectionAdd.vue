@@ -86,6 +86,7 @@
 import {dateFormat} from '@/assets/js/mixin'
 import {androidInputBugFix, getUuid, createObjectURL, dataURLtoFile, compress} from '@/assets/js/util'
 import {success} from '@/assets/js/config'
+import  {getPid} from '@/assets/js/util'
 import $ from 'jquery'
 import api from '@/assets/js/api'
 export default {
@@ -104,6 +105,7 @@ export default {
       disabled: false
     }
   },
+  
   methods: {
     getReservoirDetailInspectionAdd_patrolPoint() {
       let params = {

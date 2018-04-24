@@ -19,13 +19,14 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <n-add left="20" :bottom="getBottomPosition(84)" @click="add"></n-add>
+    <n-add left="20" v-if="isAdd" :bottom="getBottomPosition(84)" @click="add"></n-add>
     <n-add left="20" :bottom="getBottomPosition(20)" iconClass="nxst-path" @click="toPatrolPath"></n-add>
   </div>
 </template>
 
 <script>
 import api from '@/assets/js/api'
+import  {getPid} from '@/assets/js/util'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
 import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
@@ -37,10 +38,26 @@ export default {
     return {
       ReservoirDetailInspection: [],
       startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endDate: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      endDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
+      isAdd:true
     }
   },
+  beforeMount(){
+    this.getAddAuth()
+  },
   methods: {
+    getAddAuth(){
+      api.getUserAuthInfo({id:"402881d162d65a7c0162d68715110061",flag:2,pid:getPid()}).then(res=>{
+        if(res.status === success){
+          if(!res.data) return
+          this.isAdd = res.data.length>0?true:false
+        }else{
+          this.hint(res.mes)
+        }
+      },err=>{
+         this.serverErrorTip(err, 'ReservoirDetailInspectionAdd.vue')
+      })
+    },
     order(arr) {
       if (!isArray(arr)) return
       return arr.sort((a, b) => {

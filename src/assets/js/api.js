@@ -223,12 +223,22 @@ let getServerInfo = function (data) {
   })
 }
 
+
 // 获取文件请求url地址
 let getFilePathUrl = function() {
   const url = baseUrl + '/znb/CommonCtrl/getFilePathUrl.do'
   return $.ajax({
     type: 'GET',
     url: url
+  })
+}
+//获取用户资源权限列表
+let getUserAuthInfo = (data) =>{
+  const url = baseUrl + '/znb/privilegeController/getResourceByIdAndUser.do'
+  return $.ajax({
+    type:"POST",
+    data,
+    url
   })
 }
 
@@ -255,5 +265,6 @@ export default {
   getMemberList,
   getDictValueByCode,
   getServerInfo,
-  getFilePathUrl
+  getFilePathUrl,
+  getUserAuthInfo
 }

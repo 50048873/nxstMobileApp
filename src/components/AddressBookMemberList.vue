@@ -36,7 +36,7 @@ export default {
   },
   created(){
     this.bcId = this.$route.query.bcId;
-    this.branchName = decodeURI(this.$route.query.shortName)
+    this.branchName = decodeURI(this.$route.query.shortName);
   },
    beforeMount(){
     if(this.bcId){

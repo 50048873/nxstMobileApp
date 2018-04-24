@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {path} from '@/assets/js/config'
+import {handleUserInfo} from '@/assets/js/auth.js'
 import NHome from '@/components/NHome'
 import SystemMenu from '@/components/SystemMenu'
 import NMessage from '@/components/NMessage'
@@ -100,7 +101,18 @@ let router = new Router({
         {
           path: "/reservoirOverview/map",
           name: "ReservoirOverviewMap",
-          component: ReservoirOverviewMap
+          component: ReservoirOverviewMap,
+          beforeEnter:(to, from, next) => {
+            handleUserInfo().then((data)=>{
+              if(data){
+                next()
+              }else{
+                next(false)
+              }
+            },err=>{
+              next(false)
+            })
+          }
         },
         {
           path: "/reservoirOverview/list",

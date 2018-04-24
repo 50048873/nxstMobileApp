@@ -41,6 +41,7 @@
 <script>
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
+import {setPid} from '@/assets/js/util'
 import BetterScroll from '@/components/base/BetterScroll'
 import {dateFormat, gcgmFilter, getWarnConfig} from '@/assets/js/mixin'
 import {mapGetters, mapMutations} from 'vuex'
@@ -57,7 +58,8 @@ export default {
   methods: {
     ...mapMutations([SET_WARNCONFIG]),
     showDetail(pid) {
-      this.getWarnConfig({pid})
+      this.getWarnConfig({pid});
+      setPid(pid);
       this.$router.push({path: '/reservoirDetail', query: {pid}})
     },
     getGcgm(val) {

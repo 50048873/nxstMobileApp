@@ -38,6 +38,7 @@
 <script>
 import $ from 'jquery'
 import {mapGetters, mapMutations} from 'vuex'
+import {setPid} from '@/assets/js/util'
 import {SET_WARNCONFIG} from '@/store/mutation-types'
 import {getStaticPath, getWarnConfig} from '@/assets/js/mixin'
 import api from '@/assets/js/api'
@@ -121,6 +122,7 @@ export default {
     },
     showDetail(pid) {
       this.getWarnConfig({pid})
+      setPid(pid);
       this.$router.push({path: '/reservoirDetail', query: {pid}})
     },
     getWarnPosition(item) {

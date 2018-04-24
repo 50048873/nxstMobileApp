@@ -29,7 +29,7 @@ export default {
     return {
       thData: {
         title1: '日期',
-        title2: '降雨量（m）'
+        title2: '降雨量（mm）'
       },
       tdData: [],
 

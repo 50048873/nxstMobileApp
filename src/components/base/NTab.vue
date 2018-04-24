@@ -1,9 +1,11 @@
 <template>
-  <div class="n-tab line-bottom" :class="{slider: data.length > 6}">
-    <router-link :to="getPath(item.path)" v-for="(item, index) in data" :key="index">
-      <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
-      <span class="title">{{item.title}}</span>
-    </router-link>
+  <div class="n-tab line-bottom">
+    <template v-for="(item, index) in data">
+      <router-link v-if="item.flag" :to="getPath(item.path)"  :key="index">
+        <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
+        <span class="title">{{item.title}}</span>
+      </router-link>
+    </template>
   </div>
 </template>
 
