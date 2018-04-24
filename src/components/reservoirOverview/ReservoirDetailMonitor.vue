@@ -11,6 +11,8 @@
 
 <script>
 import NTab from '@/components/base/NTab'
+import {handleAuth,getPid} from '@/assets/js/util'
+import {authArtificialPost} from '@/assets/js/auth'
 export default {
   name: 'ReservoirDetailMonitor',
   components: {
@@ -21,34 +23,48 @@ export default {
       tab: [
         {
           title: '水位',
-          path: '/reservoirDetail/monitor/waterlevel'
+          path: '/reservoirDetail/monitor/waterlevel',
+          flag:handleAuth("waterlevel")
+
         },
         {
           title: '雨量',
-          path: '/reservoirDetail/monitor/rainfall'
+          path: '/reservoirDetail/monitor/rainfall',
+          flag:handleAuth("wateryield")
         },
         {
           title: '图像',
-          path: '/reservoirDetail/monitor/photo'
+          path: '/reservoirDetail/monitor/photo',
+          flag:handleAuth("photo")
         },
         {
           title: '视频',
-          path: '/reservoirDetail/monitor/video'
+          path: '/reservoirDetail/monitor/video',
+          flag:handleAuth("vadio")
         },
         {
           title: '水质',
-          path: '/reservoirDetail/monitor/waterquality'
+          path: '/reservoirDetail/monitor/waterquality',
+          flag:handleAuth("qualitymonitor")
         },
         {
           title: '供水量',
-          path: '/reservoirDetail/monitor/watersupply'
+          path: '/reservoirDetail/monitor/watersupply',
+          flag:handleAuth("provideyield")
         },
         {
           title: '人工填报',
-          path: '/reservoirDetail/monitor/add'
+          path: '/reservoirDetail/monitor/add',
+          flag:false
         }
       ]
     }
+  },
+  beforeMount(){
+    authArtificialPost("402881d162d65a7c0162d679d5480044",2,getPid()).then(res=>{
+      console.log(res);
+      this.tab[this.tab.length-1].flag = res;
+    })
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import $ from 'jquery'
-import {defaultDocumentTitle} from '@/assets/js/config'
+import {defaultDocumentTitle,resourceList} from '@/assets/js/config'
+import {getItem,setItem} from '@/assets/js/session.js'
 
 export let toString = Object.prototype.toString
 
@@ -381,4 +382,36 @@ export function standardDate(data) {
     return res
   }
   return data
+}
+
+
+/*
+* @param   
+     userresourceList     用户权限列表
+     resourceList         菜单权限列表
+  @description            判断当前用户是否具有本资源的权限
+*/
+export  function handleAuth(key){
+    if(getItem("sourceList")&&JSON.parse(getItem("sourceList")).length>0){
+       return JSON.parse(getItem("sourceList")).indexOf(resourceList[key])>0?true:false 
+    }else{
+        return false
+    }   
+}
+
+/*
+* @param   
+     pid     水库id设置
+  @description     设置水库id存储
+*/
+
+export function setPid(value){
+    setItem("pid",value)
+}
+/*
+* @param   
+  @description     获取水库id
+*/
+export function getPid(){
+    return getItem("pid")
 }

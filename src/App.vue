@@ -85,8 +85,8 @@ export default {
   },
   created() {
     this.initAjaxLoading()
-    //this.getSessionUser()
-    //this.getListResourceNodeByUser()
+    // this.getSessionUser()
+    // this.getListResourceNodeByUser()
   }
 }
 </script>

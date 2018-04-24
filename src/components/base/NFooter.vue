@@ -1,12 +1,14 @@
 <template>
   <nav class="n-footer line-top">
-    <router-link :to="getPath(item.href)" v-for="(item, index) in data" :key="index">
-      <div class="iconWrap" :class="{back: item.icon === 'nxst-back'}">
-        <span :class="{'redDot': item.new}" v-if="item.new"></span>
-        <i :class="item.icon"></i>
-      </div>
-      <h3 v-if="item.title">{{item.title}}</h3>
+    <template  v-for="(item, index) in data">
+    <router-link v-if="item.flag" :to="getPath(item.href)" :key="index">
+        <div  class="iconWrap" :class="{back: item.icon === 'nxst-back'}">
+          <span :class="{'redDot': item.new}" v-if="item.new"></span>
+          <i :class="item.icon"></i>
+        </div>
+        <h3 v-if="item.title">{{item.title}}</h3>
     </router-link>
+    </template>
   </nav>
 </template>
 

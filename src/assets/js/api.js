@@ -223,6 +223,16 @@ let getServerInfo = function (data) {
   })
 }
 
+//获取用户资源权限列表
+let getUserAuthInfo = (data) =>{
+  const url = baseUrl + '/znb/privilegeController/getResourceByIdAndUser.do'
+  return $.ajax({
+    type:"POST",
+    data,
+    url
+  })
+}
+
 export default {
 	login,
   getSessionUser,
@@ -245,6 +255,7 @@ export default {
   getBranchList,
   getMemberList,
   getDictValueByCode,
-  getServerInfo
+  getServerInfo,
+  getUserAuthInfo
 
 }
