@@ -24,12 +24,14 @@ export default {
         {
           title: '地图',
           path: '/reservoirOverview/map',
-          icon: 'nxst-map'
+          icon: 'nxst-map',
+          flag:true
         },
         {
           title: '列表',
           path: '/reservoirOverview/list',
-          icon: 'nxst-list'
+          icon: 'nxst-list',
+          flag:true
         }
       ]
     }
