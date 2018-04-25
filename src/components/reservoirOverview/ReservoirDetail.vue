@@ -17,7 +17,7 @@ import {success, ON} from '@/assets/js/config'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {handleAuth} from '@/assets/js/util'
 
-let data = [
+let dataArr = [
   {
     title: '信息',
     icon: 'nxst-info',
@@ -28,7 +28,7 @@ let data = [
     title: '监测',
     icon: 'nxst-jc',
     href: '/reservoirDetail/monitor',
-    flag:handleAuth("check")
+    flag:false
   },
   {
     title: '返回',
@@ -40,20 +40,20 @@ let data = [
     title: '巡检',
     icon: 'nxst-xj',
     href: '/reservoirDetail/inspection',
-    flag:handleAuth("tour")
+    flag:false//
   },
   {
     title: '人员',
     icon: 'nxst-member',
     href: '/reservoirDetail/member',
-    flag:handleAuth("member")
+    flag:false//handleAuth("member")
   }
 ]
 export default {
   name: 'ReservoirOverviewDetail',
   data() {
     return {
-      data: data
+      data: dataArr
     }
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
       if (routers && routers.indexOf(',')) {
         let originHrefArr = routers.split(','),
         originHref = originHrefArr[originHrefArr.length - 2]
-        data[2].href = originHref
+        dataArr[2].href = originHref
       } 
     },
     getFilePathUrl() {
@@ -84,6 +84,9 @@ export default {
     }
   },
   created() {
+    this.data[1].flag = handleAuth("check")
+    this.data[3].flag = handleAuth("tour")
+    this.data[4].flag = handleAuth("member")
     this.initBack()
     this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
     this.getFilePathUrl()
