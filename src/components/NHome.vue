@@ -9,6 +9,7 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import api from '@/assets/js/api'
+import {clearUserAuthList} from '@/assets/js/auth'
 import {success, defaultDocumentTitle} from '@/assets/js/config'
 let data = [
   {
@@ -44,6 +45,9 @@ export default {
       data: data
     }
   },
+  beforeMount(){
+    clearUserAuthList()
+  },
   computed: {
     ...mapGetters(['documentTitle'])
   },
@@ -74,6 +78,7 @@ export default {
   },
   created() {
     this.initTitle()
+    
   }
 }
 </script>
