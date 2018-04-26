@@ -1,14 +1,20 @@
 <template>
   <div class="PatrolPath">
-    <h1>巡查轨迹测试页面</h1>
     <!-- <iframe style="width:100%;height:50%;" :src="this.getStaticPath('/static/ArcGisTest2.html')" frameborder="0"></iframe> -->
-    <div id="viewDiv" class="balt-theme"></div>
+    <div id="mapView" class="mapContainer">
+      <div class="buttonarea">
+          <button>开始</button>
+          <button>结束</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import * as esriLoader from 'esri-loader';
+//import * as esriLoader from 'esri-loader';
 import {getStaticPath} from '@/assets/js/mixin'
+import {markArr} from '@/assets/js/test'
+import AMap from 'AMap';   
 export default {
   data() {
     return {
@@ -16,113 +22,165 @@ export default {
     }
   },
   mixins: [getStaticPath],
+  mounted(){
+       this.loadmap();
+  },
   methods: {
-    init1() {
-      // const options = {
-      //   url: 'https://js.arcgis.com/4.6/'
-      // };
-      const options = {
-        url: 'http://localhost:8088/arcgis_js_api/library/4.6/dojo/dojo.js',
-        css: 'http://localhost:8088/arcgis_js_api/library/4.6/esri/css/main.css'
-      };
-      esriLoader.loadModules(['esri/views/MapView', 'esri/WebMap'], options)
-        .then(([MapView, WebMap]) => {
-          // then we load a web map from an id
-          var webmap = new WebMap({
-            portalItem: { // autocasts as new PortalItem()
-              id: 'f2e9b762544945f390ca4ac3671cfa72'
-            }
-          });
-          // and we show that map in a container w/ id #viewDiv
-          var view = new MapView({
-            map: webmap,
-            container: 'viewDiv'
-          });
-        })
-        .catch(err => {
-          // handle any errors
-          console.error(err);
+    loadmap(){
+        const that = this;
+        const map = new AMap.Map('mapView', {
+          zoom: 9,
+          mapStyle:'amap://styles/whitesmoke'
+        });
+        AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){
+            map.addControl(new AMap.ToolBar());
+            map.addControl(new AMap.Scale());
+            const geolocation = new AMap.Geolocation({
+               zoomToAccuracy: true,
+               maximumAge:9000
+            });
+            map.addControl(geolocation);
+            that.handleGps(geolocation)
+        });
+        AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
+          if (!PathSimplifier.supportCanvas) {
+                that.hint('当前环境不支持 Canvas！');
+                that.initPage(SimpleMarker,null,map);
+          }else{
+                that.initPage(SimpleMarker,PathSimplifier,map);
+          }
         });
     },
-    init2() { 
-      esriLoader.loadModules([
-        "esri/Map",
-        "esri/views/MapView",
-        "esri/widgets/BasemapToggle",
-        "esri/tasks/Locator",
-        "dojo/domReady!"
-      ]).then(([Map, MapView, BasemapToggle, Locator]) => {
-        // Create the Map
-          var map = new Map({
-            basemap: "hybrid"
-          });
-
-          // Create the MapView and reference the Map in the instance
-          var view = new MapView({
-            container: "viewDiv",
-            map: map,
-            center: [114.372402,30.588834],
-            zoom: 17
-          });
-
-          // 1 - Create the widget
-          var toggle = new BasemapToggle({
-            // 2 - Set properties
-            view: view, // view that provides access to the map's 'topo' basemap
-            nextBasemap: "topo" // allows for toggling to the 'hybrid' basemap
-          });
-
-          // Add widget to the top right corner of the view
-          view.ui.add(toggle, "top-right");
-
-
-          // Set up a locator task using the world geocoding service
-          var locatorTask = new Locator({
-            url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-          });
-
-          /*******************************************************************
-           * This click event sets generic content on the popup not tied to
-           * a layer, graphic, or popupTemplate. The location of the point is
-           * used as input to a reverse geocode method and the resulting
-           * address is printed to the popup content.
-           *******************************************************************/
-          view.on("click", function(event) {
-            event.stopPropagation(); // overwrite default click-for-popup behavior
-
-            // Get the coordinates of the click on the view
-            var lat = Math.round(event.mapPoint.latitude * 1000000) / 1000000;
-            var lon = Math.round(event.mapPoint.longitude * 1000000) / 1000000;
-
-            view.popup.open({
-              // Set the popup's title to the coordinates of the location
-              title: "Reverse geocode: [" + lon + ", " + lat + "]",
-              location: event.mapPoint // Set the location of the popup to the clicked location
-            });
-
-            // Display the popup
-            // Execute a reverse geocode using the clicked location
-            locatorTask.locationToAddress(event.mapPoint).then(function(
-              response) {
-              // If an address is successfully found, show it in the popup's content
-              view.popup.content = response.address;
-            }).otherwise(function(err) {
-              // If the promise fails and no result is found, show a generic message
-              view.popup.content =
-                "No address was found for this location";
-            });
-          });
-        }).catch(err => {
-          // handle any errors
-          console.error(err);
+    initPage(SimpleMarker,PathSimplifier=null,map) {
+        markArr.forEach((mark,index) => {    //创建地图标记点
+            return(
+              new SimpleMarker({
+                iconLabel:{
+                  innerHTML: `<span>${index+1}</span>`, 
+                    style: {
+                        color: '#fff',
+                        width:'8px',
+                        height:'8px',
+                        lineHeight:'8px',
+                        fontSize:"10px"
+                    }
+                } ,
+                clickable:true,
+                iconTheme: 'numv1',
+                iconStyle:'red',
+                map: map,
+                position: mark
+              }).on("click",function (e) {
+                  alert(e.target.getPosition())
+              })
+            )
         });
+        if(PathSimplifier){
+            const emptyLineStyle = {   //设置轨迹样式
+                lineWidth: 2,
+                fillStyle: null,
+                strokeStyle: null,
+                borderStyle: null
+            };
+            const pathSimplifierIns = new PathSimplifier({   //创建轨迹实例
+                zIndex: 10000,
+                map: map,
+                autoSetFitView:true,
+                getPath: function(pathData, pathIndex) {
+                    return pathData.path;
+                },
+                renderOptions: {
+                    pathLineStyle: emptyLineStyle,
+                    startPointStyle: {   //起点样式
+                      radius:3,
+                      fillStyle:"blue",
+                      strokeStyle:"yellow",
+                      lineWidth:0 
+                    },
+                    endPointStyle: {   //结束点样式
+                      radius:3,
+                      fillStyle:"blue",
+                      strokeStyle:"yellow",
+                      lineWidth:0 
+                    }
+                }
+            });
+            window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
+            pathSimplifierIns.setData([{         //设置轨迹数据源
+                name: 'test',
+                path: [
+                    [114.346337,30.573751],
+                    [114.339234,30.572347],
+                    [114.335265,30.571165],
+                    [114.329471,30.570537],
+                    [114.326016,30.569096],
+                    [114.320856,30.566352],
+                    [114.319901,30.56492],
+                    [114.319407,30.564569],
+                    [114.319472,30.563507],
+                    [114.319697,30.561594],
+                    [114.319493,30.560643],
+                    [114.319633,30.55885],
+                    [114.321832,30.557677],
+                    [114.323431,30.557455],
+                    [114.325126,30.558019],
+                    [114.326488,30.557714],
+                    [114.326488,30.557714],
+                    [114.327583,30.558259],
+                    [114.32916,30.55813],
+                    [114.329085,30.558167],
+                    [114.330233,30.559146],
+                    [114.330351,30.559128],
+                    [114.333956,30.560984],
+                    [114.334986,30.560273],
+                    [114.338355,30.561862],
+                    [114.341165,30.561899],
+                    [114.348032,30.56541],
+                    [114.351175,30.569271],
+                    [114.35124,30.57025],
+                    [114.350666,30.570449],
+                    [114.350934,30.570957],
+                    [114.350929,30.572458]
+                ]
+            }]);
+            function onload() {
+                pathSimplifierIns.renderLater();
+            }
+            function onerror(e) {
+                console.log('出错了！');
+            }
+            const navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
+                loop: true,
+                speed: 200,
+                pathNavigatorStyle: {
+                    width: 20,
+                    height: 20,
+                    content: PathSimplifier.Render.Canvas.getImageContent(require('@/assets/img/person.png'), onload, onerror),
+                    strokeStyle: 'red',
+                    fillStyle: 'blue',
+                    pathLinePassedStyle: {
+                        lineWidth: 4,
+                        strokeStyle: 'lightgreen',
+                        dirArrowStyle: {
+                            stepSpace: 8,
+                            strokeStyle: 'pink'
+                        }
+                    }
+                }
+            });
+            navg.start();//开始导航
+            // navg.moveToPoint(2,0.5)   //定位导航位置
+        }
+    },
+    handleGps(geolocation){
+      geolocation.getCurrentPosition();
+      AMap.event.addListener(geolocation, 'complete', function (result) {
+          console.log(result)
+      });
+      AMap.event.addListener(geolocation, 'error', function (result) {
+          console.log(result)
+      });      
     }
-  },
-  mounted() {    
-    this.init1()
-  },
-  created() {
-
   }
 }
 </script>
@@ -135,53 +193,28 @@ export default {
     width: 100%;
     overflow-y: auto;
   }
+  .mapContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color:#fff;
+    .buttonarea{
+      position: absolute;
+      display: flex;
+      top:5px;
+      width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 1;
+      button{
+        background-color: #0085ff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+      }
+    }
+ }
 </style>
-<style>
-/*@import url('http://localhost:8088/arcgis_js_api/library/4.6/esri/css/main.css');*/
-.mapTitle:hover,
-.mapTitle.focus {
-  color: #9f9f9f;
-}
 
-#viewDiv {
-  height: 60%;
-  width: 100%;
-  background-color: lime;
-}
-
-table th {
-  color: #fff;
-}
-
-.esri-expand__container .esri-widget-button {
-  width: 42px;
-  height: 42px;
-}
-
-form input[type="text"]::-webkit-input-placeholder {
-  color: #fff !important;
-}
-
-.balt-theme .esri-widget,
-.balt-theme .esri-widget-button,
-.balt-theme .esri-menu,
-.balt-theme .esri-popup__main-container,
-.balt-theme .esri-popup .esri-pointer-direction,
-.balt-theme .esri-button {
-  background-color: #42484f;
-  color: #fff;
-}
-
-.balt-theme .esri-widget-button:focus,
-.balt-theme .esri-widget-button:hover,
-.balt-theme .esri-menu li:focus,
-.balt-theme .esri-menu li:hover {
-  background-color: #000;
-  color: #fff;
-}
-
-.balt-theme .esri-button:focus,
-.balt-theme .esri-button:hover {
-  color: #fff;
-}
-</style>
