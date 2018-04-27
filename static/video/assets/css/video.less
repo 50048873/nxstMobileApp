@@ -1,0 +1,91 @@
+[v-cloak] {
+  display: none;
+}
+
+.green {
+  color: green;
+}
+
+.noChannel {
+  text-align: center;
+  padding-top: 1.5rem;
+} 
+
+.mobile {
+  .videoItem {
+    margin-top: 1.5rem;
+    video{
+      width: 100%;
+      height: 100%
+    }
+    .info {
+      width: 100%;
+      padding: 0.5rem;
+      span:last-child {
+        float: right;
+      }
+    }
+    .video-js {
+      width: 100%; 
+      height: 100%;
+    }
+    .controls {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      margin-left: -18px;
+      .glyphicon-play-circle {
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+}
+
+.pc {
+  height: 100%;
+  body {
+    height: 100%;
+  }
+  .videoWrap {
+    display: flex;
+    height: 100%;
+    .videos {
+      flex: 1;
+      .videoItem {
+        padding: 0;
+        margin: 0;
+        video{
+          width: 100%;
+          height: 100%
+        }
+        .info {
+          width: 100%;
+          padding: 0.5rem;
+          span:last-child {
+            float: right;
+          }
+        }
+        .video-js {
+          width: 100%; 
+          height: 100%;
+        }
+        .controls {
+          position: absolute;
+          bottom: 50%;
+          left: 50%;
+          margin-left: -18px;
+          .glyphicon-play-circle {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+          }
+        }
+      }
+    }
+    .btns {
+      width: 300px;
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
+}
