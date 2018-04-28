@@ -18,6 +18,8 @@ import ReservoirDetail from '@/components/reservoirOverview/ReservoirDetail'
 import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailInfo'
 import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirDetailInspection'
 import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
+import ReservoirDetailInspectionRecord from '@/components/reservoirOverview/ReservoirDetailInspectionRecord'
+import ReservoirDetailInspectionTrail from '@/components/reservoirOverview/ReservoirDetailInspectionTrail'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
 import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel/Waterlevel'
@@ -102,16 +104,19 @@ let router = new Router({
           path: "/reservoirOverview/map",
           name: "ReservoirOverviewMap",
           component: ReservoirOverviewMap,
-          beforeEnter:(to, from, next) => {
-            handleUserInfo().then((data)=>{
-              if(data){
-                next()
-              }else{
-                next(false)
+          beforeEnter: (to, from, next) => {
+            handleUserInfo().then(
+              data => {
+                if (data) {
+                  next();
+                } else {
+                  next(false);
+                }
+              },
+              err => {
+                next(false);
               }
-            },err=>{
-              next(false)
-            })
+            );
           }
         },
         {
@@ -178,7 +183,19 @@ let router = new Router({
         {
           path: "/reservoirDetail/inspection",
           name: "ReservoirDetailInspection",
-          component: ReservoirDetailInspection
+          component: ReservoirDetailInspection,
+          children: [
+            {
+              path: "/reservoirDetail/inspection/record",
+              name: "ReservoirDetailInspectionRecord",
+              component: ReservoirDetailInspectionRecord
+            },
+            {
+              path: "/reservoirDetail/inspection/patrolPath",
+              name: "ReservoirDetailInspectionPatrolPath",
+              component: PatrolPath
+            }
+          ]
         },
         {
           path: "/reservoirDetail/inspection/add",
@@ -186,13 +203,13 @@ let router = new Router({
           component: ReservoirDetailInspectionAdd
         },
         {
-          path: '/reservoirDetail/inspection/patrolPath',
-          name: 'PatrolPath',
-          component: PatrolPath
+          path: "/reservoirDetail/inspection/trail",
+          name: "ReservoirDetailInspectionTrail",
+          component: ReservoirDetailInspectionTrail
         },
         {
-          path: '/reservoirDetail/member',
-          name: 'ReservoirDetailMember',
+          path: "/reservoirDetail/member",
+          name: "ReservoirDetailMember",
           component: ReservoirDetailMember
         }
       ]

@@ -39,7 +39,7 @@ let data = [
   {
     title: '巡检',
     icon: 'nxst-xj',
-    href: '/reservoirDetail/inspection',
+    href: '/reservoirDetail/inspection/record',
     flag:handleAuth("tour")
   },
   {

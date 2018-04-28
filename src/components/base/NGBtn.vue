@@ -6,7 +6,7 @@
     @touchend.prevent="end" 
     :style="getPos" 
     ref="nAdd">
-    <i :class="iconClass"></i>
+       开始<br/>巡检
   </div>
 </template>
 
@@ -177,18 +177,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(38, 194, 209, 0.6);
+    background-color: rgba(253, 168, 85, 0.6);
     border-radius: 50%;
+    color:#fff;
     box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
     transition: background-color 0.4s;
-    [class*="nxst"]{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 28px;
-      color: white;
-    }
     .content{
       color:#fff;
       text-align: justify;

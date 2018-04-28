@@ -2,26 +2,47 @@
   <div class="PatrolPath">
     <!-- <iframe style="width:100%;height:50%;" :src="this.getStaticPath('/static/ArcGisTest2.html')" frameborder="0"></iframe> -->
     <div id="mapView" class="mapContainer">
-      <div class="buttonarea">
-          <button>开始</button>
-          <button>结束</button>
-      </div>
+    </div>
+    <div class="buttonarea">
+        <div class="addbtn">
+            <i  @click="add" class="nxst-add"></i>
+        </div>
+        <div class="startbtn"   @click="handleMapTrail">
+            <div class="cssload-ball">     
+            </div>
+            <div class="btncontent">
+                    <span class="status">{{isstart===1?"检查中":isstart===2?"已结束":"开始"}}</span>
+                    <span class="time">08:00</span>
+            </div>
+        </div>
+        <div class="inspector">
+                <h3 class="reservoirname">
+                    丹江口水库巡查
+                </h3>
+                <div class="personname">
+                    <span>巡查人：张子含</span>
+                    <span>时间：3-12</span>
+                </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
 //import * as esriLoader from 'esri-loader';
-import {getStaticPath} from '@/assets/js/mixin'
+import {getStaticPath,getBottomPosition} from '@/assets/js/mixin'
 import {markArr} from '@/assets/js/test'
 import AMap from 'AMap';   
+import _ from 'lodash';
 export default {
   data() {
     return {
-      
+        timer:null,
+        geolocation:null,
+        isstart:0
     }
   },
-  mixins: [getStaticPath],
+  mixins: [getStaticPath,getBottomPosition],
   mounted(){
        this.loadmap();
   },
@@ -29,18 +50,25 @@ export default {
     loadmap(){
         const that = this;
         const map = new AMap.Map('mapView', {
-          zoom: 9,
+          zoom:6,
           mapStyle:'amap://styles/whitesmoke'
         });
         AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){
-            map.addControl(new AMap.ToolBar());
-            map.addControl(new AMap.Scale());
+            map.addControl(new AMap.ToolBar({
+                offset:new AMap.Pixel(10, 200)
+            }));
+            map.addControl(new AMap.Scale({
+                visible:false
+            }));
             const geolocation = new AMap.Geolocation({
-               zoomToAccuracy: true,
-               maximumAge:9000
+               zoomToAccuracy: false,
+               maximumAge:10000,
+               panToLocation:false,
+               buttonOffset: new AMap.Pixel(10, 100)
             });
             map.addControl(geolocation);
-            that.handleGps(geolocation)
+            that.geolocation = geolocation;
+            //that.handleGps(geolocation)
         });
         AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
           if (!PathSimplifier.supportCanvas) {
@@ -151,7 +179,7 @@ export default {
             }
             const navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: true,
-                speed: 200,
+                speed: 1,
                 pathNavigatorStyle: {
                     width: 20,
                     height: 20,
@@ -168,18 +196,39 @@ export default {
                     }
                 }
             });
-            navg.start();//开始导航
-            // navg.moveToPoint(2,0.5)   //定位导航位置
+            window.navg = navg;
         }
     },
-    handleGps(geolocation){
-      geolocation.getCurrentPosition();
-      AMap.event.addListener(geolocation, 'complete', function (result) {
-          console.log(result)
-      });
-      AMap.event.addListener(geolocation, 'error', function (result) {
-          console.log(result)
-      });      
+    // handleGps(geolocation=this.geolocation){ 
+    // },
+    handleTrail(){   //持续记录轨迹
+        const that = this;
+        this.timer =  setInterval(_.throttle(function(){
+            that.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    //定位成功，接口记录定位信息
+                    console.log(result)
+                }
+            });
+        },10000, { 'leading': true }),10000);
+    },
+    handleMapTrail(){
+        if(this.isstart===0){
+            this.handleTrail()
+            navg.start()
+            this.isstart = 1;
+        }else if(this.isstart===1){
+            navg.stop()
+            clearInterval(this.timer);
+            this.isstart = 2;
+            // navg.destroy()
+        }else{
+            return 
+        }
+
+    },
+    add(){
+        this.$router.push({path: '/reservoirDetail/inspection/add'})
     }
   }
 }
@@ -192,29 +241,135 @@ export default {
     bottom: @footer-height;
     width: 100%;
     overflow-y: auto;
-  }
-  .mapContainer {
+    .mapContainer {
     position: relative;
     height: 100%;
     width: 100%;
     background-color:#fff;
+    }
     .buttonarea{
       position: absolute;
-      display: flex;
-      top:5px;
+      bottom:0;
       width: 100%;
-      align-items: center;
-      justify-content: space-around;
-      z-index: 1;
-      button{
-        background-color: #0085ff;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 3px;
-        border: none;
-        outline: none;
+      height:@footer-height;
+      background-color: #edeff4;
+      z-index: 999;
+      text-align: right;
+      .addbtn{
+          position: absolute;
+          background-color: rgba(38, 194, 209, 0.8);
+          color: #fff;
+          width: 1.48rem;
+          height: 1.48rem;
+          border-radius: 0.74rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 0.64rem;
+          bottom:0px;
+          left: 0.4rem;
+      }
+      .startbtn{
+          position: absolute;
+          bottom:0px;
+          width: 1.48rem;
+          height:1.48rem;
+          left:2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .btncontent{
+                position: absolute;
+                top:0.074rem;
+                left: 0.074rem;
+                background-color: #fa9256;
+                color: #fff;
+                width: 1.32rem;
+                height: 1.32rem;
+                border-radius: 0.66rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                .time{
+                    font-size: 14px;
+                    font-weight: bold;
+                };
+                .status{
+                    font-size: 12px;
+                } 
+            }
+          .cssload-ball{
+                position:absolute;
+                height: 1.44rem;
+                width: 1.44rem;
+                border-radius: 1.44rem;
+                border: 1px solid #fa9256;
+                left: 0px;
+                transform-origin: 50% 50%;
+                -o-transform-origin: 50% 50%;
+                -ms-transform-origin: 50% 50%;
+                -webkit-transform-origin: 50% 50%;
+                -moz-transform-origin: 50% 50%;
+                animation: cssload-ball 3.45s linear infinite;
+                -o-animation: cssload-ball 3.45s linear infinite;
+                -ms-animation: cssload-ball 3.45s linear infinite;
+                -webkit-animation: cssload-ball 3.45s linear infinite;
+                -moz-animation: cssload-ball 3.45s linear infinite;
+            }
+            .cssload-ball:after{
+                content: "";
+                position: absolute;
+                top: 0px;
+                left: 0.38rem;
+                width: 6px;
+                height: 6px;
+                border-radius: 10px;
+                background-color: rgb(252,1,40);
+            }
+            @keyframes cssload-ball{
+                    0%{transform:rotate(0deg);}
+                    100%{transform:rotate(360deg);}
+            }
+            @-o-keyframes cssload-ball{
+                    0%{-o-transform:rotate(0deg);}
+                    100%{-o-transform:rotate(360deg);}
+            }
+            @-ms-keyframes cssload-ball{
+                    0%{-ms-transform:rotate(0deg);}
+                    100%{-ms-transform:rotate(360deg);}
+            }
+            @-webkit-keyframes cssload-ball{
+                    0%{-webkit-transform:rotate(0deg);}
+                    100%{-webkit-transform:rotate(360deg);}
+            }
+            @-moz-keyframes cssload-ball{
+                    0%{-moz-transform:rotate(0deg);}
+                    100%{-moz-transform:rotate(360deg);}
+            }
+      }
+      .inspector{
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-content: center;
+          justify-content: center;
+          padding-right: 10px;
+          .personname{
+              color:#777d77;
+          }
       }
     }
- }
+  }
+  .scrollWrap {
+    position: absolute;
+    top: @tab-height;
+    right: 0;
+    bottom: @footer-height;
+    left: 0;
+    overflow-y: auto;
+  }
+        
+ 
 </style>
 
