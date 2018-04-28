@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import api from "@/assets/js/api.js";
-import {setItem,getItem} from "@/assets/js/session.js"
+import {setItem,getItem,clearItem} from "@/assets/js/session.js"
+//获取用户资源权限列表
 export function handleUserInfo(){
     if(getItem("sourceList")){
         return $.Deferred().resolve(true)
@@ -17,7 +18,7 @@ export function handleUserInfo(){
         })
     } 
 }
-
+//人工填报授权处理
 export function authArtificialPost(id="402881d162d65a7c0162d679d5480044",flag=2,pid){
     return api.getUserAuthInfo({id,flag,pid}).then(res=>{
         if(res.status==1&&res.data){
@@ -29,3 +30,11 @@ export function authArtificialPost(id="402881d162d65a7c0162d679d5480044",flag=2,
         return $.Deferred().resolve(false)
     })
 }
+
+
+//清楚本地权限数据
+export function clearUserAuthList(){
+    clearItem("sourceList")
+}
+
+

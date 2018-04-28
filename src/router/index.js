@@ -101,18 +101,7 @@ let router = new Router({
         {
           path: "/reservoirOverview/map",
           name: "ReservoirOverviewMap",
-          component: ReservoirOverviewMap,
-          beforeEnter:(to, from, next) => {
-            handleUserInfo().then((data)=>{
-              if(data){
-                next()
-              }else{
-                next(false)
-              }
-            },err=>{
-              next(false)
-            })
-          }
+          component: ReservoirOverviewMap
         },
         {
           path: "/reservoirOverview/list",
@@ -126,6 +115,17 @@ let router = new Router({
       redirect: "/reservoirDetail/info",
       name: "ReservoirDetail",
       component: ReservoirDetail,
+      beforeEnter:(to, from, next) => {
+            handleUserInfo().then((data)=>{
+              if(data){
+                next()
+              }else{
+                next(false)
+              }
+            },err=>{
+              next(false)
+            })
+      },
       children: [
         {
           path: "/reservoirDetail/info",

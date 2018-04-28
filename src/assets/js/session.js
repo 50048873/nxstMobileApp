@@ -7,3 +7,7 @@ export function setItem(key, title) {
 export function getItem(key) {
   return storage.session.get(key)
 }
+
+export function clearItem(key){
+  return storage.session.remove(key)
+}

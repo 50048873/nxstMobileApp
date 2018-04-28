@@ -86,9 +86,13 @@
 
 <script>
 import api from '@/assets/js/api'
+import {clearUserAuthList} from '@/assets/js/auth'
 import {success} from '@/assets/js/config'
 export default {
-  name: 'SystemMenu'
+  name: 'SystemMenu',
+  beforeMount(){
+    clearUserAuthList()
+  },
 }
 </script>
 
