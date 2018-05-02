@@ -252,7 +252,16 @@ let getTrailRecord = data => {
   });
 };
 
-
+//添加巡查轨迹
+let addPatrolTrail = data => {
+  const url = baseUrl + "/znb/patrolRecord/addTrack.do";
+  return $.ajax({
+    type: "POST",
+    contentType: "application/json",
+    data:JSON.stringify(data),
+    url
+  });
+};
 
 export default {
   login,
@@ -279,5 +288,6 @@ export default {
   getServerInfo,
   getFilePathUrl,
   getUserAuthInfo,
-  getTrailRecord
+  getTrailRecord,
+  addPatrolTrail
 };

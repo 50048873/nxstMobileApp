@@ -30,7 +30,7 @@
 
 <script>
 //import * as esriLoader from 'esri-loader';
-import {getStaticPath,getBottomPosition} from '@/assets/js/mixin'
+import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr} from '@/assets/js/test'
 import {success} from '@/assets/js/config'
 import  {getPid} from '@/assets/js/util'
@@ -46,14 +46,16 @@ export default {
         second:0,
         minutes:0,
         timer2:null,
-        patrolList:null
+        patrolList:null,
+        locationArr:[],
+        starttime:null
     }
   },
-  mixins: [getStaticPath,getBottomPosition],
+  mixins: [getStaticPath,getBottomPosition,dateFormat],
   beforeMount(){
       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
-          if(res.status==success){
-              console.log(res)
+          if(res.status==1){
+            this.patrolList = res.data
           }
       },(err)=>{
           this.hint(err.msg)
@@ -80,6 +82,7 @@ export default {
                zoomToAccuracy: false,
                maximumAge:10000,
                panToLocation:false,
+               convert:false,
                buttonOffset: new AMap.Pixel(10, 100)
             });
             map.addControl(geolocation);
@@ -96,7 +99,8 @@ export default {
         });
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
-        markArr.forEach((mark,index) => {    //创建地图标记点
+        const that = this;
+        this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
               new SimpleMarker({
                 iconLabel:{
@@ -113,9 +117,9 @@ export default {
                 iconTheme: 'numv1',
                 iconStyle:'red',
                 map: map,
-                position: mark
+                position: [mark.LGTD,mark.LTTD]
               }).on("click",function (e) {
-                  alert(e.target.getPosition())
+                  alert(`巡检点${mark.PATROL_NAME}`)
               })
             )
         });
@@ -149,53 +153,53 @@ export default {
                     }
                 }
             });
-            window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             pathSimplifierIns.setData([{         //设置轨迹数据源
                 name: 'test',
-                path: [
-                    [114.346337,30.573751],
-                    [114.339234,30.572347],
-                    [114.335265,30.571165],
-                    [114.329471,30.570537],
-                    [114.326016,30.569096],
-                    [114.320856,30.566352],
-                    [114.319901,30.56492],
-                    [114.319407,30.564569],
-                    [114.319472,30.563507],
-                    [114.319697,30.561594],
-                    [114.319493,30.560643],
-                    [114.319633,30.55885],
-                    [114.321832,30.557677],
-                    [114.323431,30.557455],
-                    [114.325126,30.558019],
-                    [114.326488,30.557714],
-                    [114.326488,30.557714],
-                    [114.327583,30.558259],
-                    [114.32916,30.55813],
-                    [114.329085,30.558167],
-                    [114.330233,30.559146],
-                    [114.330351,30.559128],
-                    [114.333956,30.560984],
-                    [114.334986,30.560273],
-                    [114.338355,30.561862],
-                    [114.341165,30.561899],
-                    [114.348032,30.56541],
-                    [114.351175,30.569271],
-                    [114.35124,30.57025],
-                    [114.350666,30.570449],
-                    [114.350934,30.570957],
-                    [114.350929,30.572458]
-                ]
+                path: [[that.patrolList[0].LGTD,that.patrolList[0].LTTD]]
             }]);
-            function onload() {
-                pathSimplifierIns.renderLater();
-            }
-            function onerror(e) {
-                console.log('出错了！');
-            }
-            const navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
+            window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
+            window.navg = null;
+            window.PathSimplifier = PathSimplifier;
+        }
+    },
+    // handleGps(geolocation=this.geolocation){ 
+    // },
+    handleTrail(){   //持续记录轨迹
+        const that = this;
+        this.timer =  setInterval(_.throttle(function(){
+            that.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    //定位成功，接口记录定位信息
+                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
+                        if(res.status==1){
+                            that.locationArr.push([res.data.lgtd,res.data.lttd]);
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: that.locationArr
+                            }]);
+                        }
+                    },(err)=>{
+                        that.hint(err.msg)
+                    })
+                }
+            });
+        },10000, { 'leading': true }),10000);
+    },
+    handleMapTrail(){
+        function onload() {
+            pathSimplifierIns.renderLater();
+        }
+        function onerror(e) {
+            console.log('出错了！');
+        }
+        
+        if(this.isstart===0){
+            this.handleTimeAdd("start")
+            this.handleTrail();
+            this.starttime = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')
+            navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: true,
-                speed: 1,
+                speed: 500,
                 pathNavigatorStyle: {
                     width: 20,
                     height: 20,
@@ -212,30 +216,11 @@ export default {
                     }
                 }
             });
-            window.navg = navg;
-        }
-    },
-    // handleGps(geolocation=this.geolocation){ 
-    // },
-    handleTrail(){   //持续记录轨迹
-        const that = this;
-        this.timer =  setInterval(_.throttle(function(){
-            that.geolocation.getCurrentPosition(function(status,result){
-                if(status==="complete"){
-                    //定位成功，接口记录定位信息
-                    console.log(result)
-                }
-            });
-        },10000, { 'leading': true }),10000);
-    },
-    handleMapTrail(){
-        if(this.isstart===0){
-            this.handleTimeAdd("start")
-            this.handleTrail()
             navg.start()
             this.isstart = 1;
         }else if(this.isstart===1){
             this.handleTimeAdd("stop")
+            this.$store.dispatch("patrolOver",{usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')})
             navg.stop()
             clearInterval(this.timer)
             this.isstart = 2;
