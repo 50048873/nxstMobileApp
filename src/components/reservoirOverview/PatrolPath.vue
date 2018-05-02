@@ -8,11 +8,11 @@
             <i  @click="add" class="nxst-add"></i>
         </div>
         <div class="startbtn"   @click="handleMapTrail">
-            <div class="cssload-ball">     
+            <div :class="isstart===1?'cssload-ball cssload-ball-play':'cssload-ball  cssload-ball-stop'">     
             </div>
             <div class="btncontent">
                     <span class="status">{{isstart===1?"检查中":isstart===2?"已结束":"开始"}}</span>
-                    <span class="time">08:00</span>
+                    <span class="time">{{minutes>0?(`${minutes}:${second}`):second}}</span>
             </div>
         </div>
         <div class="inspector">
@@ -32,6 +32,9 @@
 //import * as esriLoader from 'esri-loader';
 import {getStaticPath,getBottomPosition} from '@/assets/js/mixin'
 import {markArr} from '@/assets/js/test'
+import {success} from '@/assets/js/config'
+import  {getPid} from '@/assets/js/util'
+import api from '@/assets/js/api'
 import AMap from 'AMap';   
 import _ from 'lodash';
 export default {
@@ -39,10 +42,23 @@ export default {
     return {
         timer:null,
         geolocation:null,
-        isstart:0
+        isstart:0,
+        second:0,
+        minutes:0,
+        timer2:null,
+        patrolList:null
     }
   },
   mixins: [getStaticPath,getBottomPosition],
+  beforeMount(){
+      api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
+          if(res.status==success){
+              console.log(res)
+          }
+      },(err)=>{
+          this.hint(err.msg)
+      })
+  },
   mounted(){
        this.loadmap();
   },
@@ -214,16 +230,39 @@ export default {
     },
     handleMapTrail(){
         if(this.isstart===0){
+            this.handleTimeAdd("start")
             this.handleTrail()
             navg.start()
             this.isstart = 1;
         }else if(this.isstart===1){
+            this.handleTimeAdd("stop")
             navg.stop()
-            clearInterval(this.timer);
+            clearInterval(this.timer)
             this.isstart = 2;
             // navg.destroy()
         }else{
+            this.handleTimeAdd("stop")
+            clearInterval(this.timer)
             return 
+        }
+
+    },
+    handleTimeAdd(type){
+        const that = this;
+        if(type=="start"){
+            clearInterval(this.timer2);
+            let second = this.second;
+            let minutes = this.minutes;
+            this.timer2 =setInterval(function () {
+                if(that.second>=59){
+                    that.minutes++;
+                    that.second = 0;
+                }else{
+                    that.second++
+                }
+            },1000)
+        }else{
+            clearInterval(this.timer2)
         }
 
     },
@@ -299,7 +338,7 @@ export default {
                     font-size: 12px;
                 } 
             }
-          .cssload-ball{
+            .cssload-ball{
                 position:absolute;
                 height: 1.44rem;
                 width: 1.44rem;
@@ -311,11 +350,17 @@ export default {
                 -ms-transform-origin: 50% 50%;
                 -webkit-transform-origin: 50% 50%;
                 -moz-transform-origin: 50% 50%;
-                animation: cssload-ball 3.45s linear infinite;
-                -o-animation: cssload-ball 3.45s linear infinite;
-                -ms-animation: cssload-ball 3.45s linear infinite;
-                -webkit-animation: cssload-ball 3.45s linear infinite;
-                -moz-animation: cssload-ball 3.45s linear infinite;
+                animation: cssload-ball 3.45s linear infinite ;
+                -o-animation: cssload-ball 3.45s linear infinite ;
+                -ms-animation: cssload-ball 3.45s linear infinite ;
+                -webkit-animation: cssload-ball 3.45s linear infinite ;
+                -moz-animation: cssload-ball 3.45s linear infinite ;
+            }
+            .cssload-ball-stop{
+                animation-play-state: paused;
+            }
+            .cssload-ball-play{
+                animation-play-state: running;
             }
             .cssload-ball:after{
                 content: "";

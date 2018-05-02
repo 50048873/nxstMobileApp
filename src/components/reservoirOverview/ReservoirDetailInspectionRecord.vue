@@ -27,9 +27,8 @@
 
 <script>
 import api from '@/assets/js/api'
-import  {getPid} from '@/assets/js/util'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import {isArray, getSameDayOfPreMonth} from '@/assets/js/util'
+import {isArray, getSameDayOfPreMonth,getPid} from '@/assets/js/util'
 import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
 import * as session from '@/assets/js/session'
 export default {
@@ -67,7 +66,7 @@ export default {
     },
     getReservoirDetailInspection() {
       let params = {
-        pid: this.$route.query.pid,
+        pid:getPid(),
         startDate: this.startDate,
         endDate: this.endDate
       }
@@ -83,12 +82,8 @@ export default {
           this.serverErrorTip(err, 'ReservoirDetailInspection.vue')
         })
     },
-    add() {
-      //this.$destroy()
-      this.$router.push({path: '/reservoirDetail/inspection/add', query: {pid: this.$route.query.pid}})
-    },
     toPatrolPath() {
-      this.$router.push({path: '/reservoirDetail/inspection/patrolPath', query: {pid: this.$route.query.pid}})
+      this.$router.push({path: '/reservoirDetail/inspection/patrolPath', query: {pid:getPid()}})
     }
   },
   created() {

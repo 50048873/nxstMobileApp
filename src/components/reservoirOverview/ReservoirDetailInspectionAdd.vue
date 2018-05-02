@@ -109,7 +109,7 @@ export default {
   methods: {
     getReservoirDetailInspectionAdd_patrolPoint() {
       let params = {
-        pid: this.$route.query.pid//,
+        pid: getPid()//,
         //date: '', // 需要统计哪天，时间格式为“yyyy-MM-dd”
         //is_sign: '' // 是否是签到点0否1是，不填获得所有巡检点
       }
@@ -270,7 +270,7 @@ export default {
       this.disabled = true
       let formEle = this.$refs.formEle
       let params = new FormData(formEle)
-      params.append('pid', this.$route.query.pid)
+      params.append('pid',getPid())
       params.append('id', getUuid(32, 16))
       params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'yyyy-mm-dd HH:MM:ss'))
       params.append('files', this.files)

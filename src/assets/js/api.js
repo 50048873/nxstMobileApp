@@ -242,8 +242,20 @@ let getUserAuthInfo = (data) =>{
   })
 }
 
+//获取时间段内用户轨迹数据
+let getTrailRecord = data => {
+  const url = baseUrl + "/znb/patrolRecord/getUserRecord.do";
+  return $.ajax({
+    type: "POST",
+    data,
+    url
+  });
+};
+
+
+
 export default {
-	login,
+  login,
   getSessionUser,
   getListResourceNodeByUser,
   getNewsMarquee,
@@ -266,5 +278,6 @@ export default {
   getDictValueByCode,
   getServerInfo,
   getFilePathUrl,
-  getUserAuthInfo
-}
+  getUserAuthInfo,
+  getTrailRecord
+};

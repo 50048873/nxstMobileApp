@@ -30,7 +30,8 @@ module.exports = {
     }
   },
   externals: {
-    AMap: "AMap"
+    AMap: "AMap",
+    AMapUI: "AMapUI"
   },
   module: {
     rules: [
