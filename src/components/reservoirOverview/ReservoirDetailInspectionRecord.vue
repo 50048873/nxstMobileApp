@@ -19,7 +19,7 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <poupe :status="status&&overinfo">
+    <poupe :status="status&&overinfo?true:false">
       <div class="poupecontent">
         <div class="poupehead">
           <img :src="require('../../assets/img/lock.png')" alt="">
