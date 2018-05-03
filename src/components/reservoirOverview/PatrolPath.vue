@@ -100,7 +100,7 @@ export default {
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
-        this.patrolList.forEach((mark,index) => {    //创建地图标记点
+        this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
               new SimpleMarker({
                 iconLabel:{
@@ -122,7 +122,7 @@ export default {
                   alert(`巡检点${mark.PATROL_NAME}`)
               })
             )
-        });
+        }):null;
         if(PathSimplifier){
             const emptyLineStyle = {   //设置轨迹样式
                 lineWidth: 2,
@@ -155,7 +155,7 @@ export default {
             });
             pathSimplifierIns.setData([{         //设置轨迹数据源
                 name: 'test',
-                path: [[that.patrolList[0].LGTD,that.patrolList[0].LTTD]]
+                path: [[markArr[0][0],markArr[0][1]]]
             }]);
             window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             window.navg = null;
@@ -166,21 +166,29 @@ export default {
     // },
     handleTrail(){   //持续记录轨迹
         const that = this;
+        let i =0 ;
         this.timer =  setInterval(_.throttle(function(){
             that.geolocation.getCurrentPosition(function(status,result){
                 if(status==="complete"){
                     //定位成功，接口记录定位信息
-                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
-                        if(res.status==1){
-                            that.locationArr.push([res.data.lgtd,res.data.lttd]);
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: that.locationArr
-                            }]);
-                        }
-                    },(err)=>{
-                        that.hint(err.msg)
-                    })
+                    // api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
+                    //     if(res.status==1){
+                    //         that.locationArr.push([res.data.lgtd,res.data.lttd]);
+                    //         pathSimplifierIns.setData([{         //设置轨迹数据源
+                    //             name: 'test',
+                    //             path: that.locationArr
+                    //         }]);
+                    //     }
+                    // },(err)=>{
+                    //     that.hint(err.msg)
+                    // })
+                    //测试轨迹数据处理
+                    that.locationArr.push([markArr[i][0],markArr[i][1]]);
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]);
+                    i++;
                 }
             });
         },10000, { 'leading': true }),10000);
@@ -196,7 +204,7 @@ export default {
         if(this.isstart===0){
             this.handleTimeAdd("start")
             this.handleTrail();
-            this.starttime = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')
+            this.starttime = this.dateFormat(new Date(), 'mm-dd HH:MM:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: true,
                 speed: 500,
@@ -220,7 +228,7 @@ export default {
             this.isstart = 1;
         }else if(this.isstart===1){
             this.handleTimeAdd("stop")
-            this.$store.dispatch("patrolOver",{usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')})
+            this.$store.dispatch("patrolOver",{usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'mm-dd HH:MM:ss')})
             navg.stop()
             clearInterval(this.timer)
             this.isstart = 2;
@@ -228,6 +236,7 @@ export default {
         }else{
             this.handleTimeAdd("stop")
             clearInterval(this.timer)
+            navg.destroy()
             return 
         }
 

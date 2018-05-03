@@ -22,15 +22,15 @@ export default {
     return {
       tab: [
         {
+          title: '巡查轨迹',
+          path: '/reservoirDetail/inspection/patrolPath',
+          flag:true
+        },
+        {
           title: '巡检记录',
           path: '/reservoirDetail/inspection/record',
           flag:true
 
-        },
-        {
-          title: '巡查轨迹',
-          path: '/reservoirDetail/inspection/patrolPath',
-          flag:true
         }
       ]
     }
