@@ -100,7 +100,7 @@ export default {
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
-        this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
+        markArr?markArr.forEach((mark,index) => {    //创建地图标记点
             return(
               new SimpleMarker({
                 iconLabel:{
@@ -117,9 +117,9 @@ export default {
                 iconTheme: 'numv1',
                 iconStyle:'red',
                 map: map,
-                position: [mark.LGTD,mark.LTTD]
+                position: [mark[0],mark[1]]
               }).on("click",function (e) {
-                  alert(`巡检点${mark.PATROL_NAME}`)
+                  alert(`巡检点${index+1}`)
               })
             )
         }):null;
@@ -166,29 +166,29 @@ export default {
     // },
     handleTrail(){   //持续记录轨迹
         const that = this;
-        // let i =0 ;
+        let i =0 ;
         this.timer =  setInterval(_.throttle(function(){
             that.geolocation.getCurrentPosition(function(status,result){
                 if(status==="complete"){
                     //定位成功，接口记录定位信息
-                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
-                        if(res.status==1){
-                            that.locationArr.push([res.data.lgtd,res.data.lttd]);
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: that.locationArr
-                            }]);
-                        }
-                    },(err)=>{
-                        that.hint(err.msg)
-                    })
+                    // api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
+                    //     if(res.status==1){
+                    //         that.locationArr.push([res.data.lgtd,res.data.lttd]);
+                    //         pathSimplifierIns.setData([{         //设置轨迹数据源
+                    //             name: 'test',
+                    //             path: that.locationArr
+                    //         }]);
+                    //     }
+                    // },(err)=>{
+                    //     that.hint(err.msg)
+                    // })
                     //测试轨迹数据处理
-                    // that.locationArr.push([markArr[i][0],markArr[i][1]]);
-                    // pathSimplifierIns.setData([{         //设置轨迹数据源
-                    //     name: 'test',
-                    //     path: that.locationArr
-                    // }]);
-                    // i++;
+                    that.locationArr.push([markArr[i][0],markArr[i][1]]);
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]);
+                    i++;
                 }
             });
         },10000, { 'leading': true }),10000);
@@ -258,7 +258,6 @@ export default {
         }else{
             clearInterval(this.timer2)
         }
-
     },
     add(){
         this.$router.push({path: '/reservoirDetail/inspection/add'})
