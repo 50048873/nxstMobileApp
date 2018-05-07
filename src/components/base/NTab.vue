@@ -38,6 +38,13 @@ export default {
     text-align: center;
     background-color: white;
     display: flex;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+    -ms-overflow-scrolling: touch;
+    -o-overflow-scrolling: touch;
+    overflow-scrolling: touch;
     a {
       position: relative;
       flex: 1;

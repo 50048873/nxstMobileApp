@@ -1,11 +1,11 @@
 <template>
   <div class="ReservoirDetailMonitorRainfall">
     <highcharts-column title="降雨量" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData.length"></highcharts-column>
+    <no-data v-else></no-data>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog2" @confirm="filter"></filter-dialog>
-    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
 
       type: '1',
       startTime: this.dateFormat(get7DayOfcurrentDay(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      endTime: this.dateFormat(Date.now(), 'yyyy-mm-dd')
     }
   },
   methods: {
