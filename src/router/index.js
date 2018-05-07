@@ -181,6 +181,7 @@ let router = new Router({
           path: "/reservoirDetail/inspection",
           name: "ReservoirDetailInspection",
           component: ReservoirDetailInspection,
+          redirect: "/reservoirDetail/inspection/record",
           children: [
             {
               path: "/reservoirDetail/inspection/record",

@@ -4,10 +4,10 @@
     <div id="mapView" class="mapContainer">
     </div>
     <div class="buttonarea">
-        <div class="addbtn">
+        <div v-if="isAdd" class="addbtn">
             <i  @click="add" class="nxst-add"></i>
         </div>
-        <div class="startbtn"   @click="handleMapTrail">
+        <div v-if="isAdd" class="startbtn"   @click="handleMapTrail">
             <div :class="isstart===1?'cssload-ball cssload-ball-play':'cssload-ball  cssload-ball-stop'">     
             </div>
             <div class="btncontent">
@@ -33,7 +33,7 @@
 import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr} from '@/assets/js/test'
 import {success} from '@/assets/js/config'
-import  {getPid,getPname,getUsername} from '@/assets/js/util'
+import  {getPid,getPname,getUsername,handleAuth} from '@/assets/js/util'
 import api from '@/assets/js/api'
 import AMap from 'AMap';   
 import _ from 'lodash';
@@ -49,13 +49,18 @@ export default {
         patrolList:null,
         locationArr:[],
         starttime:null,
-        currentdate:dateFormat(new Date(), 'mm-dd'),
-        pname:getPname(),
-        username:getUsername()
+        currentdate:"",
+        pname:"",
+        username:"",
+        isAdd:""
     }
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
   beforeMount(){
+       this.pname = getPname();
+       this.username = getUsername();
+       this.currentdate = this.dateFormat(new Date(), 'mm-dd');
+       this.isAdd = handleAuth("addcheckrecord");
       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
           if(res.status==1){
             this.patrolList = res.data
