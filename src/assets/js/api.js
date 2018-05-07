@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-const serverUrl = 'http://sw.dse.cn:56016'
+const serverUrl = 'http://sw.dse.cn:56015'
 
 let login = function(data) {
 	return $.ajax({

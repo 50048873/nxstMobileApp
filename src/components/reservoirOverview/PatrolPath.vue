@@ -343,7 +343,7 @@ export default {
                 position:absolute;
                 height: 1.44rem;
                 width: 1.44rem;
-                border-radius: 1.44rem;
+                border-radius: 0.72rem;
                 border: 1px solid #fa9256;
                 left: 0px;
                 transform-origin: 50% 50%;
