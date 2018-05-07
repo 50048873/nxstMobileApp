@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import {defaultDocumentTitle,resourceList} from '@/assets/js/config'
+import { defaultDocumentTitle, resourceList } from "@/assets/js/config";
 import {getItem,setItem} from '@/assets/js/session.js'
 
 export let toString = Object.prototype.toString
@@ -404,6 +404,7 @@ export  function handleAuth(key){
     if(getItem("sourceList")&&JSON.parse(getItem("sourceList")).length>0){
        return JSON.parse(getItem("sourceList")).indexOf(resourceList[key])>0?true:false 
     }else{
+        console.log("没有取到本地sourcelist");
         return false
     }   
 }

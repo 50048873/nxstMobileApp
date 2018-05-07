@@ -74,6 +74,7 @@ export default {
   },
   created() {
     this.initTitle()
+    
   }
 }
 </script>
