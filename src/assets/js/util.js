@@ -424,3 +424,33 @@ export function setPid(value){
 export function getPid(){
     return getItem("pid")
 }
+
+/*
+* @param   
+  @description     获取水库名称
+*/
+export function setPname(value) {
+   setItem("pname", value)
+}
+
+/*
+* @param   
+  @description     获取水库id
+*/
+export function getPname() {
+
+  return getItem("pname")
+
+}
+
+/*
+* @param   
+  @description     获取用户名称
+*/
+export function getUsername() {
+
+  return getItem("username")
+
+}
+
+

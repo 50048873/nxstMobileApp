@@ -17,11 +17,11 @@
         </div>
         <div class="inspector">
                 <h3 class="reservoirname">
-                    丹江口水库巡查
+                    {{pname}}巡查
                 </h3>
                 <div class="personname">
-                    <span>巡查人：张子含</span>
-                    <span>时间：3-12</span>
+                    <span>巡查人：{{username}}</span>
+                    <span>时间：{{currentdate}}</span>
                 </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
 import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr} from '@/assets/js/test'
 import {success} from '@/assets/js/config'
-import  {getPid} from '@/assets/js/util'
+import  {getPid,getPname,getUsername} from '@/assets/js/util'
 import api from '@/assets/js/api'
 import AMap from 'AMap';   
 import _ from 'lodash';
@@ -48,7 +48,10 @@ export default {
         timer2:null,
         patrolList:null,
         locationArr:[],
-        starttime:null
+        starttime:null,
+        currentdate:dateFormat(new Date(), 'mm-dd'),
+        pname:getPname(),
+        username:getUsername()
     }
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
