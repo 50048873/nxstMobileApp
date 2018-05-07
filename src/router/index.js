@@ -30,7 +30,7 @@ import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/R
 import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply/Watersupply'
 import ReservoirDetailMonitorAdd from '@/components/reservoirOverview/ReservoirDetailMonitorAdd'
 import PatrolPath from '@/components/reservoirOverview/PatrolPath'
-
+import NotFound from '@/components/base/NotFound'
 
 Vue.use(Router)
 
@@ -213,6 +213,11 @@ let router = new Router({
           component: ReservoirDetailMember
         }
       ]
+    },
+    {
+      path:"*",
+      name:"NotFound",
+      component: NotFound
     }
   ]
 });
