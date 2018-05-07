@@ -23,10 +23,11 @@ export default {
         "esri/views/MapView",
         "esri/widgets/BasemapToggle",
         "esri/widgets/Legend",
+        "esri/layers/FeatureLayer",
         "esri/layers/TileLayer",
         "esri/tasks/Locator",
         "dojo/domReady!"
-      ]).then(([Map,MapView, BasemapToggle,Legend,TileLayer, Locator]) => {
+      ]).then(([Map,MapView, BasemapToggle,Legend,FeatureLayer,TileLayer, Locator]) => {
           var map = new Map({
             basemap: "hybrid"
           });
@@ -34,7 +35,14 @@ export default {
             container: "viewDiv",
             map: map,
             center: [114.372402,30.588834],
-            zoom: 5
+            zoom: 5,
+            extent: { // autocasts as new Extent()
+            xmin: -9177811,
+            ymin: 4247000,
+            xmax: -9176791,
+            ymax: 4247784,
+            spatialReference: 102100
+          }
           });
           var locatorTask = new Locator({
             url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
@@ -52,7 +60,11 @@ export default {
                   location: event.mapPoint // Set the location of the popup to the clicked location
               });
           });
+           var featureLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+        });
 
+        map.add(featureLayer);
           var legend = new Legend({
             view: view
           });
