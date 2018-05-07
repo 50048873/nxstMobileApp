@@ -42,6 +42,10 @@ let router = new Router({
       redirect: "/home"
     },
     {
+      path: "/index.html",
+      redirect: "/home"
+    },
+    {
       path: "/home",
       redirect: "/home/systemMenu",
       name: "NHome",

@@ -4,363 +4,130 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
   <title>视频</title>
-  <link rel="stylesheet" href="./adminlte-2.3.6/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/video-js-5.19.2/video-js.min.css"/>
   <link rel="stylesheet" href="./assets/css/video.css">
 </head>
 <body>
   <div id="videoWrap" class="videoWrap" v-cloak>
     <div class="videos">
-      <div class="col-lg-6 videoItem" v-for="(item, index) in channels" v-if="channels.length">
-        <div :style="height">
-          <video :id="'videojs' + index" class="video-js vjs-default-skin" preload="none" :poster="item.SnapURL">
-              <source :src="item.URL" :type="type"></source>
-              <p class="vjs-no-js">
-                <span>To view this video please enable JavaScript, and consider upgrading to a web browser that</span>
-                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-              </p>
-          </video>
+      <div class="videoItem" :class="getVedioLayoutClass" v-for="(item, index) in channelsByVideoCount" v-if="channelsByVideoCount.length" :style="videoParentContainerHeight">
+        <video :id="'videojs' + index" class="video-js vjs-default-skin" preload="none" :poster="item.SnapURL" v-if="item.URL">
+            <source :src="item.URL" :type="type"></source>
+            <p class="vjs-no-js">
+              <span>请更新到最新的浏览器观看视频！</span>
+              <a href="http://videojs.com/html5-video-support/" target="_blank">支持HTML5视频链接</a>
+            </p>
+        </video>
+        <div v-if="!isPc && item.URL" class="mobleEle">
+          <a class="controls">
+            <i class="glyphicon glyphicon-play-circle"></i>
+          </a>
+          <div class="info" :class="getOnlineClass(item.Online)">
+            <span>[channel{{item.Channel}}]{{item.ChannelName}}</span>
+            <span>{{getOnlineText(item.Online)}}</span>
+          </div>
         </div>
-        <div class="controls">
-          <i class="glyphicon glyphicon-play-circle"></i>
-        </div>
-        <div class="info hidden-lg" :class="getOnlineClass(item.Online)">
-          <span>[channel{{item.Channel}}]{{item.ChannelName}}</span>
-          <span>{{getOnlineText(item.Online)}}</span>
+        <div v-if="isPc && !item.SnapURL" class="pcEle">
+          <div class="noSignal">无信号</div>
         </div>
       </div>
     </div>
     <div class="btns">
-      <div class="gl">
+      <div class="gl clearfix">
         <h3>功能</h3>
-        <ul>
-          <li>
-            <dl>
-              <dt>4</dt>
-              <dd>1</dd>
-              <dd>4</dd>
-              <dd>9</dd>
-              <dd>16</dd>
-            </dl>
+        <ul class="ul-1">
+          <li class="li-1">
+            <ul id="videoCountCtl" class="ul-2 videoCountCtl clearfix">
+              <li class="li-2"><div class="ITEM">1屏</div></li>
+              <li class="li-2"><div class="ITEM ON">4屏</div></li>
+              <li class="li-2"><div class="ITEM">9屏</div></li>
+              <li class="li-2"><div class="ITEM">16屏</div></li>
+            </ul>
           </li>
-          <li>
-            <dl>
-              <dt>码流类型</dt>
-              <dd>主码流</dd>
-              <dd>子码流</dd>
-              <dd>虚拟码流</dd>
-            </dl>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">主码流</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">子码流</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">虚拟码流</div></li>
+            </ul>
           </li>
-          <li>
-            <dl>
-              <dt>对讲</dt>
-              <dd>语音对讲通道1</dd>
-              <dd>语音对讲通道2</dd>
-            </dl>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">语音对讲通道1</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">语音对讲通道2</div></li>
+            </ul>
           </li>
-          <li>
-            <div>全部停止预览</div>
+          <li class="li-1">
+            <ul class="ul-2 viewBtns clearfix">
+              <li class="li-2"><div id="allStart">全部开始预览</div></li>
+              <li class="li-2"><div id="allStop">全部停止预览</div></li>
+            </ul>
           </li>
-          <li>
-            <div>抓图</div>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">抓图</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">启用电子放大</div></li>
+              <li class="li-2"><div id="fullScreen" title="全屏">全屏</div></li>
+            </ul>
           </li>
-          <li>
-            <div>全部开始预览</div>
-          </li>
-          <li>
-            <div>启用电子放大</div>
-          </li>
-          <li>
-            <div>上一页</div>
-          </li>
-          <li>
-            <div>下一页</div>
-          </li>
-          <li>
-            <div>音量</div>
-          </li>
-          <li>
-            <div>全屏</div>
+          <li class="li-1">
+            <div class="volumn">
+              <span>音量</span>
+              <input :value="volumnValue" :style="{backgroundSize: this.volumnValue + '% 100%'}" type="range" min="0" max="100" step="1" v-model="volumnValue">
+              <span>{{volumnValue}}</span>
+            </div>
           </li>
         </ul>
       </div>
-      <div class="yt">
+      <div class="yt clearfix">
         <h3>云台</h3>
         <ul>
-          <li>
+          <li class="li-1">
             <div>
-              <span>左上</span>
-              <span>上</span>
-              <span>右上</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">左上</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">上</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右上</span>
             </div>
             <div>
-              <span>左</span>
-              <span>旋转</span>
-              <span>右</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">左</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">旋转</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右</span>
             </div>
             <div>
-              <span>左下</span>
-              <span>下</span>
-              <span>右下</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">左下</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">下</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右下</span>
             </div>
           </li>
-          <li>
+          <li class="li-1">
             <div>
-              <span>缩小</span>
-              <span>放大</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">缩小</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">放大</span>
             </div>
             <div>
-              <span>聚焦 -</span>
-              <span>聚焦 +</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">聚焦 -</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">聚焦 +</span>
             </div>
             <div>
-              <span>光圈 -</span>
-              <span>光圈 +</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">光圈 -</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">光圈 +</span>
             </div>
           </li>
         </ul>
       </div>
     </div>
+    <div class="config">
+      <span v-if="!isPc"><i class="glyphicon glyphicon-cog fa-spin"></i></span>
+      <span v-if="isPc" class="fold"><i class="sj-l"></i></span>
+    </div>
   </div>
-  <script src="./assets/vue/dist/vue.min.js"></script>
-  <script src="./adminlte-2.3.6/plugins/jQuery/jquery-2.2.3.min.js"></script>
-  <script src="./adminlte-2.3.6/plugins/md5/jquery.md5.js"></script>
-  <script src="./adminlte-2.3.6/plugins/cookie/jquery.cookie.min.js"></script>
-
-  <link rel="stylesheet" href="./adminlte-2.3.6/plugins/video-js-5.19.2/video-js.css"/>
-  <script src="./adminlte-2.3.6/plugins/video-js-5.19.2/video.js"></script>
-  <script src="./adminlte-2.3.6/plugins/video-js-5.19.2/videojs-contrib-hls4.js"></script>
-
-  <script src="./assets/js/common.js"></script>
-  <script>
-    (function($) {
-      var host = 'http://localhost:10800';
-      var _url = "/api/v1";
-      var username = 'admin';
-      var password = $.md5('admin');
-      var player = null;
-
-      videojs.options.flash.swf = './adminlte-2.3.6/plugins/video-js-5.19.2/video-js-fixed.swf';
-      videojs.options.techOrder = ['html5','flash'];
-
-      new Vue({
-        el: '#videoWrap',
-        data: function() {
-          return {
-            channels: [],
-            videoCount: 1
-          }
-        },
-        computed: {
-          type: function() {
-            return isPC ? "rtmp/mp4" : "application/x-mpegURL"
-          }, 
-          height: function() {
-            if (isPC) {
-              return {
-                height: ((window.innerWidth - 15 * 2) * 9 / 16) / 2 + 'px'
-              }
-            }
-            return {
-              width: '100%',
-              height: ((window.innerWidth - 15 * 2) * 9 / 16) + 'px'
-            }
-          }
-        },
-        methods: {
-          getOnlineText(status) {
-            return status == 1 ? '在线' : '离线'
-          },
-          getOnlineClass(status) {
-            return status == 1 ? 'green' : ''
-          },
-          getserverinfo: function() {
-            return $.ajax({
-              type: "GET",
-              url: host + _url + "/getserverinfo",
-              async: false,
-              success: function(data) {
-                var ret = JSON.parse(data);
-                _url = "/api/" + ret.EasyDarwin.Body.InterfaceVersion;
-                return data
-              }
-            })
-          },
-          login: function() {
-            return $.ajax({
-              type: "GET",
-              url: host + _url + "/login?t="+new Date().getTime(),
-              data: {
-                  username: username,
-                  password: password
-              },
-              success: function(data) {
-                var ret = JSON.parse(data);
-                $.cookie("token", "", {
-                    expires: -1
-                });
-                var token = ret.EasyDarwin.Body.Token;
-                $.cookie("token", token);
-                $.cookie("username", username);
-                return data
-              },
-              error: function(xhr, ts, err) {
-                console.log(arguments)
-              }
-            });
-          },
-          getchannels: function() {
-            var _this = this;
-            
-            return $.ajax({
-              type: 'GET',
-              url: host + _url + "/getchannels?t="+new Date().getTime(),
-              success: function(data) {
-                var ret = JSON.parse(data);
-                if (ret.EasyDarwin.Body.ChannelCount == 0) {
-                  $("body").append("<div class='noChannel'>当前没有通道，记得配置通道哦！</div>")
-                } else {
-                  var channels = ret.EasyDarwin.Body.Channels;
-                  channels.sort(function (a, b) {
-                      return parseInt(a["Channel"]) - parseInt(b["Channel"]);
-                  })
-                  channels.forEach(function(item, index) {
-                    if (item.SnapURL) {
-                      item.SnapURL = host + item.SnapURL
-                    }
-                    if (item.LiveUrl) {
-                      item.LiveUrl = host + item.LiveUrl
-                    }
-                  })
-                  //console.log(JSON.stringify(channels, null, 2))
-                  _this.channels = channels
-                }
-                return data
-              }
-            })
-          },
-          getchannelstream: function(res) {
-            var res = JSON.parse(res);
-            var channels = res.EasyDarwin.Body.Channels;
-            var arr = [];
-            var len = channels.length;
-            var ajax = function(channel) { 
-              return $.ajax({
-                type: "GET",
-                url: host + _url + "/getchannelstream",
-                data: {
-                    Channel: channel["Channel"],
-                    Protocol: isPC ? "RTMP" : "HLS",
-                    Line: "local",
-                    From: "lan"
-                },
-                success: function (data) {
-                  return data
-                },
-                error: function (xhr, ts, err) {
-                  console.log(arguments);
-                }
-              });
-            }
-            
-            for (var i = 0; i < len; i++) {
-              arr.push(ajax(channels[i]))
-            }
-
-            return $.when.apply($, arr).then(function() {
-              var res = arguments;
-              var len = res.length;
-              var arr = [];
-              for (var i = 0; i < len; i++) {
-                var item = JSON.parse(res[i][0])
-                var url = item.EasyDarwin.Body.URL;
-                if (isPC) {
-                  item.EasyDarwin.Body.URL = url.replace('{host}', 'localhost')
-                } else {
-                  item.EasyDarwin.Body.URL = host + url
-                }
-                arr.push(item.EasyDarwin.Body)
-              }
-              arr.sort(function (a, b) {
-                  return parseInt(a["Channel"]) - parseInt(b["Channel"]);
-              })
-              return arr
-            });
-          }
-        },
-        created: function() {
-          var _this = this;
-          this.getserverinfo()
-            .then(function() {
-              return _this.login()
-            })
-            .then(function() {
-              return _this.getchannels()
-            })
-            .then(function(res) {
-              return _this.getchannelstream(res)
-            })
-            .then(function(res) {
-              var len = _this.channels.length;
-              var arr = [];
-              for (var i = 0; i < len; i++) {
-                arr[i] = Object.assign(_this.channels[i], res[i])
-              }
-              _this.channels = arr
-              console.log(arr)
-
-              _this.$nextTick(function() {
-                if (isPC) {
-                  var $videos = $('.video-js');
-                  var len = _this.channels.length;
-                  for (var i = 0; i < len; i++) {
-                    player = videojs($videos[i],{
-                      notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
-                      techOrder : ["flash"],
-                      autoplay : true
-                    });
-                    player.on("error",function(e){
-                      console.log('不能播放')
-                    })
-                  }
-                } else {
-                  var timeout = 10000;
-                  var step = 500;
-                  var cnt = 0;
-                  var videoUrl = _this.channels[1].URL;
-                  
-                  function test(){
-                    cnt += step;
-                    $.ajax(videoUrl,{
-                      complete :function(xhr,ts){
-                        if(cnt > timeout){
-                          console.log("请求数据失败");
-                          return;
-                        }
-                        if (xhr.status == 404 || xhr.status == 0 || (xhr.status != 200 && !isPC)){
-                          console.log("video is no ready, waiting...");
-                          setTimeout(test,step);
-                        } else {
-                          $('.controls').on('click', function() {
-                            var $this = $(this);
-                            var video = $this.hide().prev().find('video')[0]
-                            player = videojs(video, {
-                              autoplay : true
-                            });
-                            player.on("error",function(e){
-                              console.log('不能播放')
-                            })
-                          })
-                        }
-                      }
-                    })
-                  }
-                  test();
-                }  
-              })                 
-            })
-        }
-      });
-    })(jQuery);
-  </script>
+  <script src="./assets/js/vue.min.js"></script>
+  <script src="./assets/js/jquery-2.2.3.min.js"></script>
+  <script src="./assets/js/jquery.md5.js"></script>
+  <script src="./assets/js/jquery.cookie.min.js"></script>
+  <script src="./assets/video-js-5.19.2/video.min.js"></script>
+  <script src="./assets/video-js-5.19.2/videojs-contrib-hls4.js"></script>
+  <script src="./assets/js/video.js"></script>
 </body>
 </html>
