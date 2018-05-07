@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-const serverUrl = 'http://sw.dse.cn:56016'
+const serverUrl = 'http://sw.dse.cn:56015'
 
 let login = function(data) {
 	return $.ajax({
@@ -242,8 +242,29 @@ let getUserAuthInfo = (data) =>{
   })
 }
 
+//获取时间段内用户轨迹数据
+let getTrailRecord = data => {
+  const url = baseUrl + "/znb/patrolRecord/getUserRecord.do";
+  return $.ajax({
+    type: "POST",
+    data,
+    url
+  });
+};
+
+//添加巡查轨迹
+let addPatrolTrail = data => {
+  const url = baseUrl + "/znb/patrolRecord/addTrack.do";
+  return $.ajax({
+    type: "POST",
+    contentType: "application/json",
+    data:JSON.stringify(data),
+    url
+  });
+};
+
 export default {
-	login,
+  login,
   getSessionUser,
   getListResourceNodeByUser,
   getNewsMarquee,
@@ -266,5 +287,7 @@ export default {
   getDictValueByCode,
   getServerInfo,
   getFilePathUrl,
-  getUserAuthInfo
-}
+  getUserAuthInfo,
+  getTrailRecord,
+  addPatrolTrail
+};

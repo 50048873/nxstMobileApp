@@ -18,6 +18,8 @@ import ReservoirDetail from '@/components/reservoirOverview/ReservoirDetail'
 import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailInfo'
 import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirDetailInspection'
 import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
+import ReservoirDetailInspectionRecord from '@/components/reservoirOverview/ReservoirDetailInspectionRecord'
+import ReservoirDetailInspectionTrail from '@/components/reservoirOverview/ReservoirDetailInspectionTrail'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
 import ReservoirDetailMonitorWaterlevel from '@/components/reservoirOverview/ReservoirDetailMonitorWaterlevel/Waterlevel'
@@ -28,7 +30,7 @@ import ReservoirDetailMonitorWaterquality from '@/components/reservoirOverview/R
 import ReservoirDetailMonitorWatersupply from '@/components/reservoirOverview/ReservoirDetailMonitorWatersupply/Watersupply'
 import ReservoirDetailMonitorAdd from '@/components/reservoirOverview/ReservoirDetailMonitorAdd'
 import PatrolPath from '@/components/reservoirOverview/PatrolPath'
-
+import NotFound from '@/components/base/NotFound'
 
 Vue.use(Router)
 
@@ -182,7 +184,20 @@ let router = new Router({
         {
           path: "/reservoirDetail/inspection",
           name: "ReservoirDetailInspection",
-          component: ReservoirDetailInspection
+          component: ReservoirDetailInspection,
+          redirect: "/reservoirDetail/inspection/record",
+          children: [
+            {
+              path: "/reservoirDetail/inspection/record",
+              name: "ReservoirDetailInspectionRecord",
+              component: ReservoirDetailInspectionRecord
+            },
+            {
+              path: "/reservoirDetail/inspection/patrolPath",
+              name: "ReservoirDetailInspectionPatrolPath",
+              component: PatrolPath
+            }
+          ]
         },
         {
           path: "/reservoirDetail/inspection/add",
@@ -190,16 +205,21 @@ let router = new Router({
           component: ReservoirDetailInspectionAdd
         },
         {
-          path: '/reservoirDetail/inspection/patrolPath',
-          name: 'PatrolPath',
-          component: PatrolPath
+          path: "/reservoirDetail/inspection/trail",
+          name: "ReservoirDetailInspectionTrail",
+          component: ReservoirDetailInspectionTrail
         },
         {
-          path: '/reservoirDetail/member',
-          name: 'ReservoirDetailMember',
+          path: "/reservoirDetail/member",
+          name: "ReservoirDetailMember",
           component: ReservoirDetailMember
         }
       ]
+    },
+    {
+      path:"*",
+      name:"NotFound",
+      component: NotFound
     }
   ]
 });

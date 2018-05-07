@@ -1,6 +1,6 @@
 <template>
   <div class="ReservoirDetailMonitorPhoto" ref="ReservoirDetailMonitorPhoto">
-    <div v-show="reservoirDetailMonitorPhoto.length">
+    <div v-show="reservoirDetailMonitorPhoto&&reservoirDetailMonitorPhoto.length">
       <div class="viewArea">
         <div class="bigPicWrap" @touchstart="start" @touchmove="move" @touchend.prevent="end" ref="bigPicWrap">
           <ul id="bigPicUl">
@@ -30,7 +30,7 @@
     </div>
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog5" @confirm="filter"></filter-dialog>
-    <no-data v-show="!reservoirDetailMonitorPhoto.length"></no-data>
+    <no-data v-show="reservoirDetailMonitorPhoto&&!reservoirDetailMonitorPhoto.length"></no-data>
   </div>
 </template>
 

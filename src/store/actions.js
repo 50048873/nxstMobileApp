@@ -10,3 +10,8 @@ export const saveFilePathUrl = function ({commit}, filePathUrl) {
   commit(types.SET_FILE_PATH_URL, filePathUrl)
   setItem('filePathUrl', filePathUrl)
 }
+
+
+export const patrolOver = function ({commit,state},data) {
+  commit(types.PATROL_OVER,data);
+}

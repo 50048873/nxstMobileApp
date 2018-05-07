@@ -12,6 +12,13 @@ const mutations = {
   },
   [type.SET_FILE_PATH_URL](state, filePathUrl) {
     state.filePathUrl = filePathUrl
+  },
+  [type.PATROL_OVER](state,data){
+    state.patrolover = {
+      usetime:data.usetime,
+      starttime:data.starttime,
+      endtime:data.endtime
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <better-scroll class="n-list" v-if="reservoirList.length">
+    <better-scroll class="n-list" v-if="reservoirList&&reservoirList.length">
       <ul>
         <li v-for="item in reservoirList" @click="showDetail(item.pid)">
           <div class="top line-top line-bottom">
@@ -34,7 +34,7 @@
         <li></li>
       </ul>
     </better-scroll>
-    <no-data v-if="!reservoirList.length"></no-data>
+    <no-data v-else></no-data>
   </div>
 </template>
 

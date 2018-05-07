@@ -249,7 +249,7 @@ export default {
     return {
       szInfo: {},
 
-      meterDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
+      meterDate: this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
     }
   },
   methods: {
