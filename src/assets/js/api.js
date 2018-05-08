@@ -204,7 +204,7 @@ let getMemberList =(data)=>{
 
 // 根据字典code获取字典项值
 let getDictValueByCode = function(code) {
-  const url = 'http://sw.dse.cn:56012/znb/CommonCtrl/getDictValueByCode.do'
+  const url = 'http://sw.dse.cn:56015/znb/CommonCtrl/getDictValueByCode.do'
   return $.ajax({
     type: 'GET',
     url: url,
