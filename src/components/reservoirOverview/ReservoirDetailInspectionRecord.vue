@@ -19,22 +19,6 @@
       </li>
     </ul>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
-    <poupe :status="status&&overinfo?true:false">
-      <div class="poupecontent">
-        <div class="poupehead">
-          <img :src="require('../../assets/img/lock.png')" alt="">
-          <div>
-            <div>巡检完成!</div>
-            <div>用时<span style="color:#ffa99e">{{overinfo.usetime?overinfo.usetime.minutes:""}}</span>分钟</div>
-          </div>
-        </div>
-       <div class="poupecenter">
-         <p><span style="color:#9c9c9c">开始时间：</span>{{overinfo.starttime}}</p>
-         <p><span style="color:#9c9c9c">结束时间：</span>{{overinfo.endtime}}</p>
-       </div>
-       <div class="poupebottom" @click="handleClose">关闭</div>
-      </div>
-    </poupe>
     <n-gbtn left="20" :bottom="getBottomPosition(20)" iconClass="nxst-path"  content="" @click="toPatrolPath"></n-gbtn>
     <!-- <n-add left="20" v-if="isAdd" :bottom="getBottomPosition(84)"   @click="add"></n-add> -->
     
@@ -45,14 +29,10 @@
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import {isArray, getSameDayOfPreMonth,getPid} from '@/assets/js/util'
-import Poupe from '@/components/base/Poupe'
 import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
 import * as session from '@/assets/js/session'
 export default {
   name: 'ReservoirDetailInspection',
-  components: {
-    Poupe
-  },
   mixins: [dateFormat, getBottomPosition],
   data() {
     return {
@@ -60,12 +40,6 @@ export default {
       startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
       endDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
       isAdd:true,
-      status:false,
-      overinfo:{
-        usetime:null,
-        starttime:"",
-        endtime:""
-      }
     }
   },
   beforeMount(){
@@ -83,9 +57,6 @@ export default {
       },err=>{
          this.serverErrorTip(err, 'ReservoirDetailInspectionAdd.vue')
       })
-    },
-    handleClose(){
-      this.status = false;
     },
     order(arr) {
       if (!isArray(arr)) return
@@ -119,10 +90,6 @@ export default {
     this.getReservoirDetailInspection()
   },
   activated(){
-    if(this.$store.state.patrolover){
-      this.overinfo = this.$store.state.patrolover;
-      this.status = true
-    }
     this.getReservoirDetailInspection()
   },
   watch: {  
@@ -177,43 +144,4 @@ export default {
       }
     }
   }
-</style>
-<style lang="less">
-  .poupecontent{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%,-50%);
-          background-color: #fff;
-          border-radius:6px;
-          overflow: hidden;
-          .poupehead{
-            img{
-              width:20%;
-              height:20%;
-            }
-            display: flex;
-            color:#fff;
-            align-items:center;
-            justify-content:space-evenly;
-            padding:5px;
-            background-color:#1aa6fe;
-            .nxst-clock{
-              color:#fff;
-              font-size:28px;
-              background-color:#1aa6f3;
-            }
-          }
-          .poupecenter{
-            text-align:center;
-            padding:12px;
-          }
-          .poupebottom{
-            display: flex;
-            justify-content:center;
-            align-items:center;
-            padding:5px;
-            color:#8bba72;
-          }
-    }
 </style>

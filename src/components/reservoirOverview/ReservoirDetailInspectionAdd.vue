@@ -297,7 +297,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
     androidInputBugFix()

@@ -3,15 +3,34 @@
     <!-- <iframe style="width:100%;height:50%;" :src="this.getStaticPath('/static/ArcGisTest2.html')" frameborder="0"></iframe> -->
     <div id="mapView" class="mapContainer">
     </div>
+    <poupe :status="status&&overinfo?true:false">
+      <div class="poupecontent">
+        <div class="poupehead">
+          <img :src="require('../../assets/img/lock.png')" alt="">
+          <div>
+            <div>巡检完成!</div>
+            <div>用时
+                <span style="color:#ffa99e">{{overinfo.usetime?overinfo.usetime.minutes:""}}</span>分
+                <span style="color:#ffa99e">{{overinfo.usetime?overinfo.usetime.second:""}}</span>秒钟
+            </div>
+          </div>
+        </div>
+       <div class="poupecenter">
+         <p><span style="color:#9c9c9c">开始时间：</span>{{overinfo.starttime}}</p>
+         <p><span style="color:#9c9c9c">结束时间：</span>{{overinfo.endtime}}</p>
+       </div>
+       <div class="poupebottom" @click="handleClose">关闭</div>
+      </div>
+    </poupe>
     <div class="buttonarea">
-        <div v-if="isAdd" class="addbtn">
+        <div v-if="isAdd&&isstart==1" class="addbtn">
             <i  @click="add" class="nxst-add"></i>
         </div>
         <div v-if="isAdd" class="startbtn"   @click="handleMapTrail">
             <div :class="isstart===1?'cssload-ball cssload-ball-play':'cssload-ball  cssload-ball-stop'">     
             </div>
             <div class="btncontent">
-                    <span class="status">{{isstart===1?"检查中":isstart===2?"已结束":"开始"}}</span>
+                    <span class="status">{{isstart===1?"结束巡检":"开始巡检"}}</span>
                     <span class="time">{{minutes>0?(`${minutes}:${second}`):second}}</span>
             </div>
         </div>
@@ -31,7 +50,8 @@
 <script>
 //import * as esriLoader from 'esri-loader';
 import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
-import {markArr} from '@/assets/js/test'
+import {markArr,checkArr} from '@/assets/js/test'
+import Poupe from '@/components/base/Poupe'
 import {success} from '@/assets/js/config'
 import  {getPid,getPname,getUsername,handleAuth} from '@/assets/js/util'
 import api from '@/assets/js/api'
@@ -52,8 +72,17 @@ export default {
         currentdate:"",
         pname:"",
         username:"",
-        isAdd:""
+        isAdd:"",
+        status:false,
+        overinfo:{
+            usetime:null,
+            starttime:"",
+            endtime:""
+        }
     }
+  },
+  components: {
+    Poupe
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
   beforeMount(){
@@ -108,7 +137,7 @@ export default {
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
-        markArr?markArr.forEach((mark,index) => {    //创建地图标记点
+        checkArr?checkArr.forEach((mark,index) => {    //创建地图标记点
             return(
               new SimpleMarker({
                 iconLabel:{
@@ -125,7 +154,8 @@ export default {
                 iconTheme: 'numv1',
                 iconStyle:'red',
                 map: map,
-                position: [mark[0],mark[1]]
+                position: [mark[0],mark[1]],
+                zIndex:11
               }).on("click",function (e) {
                   alert(`巡检点${index+1}`)
               })
@@ -134,12 +164,12 @@ export default {
         if(PathSimplifier){
             const emptyLineStyle = {   //设置轨迹样式
                 lineWidth: 2,
-                fillStyle: null,
-                strokeStyle: null,
-                borderStyle: null
+                fillStyle: "",
+                strokeStyle: "yellow",
+                borderStyle: "gray"
             };
             const pathSimplifierIns = new PathSimplifier({   //创建轨迹实例
-                zIndex: 10000,
+                zIndex:10,
                 map: map,
                 autoSetFitView:true,
                 getPath: function(pathData, pathIndex) {
@@ -154,17 +184,22 @@ export default {
                       lineWidth:0 
                     },
                     endPointStyle: {   //结束点样式
-                      radius:3,
-                      fillStyle:"blue",
-                      strokeStyle:"yellow",
-                      lineWidth:0 
+                      radius:4,
+                      fillStyle:"purple",
+                      strokeStyle:"",
+                      lineWidth:4 
                     }
                 }
             });
-            pathSimplifierIns.setData([{         //设置轨迹数据源
-                name: 'test',
-                path: [[markArr[0][0],markArr[0][1]]]
-            }]);
+            that.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    that.locationArr[0]=[result.position.lng,result.position.lat];
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]);     
+                }
+            });
             window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             window.navg = null;
             window.PathSimplifier = PathSimplifier;
@@ -172,6 +207,22 @@ export default {
     },
     // handleGps(geolocation=this.geolocation){ 
     // },
+    handleClose(){
+      const that = this;
+      this.status = false;
+      this.second = 0;
+      this.minutes = 0;
+      pathSimplifierIns.clearPathNavigators();
+      that.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    that.locationArr[0]=[result.position.lng,result.position.lat];
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]);    
+                }
+            });
+    },
     handleTrail(){   //持续记录轨迹
         const that = this;
         let i =0 ;
@@ -202,50 +253,61 @@ export default {
         },10000, { 'leading': true }),10000);
     },
     handleMapTrail(){
+        const that = this;
         function onload() {
-            pathSimplifierIns.renderLater();
+            pathSimplifierIns.renderLater({delay:15000});
         }
         function onerror(e) {
             console.log('出错了！');
         }
-        
         if(this.isstart===0){
-            this.handleTimeAdd("start")
+            that.locationArr.length=0;
+            this.handleTimeAdd("start");
+            this.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    //定位成功，接口记录定位信息
+                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
+                        if(res.status==1){
+                            that.locationArr[0]=([res.data.lgtd,res.data.lttd]);
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: [res.data.lgtd,res.data.lttd]
+                            }]);
+                        }
+                    },(err)=>{
+                        that.hint(err.msg)
+                    })
+                }
+            });
             this.handleTrail();
             this.starttime = this.dateFormat(new Date(), 'mm-dd HH:MM:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
-                loop: true,
-                speed: 500,
+                loop: false,
+                speed: 100,
                 pathNavigatorStyle: {
-                    width: 20,
-                    height: 20,
-                    content: PathSimplifier.Render.Canvas.getImageContent(require('@/assets/img/person.png'), onload, onerror),
-                    strokeStyle: 'red',
-                    fillStyle: 'blue',
-                    pathLinePassedStyle: {
-                        lineWidth: 4,
-                        strokeStyle: 'lightgreen',
-                        dirArrowStyle: {
-                            stepSpace: 8,
-                            strokeStyle: 'pink'
-                        }
-                    }
+                    width:0,
+                    height:0,
+                    strokeStyle: "rgba(255,255,255,0)",
+                    fillStyle: "rgba(255,255,255,0)",
+                },
+                pathLinePassedStyle: {
+                        lineWidth: 0,
+                        borderWidth:0,
+                        strokeStyle: "rgba(255,255,255,0)",
+                        dirArrowStyle:"rgba(255,255,255,0)"
                 }
+
             });
             navg.start()
             this.isstart = 1;
         }else if(this.isstart===1){
             this.handleTimeAdd("stop")
-            this.$store.dispatch("patrolOver",{usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'mm-dd HH:MM:ss')})
             navg.stop()
             clearInterval(this.timer)
-            this.isstart = 2;
-            // navg.destroy()
-        }else{
-            this.handleTimeAdd("stop")
-            clearInterval(this.timer)
+            this.status = true;
+            this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'mm-dd HH:MM:ss')};
+            this.isstart = 0;
             navg.destroy()
-            return 
         }
 
     },
@@ -286,6 +348,43 @@ export default {
     height: 100%;
     width: 100%;
     background-color:#fff;
+    }
+    .poupecontent{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          background-color: #fff;
+          border-radius:6px;
+          overflow: hidden;
+          .poupehead{
+            img{
+              width:20%;
+              height:20%;
+            }
+            display: flex;
+            color:#fff;
+            align-items:center;
+            justify-content:space-evenly;
+            padding:5px;
+            background-color:#1aa6fe;
+            .nxst-clock{
+              color:#fff;
+              font-size:28px;
+              background-color:#1aa6f3;
+            }
+          }
+          .poupecenter{
+            text-align:center;
+            padding:12px;
+          }
+          .poupebottom{
+            display: flex;
+            justify-content:center;
+            align-items:center;
+            padding:5px;
+            color:#8bba72;
+          }
     }
     .buttonarea{
       position: absolute;

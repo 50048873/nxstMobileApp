@@ -90,7 +90,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailMonitor_rainfall()
   }
 }

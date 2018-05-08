@@ -220,7 +220,7 @@ export default {
       })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailMonitorPhoto()
     this.initMaskLayerIsVisible()
   },
