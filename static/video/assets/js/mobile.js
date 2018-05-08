@@ -48,69 +48,6 @@
           $('.btns').toggleClass('ON');
         });
       }
-    },
-    created: function() {
-      var _this = this;
-      this.getserverinfo()
-            .then(function() {
-              return _this.login()
-            })
-            .then(function() {
-              var data = {
-                Channel: 2,
-                Enable: 1,
-                IP: '10.100.50.151',
-                Name: '151',
-                Port: 554,
-                Protocol: 'RTSP',
-                Username: 'admin',
-                Password: 'admin12345',
-                RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/101',
-                TransProtocol: 'TCP'
-              };
-              var token = $.cookie("token");
-              console.log(token)
-              return $.ajax({
-                type: "GET",
-                url: host + url + "/setchannelconfig",
-                data: data,
-                headers: {
-                    token: token
-                },
-                beforeSend: function (XMLHttpRequest) {
-                  console.log(111)
-                  XMLHttpRequest.setRequestHeader(token, token);
-                },
-                success: function(data) {
-                  console.log(data)
-                  return
-                }
-              })
-            })
-            .then(function() {
-              return _this.getchannels()
-            })
-            .then(function(res) {
-              console.log(res)
-              return _this.getchannelstream(res)
-            })
-            .then(function(res) {
-              var len = _this.channels.length,
-                  arr = [];
-              for (var i = 0; i < len; i++) {
-                arr[i] = $.extend({}, _this.channels[i], res[i])
-              }
-              _this.channels = arr;
-              console.log(arr)
-
-              _this.$nextTick(function() {
-                if (isPc) {
-                  _this.handlePc();
-                } else {
-                  _this.handleMobile();
-                }  
-              })                 
-            })
     }
   });
 })(jQuery, window);

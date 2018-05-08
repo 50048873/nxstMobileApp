@@ -102,7 +102,7 @@
               video = $video[0];
           $this.next().hide();
           videojs(video, {
-            notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
+            notSupportedMessage : '您的浏览器没有安装或开启Flash, 戳我开启！',
             techOrder : ["flash"],
             autoplay : true,
             controls: true

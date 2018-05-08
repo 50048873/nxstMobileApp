@@ -144,6 +144,17 @@ button {
  }
 }
 
+.video-js {
+  width: 100%; 
+  height: 100%;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  &.ON {
+    border: 1px solid yellow;
+  }
+}
+
 .mobile {
   .videos {
     .videoItem {
@@ -167,13 +178,7 @@ button {
           padding-right: 10px;
         }
       }
-      .video-js {
-        width: 100%; 
-        height: 100%;
-        background-size: 100% 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
+      
       .controls {
         position: absolute;
         bottom: 45%;
@@ -189,6 +194,7 @@ button {
   }
   .btns {
     position: fixed;
+    z-index: 9;
     // top: 100%;
     bottom: 0;
     width: 100%;
@@ -284,6 +290,7 @@ button {
   }
   .config {
     position: fixed;
+    z-index: 9;
     bottom: 1rem;
     right: 1.5rem;
     /*width: 3rem;
@@ -329,13 +336,6 @@ button {
           span:last-child {
             float: right;
           }
-        }
-        .video-js {
-          width: 100%; 
-          height: 100%;
-          background-size: 100% 100%;
-          background-position: center;
-          background-repeat: no-repeat;
         }
         .controls {
           display: none;

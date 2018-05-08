@@ -109,7 +109,8 @@
     var mixins = {
       data: function() {
         return {
-          isPc: isPc
+          isPc: isPc,
+          currentIndex: -1
         }
       },
       methods: {
@@ -237,21 +238,83 @@
           videojs.options.flash.swf = './assets/video-js-5.19.2/video-js-fixed.swf';
           videojs.options.techOrder = ['html5','flash'];
           isPc ? $(document.documentElement).addClass('pc') : $(document.documentElement).addClass('mobile');
+        },
+        selectVideo: function(index) {
+          this.currentIndex = index;
+        },
+        getsnap: function() {
+          if (this.currentIndex === -1) {
+            alert('请先选择要抓图的视频');
+            return
+          }
+          var channel = this.channelsByVideoCount[this.currentIndex]['Channel'];
+          return $.ajax({
+            type: "GET",
+            url: host + url + "/getsnap",
+            data: {
+              channel: channel
+            },
+            success: function(data) {
+              console.log(data)
+              var funDownload = function (content, filename) {
+                  // 创建隐藏的可下载链接
+                  var eleLink = document.createElement('a');
+                  eleLink.download = filename;
+                  eleLink.style.display = 'none';
+                  // 字符内容转变成blob地址
+                  var blob = new Blob([content]);
+                  eleLink.href = URL.createObjectURL(blob);
+                  // 触发点击
+                  document.body.appendChild(eleLink);
+                  eleLink.click();
+                  // 然后移除
+                  document.body.removeChild(eleLink);
+              };
+              funDownload(data, 'a.jpeg');
+            }
+          })
         }
       },
       created: function() {
         var _this = this;
         this.noEventTitle = '此设备不支持此功能';
         this.initBasic();
-        /*this.getserverinfo()
+        this.getserverinfo()
           .then(function() {
             return _this.login()
           })
+          /*.then(function() {
+            var data = {
+              t: new Date().getTime(),
+              Channel: 2,
+              Enable: 1,
+              IP: '10.100.50.151',
+              Name: '151',
+              Port: 554,
+              Protocol: 'RTSP',
+              Username: 'admin',
+              Password: 'admin12345',
+              RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/101',
+              TransProtocol: 'TCP'
+            };
+            return $.ajax({
+              type: "GET",
+              url: host + url + "/setchannelconfig",
+              data: data,
+              xhrFields: { 
+                withCredentials: true
+              },
+              crossDomain: true, 
+              success: function(data) {
+                console.log(data)
+                return
+              }
+            })
+          })*/
           .then(function() {
             return _this.getchannels()
           })
           .then(function(res) {
-            console.log(res)
             return _this.getchannelstream(res)
           })
           .then(function(res) {
@@ -261,8 +324,6 @@
               arr[i] = $.extend({}, _this.channels[i], res[i])
             }
             _this.channels = arr;
-            console.log(arr)
-
             _this.$nextTick(function() {
               if (isPc) {
                 _this.handlePc();
@@ -270,7 +331,7 @@
                 _this.handleMobile();
               }  
             })                 
-          })*/
+          })
       }
     };
 
