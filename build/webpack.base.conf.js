@@ -29,10 +29,10 @@ module.exports = {
       "@": resolve("src")
     }
   },
-  externals: {
+  /*externals: {
     AMap: "AMap",
     AMapUI: "AMapUI"
-  },
+  },*/
   module: {
     rules: [
       {

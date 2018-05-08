@@ -35,7 +35,7 @@ import {markArr} from '@/assets/js/test'
 import {success} from '@/assets/js/config'
 import  {getPid,getPname,getUsername,handleAuth} from '@/assets/js/util'
 import api from '@/assets/js/api'
-import AMap from 'AMap';   
+// import AMap from 'AMap';   
 import _ from 'lodash';
 export default {
   data() {
