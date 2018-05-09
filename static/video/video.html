@@ -6,13 +6,15 @@
   <title>视频</title>
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/video-js-5.19.2/video-js.min.css"/>
+  <link rel="stylesheet" href="./assets/css/weui.min.css">
   <link rel="stylesheet" href="./assets/css/video.css">
 </head>
 <body>
   <div id="videoWrap" class="videoWrap" v-cloak>
     <div class="videos">
       <div class="videoItem" :class="getVedioLayoutClass" v-for="(item, index) in channelsByVideoCount" v-if="channelsByVideoCount.length" :style="videoParentContainerHeight">
-        <video :id="'videojs' + index" class="video-js vjs-default-skin" :class="{'ON' : index === currentIndex}" preload="none" :poster="item.SnapURL" v-if="item.URL" @click="selectVideo(index)">
+        <div class="selectedArea" :class="{'ON' : index === currentIndex}" @click="selectVideo(index)"></div>
+        <video :id="'videojs' + index" class="video-js vjs-default-skin" preload="none" :poster="item.SnapURL" v-if="item.URL">
             <source :src="item.URL" :type="type"></source>
             <p class="vjs-no-js">
               <span>请更新到最新的浏览器观看视频！</span>
@@ -66,7 +68,7 @@
           </li>
           <li class="li-1">
             <ul class="ul-2 clearfix">
-              <li class="li-2"><div class="ITEM" id="getsnap" @click="getsnap">抓图</div></li>
+              <li class="li-2"><div @click="getsnap">抓图</div></li>
               <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">启用电子放大</div></li>
               <li class="li-2"><div id="fullScreen" title="全屏">全屏</div></li>
             </ul>
@@ -122,6 +124,8 @@
       <span v-if="isPc" class="fold"><i class="sj-l"></i></span>
     </div>
   </div>
+  <!-- <a href="http://sw.dse.cn:56023/api/v1/getsnap?channel=3" download="a.jpg">抓图</a> -->
+  <img id="test" src="" alt="">
   <script src="./assets/js/vue.min.js"></script>
   <script src="./assets/js/jquery-2.2.3.min.js"></script>
   <script src="./assets/js/jquery.md5.js"></script>
