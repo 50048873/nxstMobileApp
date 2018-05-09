@@ -34,8 +34,8 @@ export default {
       tdData: [],
 
       type: '1',
-      startTime: this.dateFormat(get7DayOfcurrentDay(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(Date.now(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(get7DayOfcurrentDay(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(Date.now(), 'YYYY-MM-DD')
     }
   },
   methods: {
@@ -44,8 +44,8 @@ export default {
     },
     filter(date) {
       this.type = date.type,
-      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
-      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       this.getReservoirDetailMonitor_rainfall()
         .then((res) => {
           if (!res.length) return

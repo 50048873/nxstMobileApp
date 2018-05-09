@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       isVisible: false,
-      meterDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd')
+      meterDate: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD')
     }
   },
   methods: {

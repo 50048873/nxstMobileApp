@@ -36,8 +36,8 @@ export default {
       tdData: [],
 
       type: '2',
-      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(new Date(), 'YYYY-MM-DD')
     }
   },
   methods: {
@@ -46,8 +46,8 @@ export default {
     },
     filter(date) {
       this.type = date.type,
-      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
-      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       this.getReservoirDetailMonitor_watersupply()
         .then((res) => {
           if (!res.length) return
