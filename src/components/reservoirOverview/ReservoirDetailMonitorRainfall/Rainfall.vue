@@ -1,6 +1,6 @@
 <template>
   <div class="ReservoirDetailMonitorRainfall">
-    <highcharts-column title="降雨量" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData.length"></highcharts-column>
+    <highcharts-column title="降雨量" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData&&tdData.length"></highcharts-column>
     <no-data v-else></no-data>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->

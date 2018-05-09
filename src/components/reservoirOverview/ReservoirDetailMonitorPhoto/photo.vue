@@ -9,7 +9,7 @@
         </div>
         <div class="text">
           <i class="nxst-clock"></i>
-          <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].fileTime | dateFormat}}</time>
+          <time>{{reservoirDetailMonitorPhoto&&reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].fileTime | dateFormat}}</time>
         </div>
       </div>
       <div class="thumbnail" ref="thumbnail">
