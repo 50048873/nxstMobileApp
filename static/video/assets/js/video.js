@@ -244,41 +244,76 @@
         },
         getsnap: function() {
           if (this.currentIndex === -1) {
-            alert('请先选择要抓图的视频');
-            return
+            this.showDialog('请先选择要抓图的视频');
+            return;
           }
           var channel = this.channelsByVideoCount[this.currentIndex]['Channel'];
-          return $.ajax({
+          if (!channel) {
+            this.showDialog('请选择有信号的视频');
+            return;
+          }
+          
+          var funDownload = function () {
+              var eleLink = document.createElement('a');
+              eleLink.download = 'a.jpg';
+              eleLink.style.display = 'none';
+              eleLink.href = host + url + "/getsnap" + '?channel=' + channel;
+              document.body.appendChild(eleLink);
+              eleLink.click();
+              //document.body.removeChild(eleLink);
+          };
+          funDownload();
+
+          /*return $.ajax({
             type: "GET",
             url: host + url + "/getsnap",
             data: {
               channel: channel
             },
             success: function(data) {
-              console.log(data)
+              // console.log(data);
               var funDownload = function (content, filename) {
-                  // 创建隐藏的可下载链接
                   var eleLink = document.createElement('a');
                   eleLink.download = filename;
                   eleLink.style.display = 'none';
-                  // 字符内容转变成blob地址
-                  var blob = new Blob([content]);
+                  var blob = new Blob([content], {type: 'image/jpeg'});
+                  var file = new File([content], "hello.jpg", {type: "image/jpeg; charset=utf-8"});
                   eleLink.href = URL.createObjectURL(blob);
-                  // 触发点击
+                  $('#test').attr('src', URL.createObjectURL(file))
                   document.body.appendChild(eleLink);
                   eleLink.click();
-                  // 然后移除
-                  document.body.removeChild(eleLink);
+                  //document.body.removeChild(eleLink);
               };
-              funDownload(data, 'a.jpeg');
+              funDownload(data, 'a.jpg');
             }
-          })
+          });*/
+        },
+        showDialog: function(text, primaryBtn) {
+          var _this = this;
+          primaryBtn = primaryBtn || '关闭';
+          var $dialog = $('<div class="js_dialog" id="androidDialog2" style="display: none;">' + 
+                          '<div class="weui-mask"></div>' + 
+                          '<div class="weui-dialog weui-skin_android">' + 
+                              '<div class="weui-dialog__bd">' + text + '</div>' +
+                              '<div class="weui-dialog__ft">' + 
+                                  '<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">' + primaryBtn + '</a>' +
+                              '</div>' +
+                          '</div>' +
+                      '</div>');
+          this.$dialog = $dialog.appendTo('body').fadeIn(200);
+          $(document).on('click', '.weui-dialog__btn', function(){
+              $(this).parents('.js_dialog').fadeOut(200);
+              setTimeout(function() {
+                _this.$dialog.remove();
+              }, 200);
+          });
         }
       },
       created: function() {
         var _this = this;
         this.noEventTitle = '此设备不支持此功能';
         this.initBasic();
+        // this.selectVideo();
         this.getserverinfo()
           .then(function() {
             return _this.login()

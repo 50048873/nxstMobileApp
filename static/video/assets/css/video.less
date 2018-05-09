@@ -33,6 +33,9 @@ img {
 a {
   display: inline-block;
   text-decoration: none;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
 }
 
 input {
@@ -150,24 +153,39 @@ button {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  &.ON {
-    border: 1px solid yellow;
+}
+
+.videoItem {
+  .selectedArea {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+      &.ON {
+      border: 1px solid rgb(230, 200, 0);
+    }
   }
+}
+
+a.weui-dialog__btn_primary {
+  color: #0bb20c;
 }
 
 .mobile {
   .videos {
+    padding-right: 15px;
+    padding-left: 15px;
     .videoItem {
       margin-top: 15px;
       margin-bottom: 15px;
-      padding-right: 15px;
-      padding-left: 15px;
       position: relative;
       .info {
         position: absolute;
         bottom: 0;
-        right: 15px;
-        left: 15px;
+        right: 0;
+        left: 0;
         z-index: 9;
         background-color: rgba(255,255,255,0.5);
         text-indent: 1em;
@@ -178,7 +196,6 @@ button {
           padding-right: 10px;
         }
       }
-      
       .controls {
         position: absolute;
         bottom: 45%;
@@ -545,5 +562,12 @@ button {
         margin-top: -2px;
       }
     }
+  }
+  .vjs-control-bar {
+    z-index: 1;
+    width: auto;
+    right: 1px;
+    left: 1px;
+    bottom: 1px;
   }
 } 
