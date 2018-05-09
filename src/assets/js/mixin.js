@@ -1,4 +1,5 @@
-import _dateFormat from 'dateformat'
+import moment from 'moment'
+
 import {isArray, isString} from '@/assets/js/util'
 import {path} from '@/assets/js/config'
 import api from '@/assets/js/api'
@@ -7,20 +8,23 @@ import {success} from '@/assets/js/config'
 export let dateFormat = {
 	methods: {
 		dateFormat(time, formatter) {
-      formatter = formatter ? formatter : 'mm-dd HH:MM'
+      formatter = formatter ? formatter : 'MM-DD hh:mm'
       if (typeof time === 'string' && time.indexOf('T')) {
         time = time.split('T').join(' ')
       }
-      return _dateFormat(time, formatter)
+      return moment(time).format(formatter)
+
+
     }
 	},
 	filters: {
 		dateFormat(time, formatter) {
-      formatter = formatter ? formatter : 'mm-dd HH:MM'
+      formatter = formatter ? formatter : 'MM-DD hh:mm'
 			if (typeof time === 'string' && time.indexOf('T')) {
 				time = time.split('T').join(' ')
 			}
-      return _dateFormat(time, formatter)
+      return moment(time).format(formatter)
+
     }
 	}
 };
