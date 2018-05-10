@@ -181,30 +181,33 @@ a.weui-dialog__btn_primary {
       margin-top: 15px;
       margin-bottom: 15px;
       position: relative;
-      .info {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        z-index: 9;
-        background-color: rgba(255,255,255,0.5);
-        text-indent: 1em;
-        height: 30px;
-        line-height: 30px;
-        span:last-child {
-          float: right;
-          padding-right: 10px;
+      .mobleEle {
+        .info {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          z-index: 9;
+          background-color: rgba(255,255,255,0.5);
+          text-indent: 1em;
+          height: 30px;
+          line-height: 30px;
+          span:last-child {
+            float: right;
+            padding-right: 10px;
+          }
         }
-      }
-      .controls {
-        position: absolute;
-        bottom: 45%;
-        left: 50%;
-        margin-left: -18px;
-        cursor: pointer;
-        .glyphicon-play-circle {
-          font-size: 4rem;
-          color: rgba(255, 255, 255, 0.7);
+        .controls {
+          position: absolute;
+          z-index: 2;
+          bottom: 45%;
+          left: 50%;
+          margin-left: -18px;
+          cursor: pointer;
+          .glyphicon-play-circle {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.7);
+          }
         }
       }
     }

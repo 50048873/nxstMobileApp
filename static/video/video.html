@@ -14,7 +14,7 @@
     <div class="videos">
       <div class="videoItem" :class="getVedioLayoutClass" v-for="(item, index) in channelsByVideoCount" v-if="channelsByVideoCount.length" :style="videoParentContainerHeight">
         <div class="selectedArea" :class="{'ON' : index === currentIndex}" @click="selectVideo(index)"></div>
-        <video :id="'videojs' + index" class="video-js vjs-default-skin" preload="none" :poster="item.SnapURL" v-if="item.URL">
+        <video :id="'videojs' + index" class="video-js vjs-default-skin vjs-big-play-centered" preload="none" :poster="item.SnapURL" v-if="item.URL">
             <source :src="item.URL" :type="type"></source>
             <p class="vjs-no-js">
               <span>请更新到最新的浏览器观看视频！</span>
@@ -125,7 +125,6 @@
     </div>
   </div>
   <!-- <a href="http://sw.dse.cn:56023/api/v1/getsnap?channel=3" download="a.jpg">抓图</a> -->
-  <img id="test" src="" alt="">
   <script src="./assets/js/vue.min.js"></script>
   <script src="./assets/js/jquery-2.2.3.min.js"></script>
   <script src="./assets/js/jquery.md5.js"></script>

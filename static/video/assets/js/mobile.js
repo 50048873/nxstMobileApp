@@ -36,7 +36,8 @@
         return status == 1 ? 'green' : ''
       },
       handleMobile: function() {
-        $(document).on('click', '.controls', function() {
+        $(document).on('click', '.controls', function(e) {
+          e.preventDefault();
           var $this = $(this),
               $video = $this.parent().prev(),
               video = $video[0];
