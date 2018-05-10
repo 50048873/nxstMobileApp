@@ -29,7 +29,7 @@
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 // 暂时用王忠燕本机的图片资源，等服务器上有图片时再切换
-const baseUrl = 'http://10.100.50.170:8080/znb/'
+//const baseUrl = 'http://10.100.50.170:8080/znb/'
 export default {
   name: 'ReservoirDetailMember',
   data() {
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    recursion(arr) {
+    recursion(arr,filePathUrl) {
       var result = []
       var getData = function fn(arr) {
         arr.forEach((item) => {
@@ -51,7 +51,7 @@ export default {
                   if (url.indexOf('\\') > 1) {
                     url = url.replace(/\\/g, '/')
                   }
-                  obj[i] = baseUrl + url
+                  obj[i] = filePathUrl+ url
                 }
               } else {
                 obj[i] = item[i]
@@ -68,10 +68,11 @@ export default {
       return result
     },
     getReservoirDetailMember() {
+      const that = this;
       api.getReservoirDetailMember({pid: this.$route.query.pid})
         .then((res) => {
           if (res.status === success) {
-            this.reservoirDetailMember = this.recursion(res.data)
+            this.reservoirDetailMember = this.recursion(res.data,this.$store.state.filePathUrl )
           } else {
             this.hint(res.msg)
           }
