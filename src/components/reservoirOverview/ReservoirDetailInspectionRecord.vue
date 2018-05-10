@@ -2,7 +2,7 @@
   <div>
     <ul class="ReservoirDetailInspection">
       <li class="line-bottom" v-for="item in ReservoirDetailInspection">
-        <time class="title">{{item.CHECK_DATE | dateFormat('yyyy月mm月dd日')}}大坝巡检</time>
+        <time class="title">{{dateFormat(item.CHECK_DATE,'ll')}}大坝巡检</time>
         <div class="content">
           <div class="status">
             <i :class="item.PATROL_STATE == 1 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
@@ -37,8 +37,8 @@ export default {
   data() {
     return {
       ReservoirDetailInspection: [],
-      startDate: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
+      startDate: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endDate: this.dateFormat(new Date(), 'YYYY-MM-DD'),
       isAdd:true,
     }
   },

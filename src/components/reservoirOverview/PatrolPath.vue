@@ -88,7 +88,7 @@ export default {
   beforeMount(){
        this.pname = getPname();
        this.username = getUsername();
-       this.currentdate = this.dateFormat(new Date(), 'mm-dd');
+       this.currentdate = this.dateFormat(new Date(), 'MM-DD');
        this.isAdd = handleAuth("addcheckrecord");
       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
           if(res.status==1){
@@ -191,7 +191,8 @@ export default {
                     }
                 }
             });
-            that.geolocation.getCurrentPosition(function(status,result){
+            if(that.geolocation){
+                that.geolocation.getCurrentPosition(function(status,result){
                 if(status==="complete"){
                     that.locationArr[0]=[result.position.lng,result.position.lat];
                     pathSimplifierIns.setData([{         //设置轨迹数据源
@@ -199,7 +200,8 @@ export default {
                         path: that.locationArr
                     }]);     
                 }
-            });
+                }) 
+            }
             window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             window.navg = null;
             window.PathSimplifier = PathSimplifier;
@@ -266,7 +268,7 @@ export default {
             this.geolocation.getCurrentPosition(function(status,result){
                 if(status==="complete"){
                     //定位成功，接口记录定位信息
-                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')}).then((res)=>{
+                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
                         if(res.status==1){
                             that.locationArr[0]=([res.data.lgtd,res.data.lttd]);
                             pathSimplifierIns.setData([{         //设置轨迹数据源
@@ -280,7 +282,7 @@ export default {
                 }
             });
             this.handleTrail();
-            this.starttime = this.dateFormat(new Date(), 'mm-dd HH:MM:ss')
+            this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: false,
                 speed: 100,
@@ -305,7 +307,7 @@ export default {
             navg.stop()
             clearInterval(this.timer)
             this.status = true;
-            this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'mm-dd HH:MM:ss')};
+            this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'MM-DD hh:mm:ss')};
             this.isstart = 0;
             navg.destroy()
         }

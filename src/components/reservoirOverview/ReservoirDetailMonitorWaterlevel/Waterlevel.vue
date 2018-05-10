@@ -35,8 +35,8 @@ export default {
         title2: '水位（m）'
       },
       tdData: [],
-      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(new Date(), 'YYYY-MM-DD')
     }
   },
   methods: {
