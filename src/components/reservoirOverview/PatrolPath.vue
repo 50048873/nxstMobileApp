@@ -191,7 +191,8 @@ export default {
                     }
                 }
             });
-            that.geolocation.getCurrentPosition(function(status,result){
+            if(that.geolocation){
+                that.geolocation.getCurrentPosition(function(status,result){
                 if(status==="complete"){
                     that.locationArr[0]=[result.position.lng,result.position.lat];
                     pathSimplifierIns.setData([{         //设置轨迹数据源
@@ -199,7 +200,8 @@ export default {
                         path: that.locationArr
                     }]);     
                 }
-            });
+                }) 
+            }
             window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             window.navg = null;
             window.PathSimplifier = PathSimplifier;
