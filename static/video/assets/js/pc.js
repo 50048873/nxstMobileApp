@@ -73,15 +73,23 @@
           if (sourceSrc) {
             pl = videojs(video, {
               notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
-              techOrder : ["flash"],
+              techOrder : ["html5","flash"],
               autoplay : false,
-              controls: true
+              controls: true,
             }, function() {
               players.push(this);
               this.play();
               this.on("error",function(e){
                 console.log('error')
               });
+              this.on('loadeddata',function(){
+                  console.log(this)
+              })
+
+              this.on('ended',function(){
+                   this.pause();
+                   this.hide()
+              })
             });
           }
           i++;

@@ -236,7 +236,7 @@
         },
         initBasic: function() {
           videojs.options.flash.swf = './assets/video-js-5.19.2/video-js-fixed.swf';
-          videojs.options.techOrder = ['html5','flash'];
+          // videojs.options.techOrder = ['html5','flash'];
           isPc ? $(document.documentElement).addClass('pc') : $(document.documentElement).addClass('mobile');
         },
         selectVideo: function(index) {
@@ -252,15 +252,16 @@
             this.showDialog('请选择有信号的视频');
             return;
           }
-          
-          var funDownload = function () {
+
+          var funDownload = function (filename) {
               var eleLink = document.createElement('a');
-              eleLink.download = 'a.jpg';
+              // eleLink.download = filename || new Date().getTime();
+              eleLink.target = '_blank';
               eleLink.style.display = 'none';
               eleLink.href = host + url + "/getsnap" + '?channel=' + channel;
               document.body.appendChild(eleLink);
               eleLink.click();
-              //document.body.removeChild(eleLink);
+              document.body.removeChild(eleLink);
           };
           funDownload();
 
