@@ -8,8 +8,8 @@ export let dateFormat = {
 	methods: {
 		dateFormat(time, formatter) {
       formatter = formatter ? formatter : 'MM-DD hh:mm'
-      if (typeof time === 'string' && time.indexOf('T')) {
-        time = time.split('T').join(' ')
+      if (typeof time === 'string' && time.indexOf('-')) {
+        time = time.split('-').join('/')
       }
       return moment(time).format(formatter)
 
@@ -19,8 +19,8 @@ export let dateFormat = {
 	filters: {
 		dateFormat(time, formatter) {
       formatter = formatter ? formatter : 'MM-DD hh:mm'
-			if (typeof time === 'string' && time.indexOf('T')) {
-				time = time.split('T').join(' ')
+			if (typeof time === 'string' && time.indexOf('-')) {
+				time = time.split('-').join('/')
 			}
       return moment(time).format(formatter)
 

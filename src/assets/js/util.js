@@ -224,7 +224,7 @@ export function getFirstDayOfMonth() {
         year = date.getFullYear(),
         month = date.getMonth() + 1,
         day = 1
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
 
 // 获取当年1月1日
@@ -250,7 +250,7 @@ export function getSameDayOfPreMonth(strDate) {
     let year = date.getFullYear(),
         month = date.getMonth(),
         day = date.getDate()
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
 
 
@@ -290,7 +290,7 @@ export function get7DayOfcurrentDay(strDate) {
         }
         day = (day - 7) + _month 
     }
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
 
 // 获取当日或指定日期早8点
@@ -307,7 +307,7 @@ export function get8am(strDate) {
         hour = '08',
         minute = '00',
         second = '00'
-    return new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`)
+    return new Date(`${year}/${month}/${day} ${hour}:${minute}:${second}`)
 }
 
 // 根据传入属性，返回浏览器支持的前缀
