@@ -55,15 +55,15 @@ export default {
         {
           title: '人工填报',
           path: '/reservoirDetail/monitor/add',
-          flag:false
+          flag:handleAuth("postartificialpost")
         }
       ]
     }
   },
   beforeMount(){
-    authArtificialPost("402881d162d65a7c0162d679d5480044",2,getPid()).then(res=>{
-      this.tab[this.tab.length-1].flag = res;
-    })
+    // authArtificialPost("402881d162d65a7c0162d679d5480044",2,getPid()).then(res=>{
+    //   this.tab[this.tab.length-1].flag = res;
+    // })
   }
 }
 </script>

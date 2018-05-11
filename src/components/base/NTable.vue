@@ -1,5 +1,5 @@
 <template>
-  <div v-show="tdData.length">
+  <div v-show="tdData&&tdData.length">
     <h6>数据列表</h6>
     <table class="table">
       <thead>
@@ -56,7 +56,7 @@ export default {
     },
     getDatetime() {
       let data = this.tdData,
-          len = data.length,
+          len = data?data.length:0,
           isDatetime = false
       for (let i = 0; i < len; i++) {
         let item = data[i]

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-const serverUrl = 'http://sw.dse.cn:56016'
+const serverUrl = 'http://sw.dse.cn:56021'
 
 let login = function(data) {
 	return $.ajax({
@@ -204,7 +204,7 @@ let getMemberList =(data)=>{
 
 // 根据字典code获取字典项值
 let getDictValueByCode = function(code) {
-  const url = 'http://sw.dse.cn:56012/znb/CommonCtrl/getDictValueByCode.do'
+  const url = 'http://sw.dse.cn:56015/znb/CommonCtrl/getDictValueByCode.do'
   return $.ajax({
     type: 'GET',
     url: url,
@@ -242,8 +242,29 @@ let getUserAuthInfo = (data) =>{
   })
 }
 
+//获取时间段内用户轨迹数据
+let getTrailRecord = data => {
+  const url = baseUrl + "/znb/patrolRecord/getUserRecord.do";
+  return $.ajax({
+    type: "POST",
+    data,
+    url
+  });
+};
+
+//添加巡查轨迹
+let addPatrolTrail = data => {
+  const url = baseUrl + "/znb/patrolRecord/addTrack.do";
+  return $.ajax({
+    type: "POST",
+    contentType: "application/json",
+    data:JSON.stringify(data),
+    url
+  });
+};
+
 export default {
-	login,
+  login,
   getSessionUser,
   getListResourceNodeByUser,
   getNewsMarquee,
@@ -266,5 +287,7 @@ export default {
   getDictValueByCode,
   getServerInfo,
   getFilePathUrl,
-  getUserAuthInfo
-}
+  getUserAuthInfo,
+  getTrailRecord,
+  addPatrolTrail
+};

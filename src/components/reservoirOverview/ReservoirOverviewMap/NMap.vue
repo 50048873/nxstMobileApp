@@ -4,7 +4,7 @@
       <div class="mapTransform" ref="mapTransform" :style="getScale" @touchstart="start" @touchmove.prevent="move" @touchend="end">
         <div class="tips">
           <img id="map" :src="getStaticPath('/static/img/map.png')" :width="imgWidth" :height="imgHeight" alt="">
-          <div class="tip" v-for="item in reservoirList" :style="getWarnPosition(item)" @click="showDetail(item.pid)">
+          <div class="tip" v-for="item in reservoirList" :style="getWarnPosition(item)" @click="showDetail(item.pid,item.ennm)">
             <div class="iconWrap"><i class="nxst-warn" :class="getWarnClass(item.status)"></i></div>
             <div class="des">
               <h6>{{item.ennm}}</h6>
@@ -38,7 +38,7 @@
 <script>
 import $ from 'jquery'
 import {mapGetters, mapMutations} from 'vuex'
-import {setPid} from '@/assets/js/util'
+import {setPid,setPname} from '@/assets/js/util'
 import {SET_WARNCONFIG} from '@/store/mutation-types'
 import {getStaticPath, getWarnConfig} from '@/assets/js/mixin'
 import api from '@/assets/js/api'
@@ -120,9 +120,10 @@ export default {
         this.scale = 3
       }
     },
-    showDetail(pid) {
+    showDetail(pid,name) {
       this.getWarnConfig({pid})
       setPid(pid);
+      setPname(name);
       this.$router.push({path: '/reservoirDetail', query: {pid}})
     },
     getWarnPosition(item) {

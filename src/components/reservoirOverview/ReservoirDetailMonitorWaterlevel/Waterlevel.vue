@@ -1,11 +1,11 @@
 <template>
   <div class="ReservoirDetailMonitorWaterlevel">
-    <highcharts-line title="水位过程线" xTitleText="（日期）" yTitleText="(m)" :data="tdData" ref="hcMonitorWaterlevel" v-if="tdData.length"></highcharts-line>
+    <highcharts-line title="水位过程线" xTitleText="（日期）" yTitleText="(m)" :data="tdData" ref="hcMonitorWaterlevel" v-if="tdData&&tdData.length"></highcharts-line>
+    <no-data v-else></no-data>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog1" @confirm="filter"></filter-dialog>
-    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
@@ -35,8 +35,8 @@ export default {
         title2: '水位（m）'
       },
       tdData: [],
-      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(new Date(), 'YYYY-MM-DD')
     }
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailMonitor_waterlevel()
   }
 }

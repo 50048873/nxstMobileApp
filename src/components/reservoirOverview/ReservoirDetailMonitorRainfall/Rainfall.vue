@@ -1,11 +1,11 @@
 <template>
   <div class="ReservoirDetailMonitorRainfall">
-    <highcharts-column title="降雨量" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData.length"></highcharts-column>
+    <highcharts-column title="降雨量" xTitleText="（日期）" yTitleText="(mm)" :data="tdData" ref="hcMonitorRainfall" v-if="tdData&&tdData.length"></highcharts-column>
+    <no-data v-else></no-data>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog2" @confirm="filter"></filter-dialog>
-    <no-data v-if="!tdData.length"></no-data>
   </div>
 </template>
 
@@ -34,8 +34,8 @@ export default {
       tdData: [],
 
       type: '1',
-      startTime: this.dateFormat(get7DayOfcurrentDay(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(get7DayOfcurrentDay(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(Date.now(), 'YYYY-MM-DD')
     }
   },
   methods: {
@@ -44,8 +44,8 @@ export default {
     },
     filter(date) {
       this.type = date.type,
-      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
-      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       this.getReservoirDetailMonitor_rainfall()
         .then((res) => {
           if (!res.length) return
@@ -90,7 +90,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailMonitor_rainfall()
   }
 }

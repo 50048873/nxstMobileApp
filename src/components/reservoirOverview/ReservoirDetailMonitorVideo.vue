@@ -1,10 +1,6 @@
 <template>
   <div class="ReservoirDetailMonitorVideo">
-    <!-- <video id="myVideo" autoplay="true">
-      <source :src="getStaticPath('/static/video/test.mpg')">
-      <source :src="getStaticPath('/static/video/test.mp4')">
-      Video player not available.
-    </video> -->
+    <iframe style="width:100%;height:100%;" :src="this.getStaticPath('/static/video/video.html')" frameborder="0"></iframe>
   </div>
 </template>
 
@@ -18,7 +14,6 @@ export default {
 
 <style scoped lang="less">
   .ReservoirDetailMonitorVideo {
-    padding-bottom: 10px;
     video {
       width: 100%;
     }

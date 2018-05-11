@@ -56,8 +56,8 @@ export default {
       isVisible: false,
       inputType: 'date',
       type: '1',
-      startTime: this.dateFormat(get7DayOfcurrentDay(new Date()), "yyyy-mm-dd"),
-      endTime: this.dateFormat(new Date(), "yyyy-mm-dd")
+      startTime: this.dateFormat(get7DayOfcurrentDay(new Date()), "YYYY-MM-DD"),
+      endTime: this.dateFormat(new Date(), "YYYY-MM-DD")
     }
   },
   methods: {
@@ -83,23 +83,23 @@ export default {
       switch (newVal) {
         case '0' :
           this.inputType = 'datetime-local'
-          this.startTime = this.dateFormat(get8am(new Date()), "yyyy-mm-dd'T'HH:MM:ss"),
-          this.endTime = this.dateFormat(new Date(), "yyyy-mm-dd'T'HH:MM:ss")
+          this.startTime = this.dateFormat(get8am(new Date()), "YYYY-MM-DD hh:mm:ss"),
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD hh:mm:ss")
           break
         case '1' :
           this.inputType = 'date'
-          this.startTime = this.dateFormat(get7DayOfcurrentDay(), "yyyy-mm-dd")
-          this.endTime = this.dateFormat(new Date(), "yyyy-mm-dd")
+          this.startTime = this.dateFormat(get7DayOfcurrentDay(), "YYYY-MM-DD")
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
           break
         case '2' :
           this.inputType = 'date'
-          this.startTime = this.dateFormat(getSameDayOfPreMonth(), "yyyy-mm-dd")
-          this.endTime = this.dateFormat(new Date(), "yyyy-mm-dd")
+          this.startTime = this.dateFormat(getSameDayOfPreMonth(), "YYYY-MM-DD")
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
           break
         case '3' :
           this.inputType = 'date'
-          this.startTime = this.dateFormat(getNewYearDay(), "yyyy-mm-dd")
-          this.endTime = this.dateFormat(new Date(), "yyyy-mm-dd")
+          this.startTime = this.dateFormat(getNewYearDay(), "YYYY-MM-DD")
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
           break
         default : 
           this.inputType = 'date'

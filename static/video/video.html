@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+  <title>视频</title>
+  <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/video-js-5.19.2/video-js.min.css"/>
+  <link rel="stylesheet" href="./assets/css/weui.min.css">
+  <link rel="stylesheet" href="./assets/css/video.css">
+</head>
+<body>
+  <div id="videoWrap" class="videoWrap" v-cloak>
+    <div class="videos">
+      <div class="videoItem" :class="getVedioLayoutClass" v-for="(item, index) in channelsByVideoCount" v-if="channelsByVideoCount.length" :style="videoParentContainerHeight">
+        <div class="selectedArea" :class="{'ON' : index === currentIndex}" @click="selectVideo(index)"></div>
+        <video :id="'videojs' + index" class="video-js vjs-default-skin vjs-big-play-centered" preload="none" :poster="item.SnapURL" v-if="item.URL">
+            <source :src="item.URL" :type="type"></source>
+            <p class="vjs-no-js">
+              <span>请更新到最新的浏览器观看视频！</span>
+              <a href="http://videojs.com/html5-video-support/" target="_blank">支持HTML5视频链接</a>
+            </p>
+        </video>
+        <div v-if="!isPc && item.URL" class="mobleEle">
+          <a class="controls">
+            <i class="glyphicon glyphicon-play-circle"></i>
+          </a>
+          <div class="info" :class="getOnlineClass(item.Online)">
+            <span>[channel{{item.Channel}}]{{item.ChannelName}}</span>
+            <span>{{getOnlineText(item.Online)}}</span>
+          </div>
+        </div>
+        <div v-if="isPc && !item.SnapURL" class="pcEle">
+          <div class="noSignal">无信号</div>
+        </div>
+      </div>
+    </div>
+    <div class="btns">
+      <div class="gl clearfix">
+        <h3>功能</h3>
+        <ul class="ul-1">
+          <li class="li-1">
+            <ul id="videoCountCtl" class="ul-2 videoCountCtl clearfix">
+              <li class="li-2"><div class="ITEM">1屏</div></li>
+              <li class="li-2"><div class="ITEM ON">4屏</div></li>
+              <li class="li-2"><div class="ITEM">9屏</div></li>
+              <li class="li-2"><div class="ITEM">16屏</div></li>
+            </ul>
+          </li>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">主码流</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">子码流</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">虚拟码流</div></li>
+            </ul>
+          </li>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">语音对讲通道1</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">语音对讲通道2</div></li>
+            </ul>
+          </li>
+          <li class="li-1">
+            <ul class="ul-2 viewBtns clearfix">
+              <li class="li-2"><div id="allStart">全部开始预览</div></li>
+              <li class="li-2"><div id="allStop">全部停止预览</div></li>
+            </ul>
+          </li>
+          <li class="li-1">
+            <ul class="ul-2 clearfix">
+              <li class="li-2"><div @click="getsnap">抓图</div></li>
+              <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">启用电子放大</div></li>
+              <li class="li-2"><div id="fullScreen" title="全屏">全屏</div></li>
+            </ul>
+          </li>
+          <li class="li-1">
+            <div class="volumn">
+              <span>音量</span>
+              <input :value="volumnValue" :style="{backgroundSize: this.volumnValue + '% 100%'}" type="range" min="0" max="100" step="1" v-model="volumnValue">
+              <span>{{volumnValue}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="yt clearfix">
+        <h3>云台</h3>
+        <ul>
+          <li class="li-1">
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">左上</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">上</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右上</span>
+            </div>
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">左</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">旋转</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右</span>
+            </div>
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">左下</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">下</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">右下</span>
+            </div>
+          </li>
+          <li class="li-1">
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">缩小</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">放大</span>
+            </div>
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">聚焦 -</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">聚焦 +</span>
+            </div>
+            <div>
+              <span class="ITEM DISABLE" :title="noEventTitle">光圈 -</span>
+              <span class="ITEM DISABLE" :title="noEventTitle">光圈 +</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="config">
+      <span v-if="!isPc"><i class="glyphicon glyphicon-cog fa-spin"></i></span>
+      <span v-if="isPc" class="fold"><i class="sj-l"></i></span>
+    </div>
+  </div>
+  <!-- <a href="http://sw.dse.cn:56023/api/v1/getsnap?channel=3" download="a.jpg">抓图</a> -->
+  <script src="./assets/js/vue.min.js"></script>
+  <script src="./assets/js/jquery-2.2.3.min.js"></script>
+  <script src="./assets/js/jquery.md5.js"></script>
+  <script src="./assets/js/jquery.cookie.min.js"></script>
+  <script src="./assets/video-js-5.19.2/video.min.js"></script>
+  <script src="./assets/video-js-5.19.2/videojs-contrib-hls4.js"></script>
+  <script src="./assets/js/video.js"></script>
+</body>
+</html>

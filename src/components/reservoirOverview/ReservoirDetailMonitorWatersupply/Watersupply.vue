@@ -1,11 +1,12 @@
 <template>
   <div class="ReservoirDetailMonitorWatersupply">
     <highcharts-column title="供水量" xTitleText="（月份）" yTitleText="（万m<sup>3</sup>）" :data="tdData" ref="hcMonitorWatersupply" v-if="tdData.length"></highcharts-column>
+    <no-data v-else></no-data>
     <n-table :thData="thData" :tdData="tdData"></n-table>
     <!-- <n-add right="20" :bottom="getBottomPosition(84)" iconClass="nxst-rgtb" @click="monitorAdd"></n-add> -->
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog4" @confirm="filter"></filter-dialog>
-    <no-data v-if="!tdData.length"></no-data>
+    
   </div>
 </template>
 
@@ -35,8 +36,8 @@ export default {
       tdData: [],
 
       type: '2',
-      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(new Date(), 'YYYY-MM-DD')
     }
   },
   methods: {
@@ -45,8 +46,8 @@ export default {
     },
     filter(date) {
       this.type = date.type,
-      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
-      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       this.getReservoirDetailMonitor_watersupply()
         .then((res) => {
           if (!res.length) return

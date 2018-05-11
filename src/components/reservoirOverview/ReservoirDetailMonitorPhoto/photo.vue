@@ -1,6 +1,6 @@
 <template>
   <div class="ReservoirDetailMonitorPhoto" ref="ReservoirDetailMonitorPhoto">
-    <div v-show="reservoirDetailMonitorPhoto.length">
+    <div v-show="reservoirDetailMonitorPhoto&&reservoirDetailMonitorPhoto.length">
       <div class="viewArea">
         <div class="bigPicWrap" @touchstart="start" @touchmove="move" @touchend.prevent="end" ref="bigPicWrap">
           <ul id="bigPicUl">
@@ -9,7 +9,7 @@
         </div>
         <div class="text">
           <i class="nxst-clock"></i>
-          <time>{{reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].fileTime | dateFormat}}</time>
+          <time>{{reservoirDetailMonitorPhoto&&reservoirDetailMonitorPhoto[currentIndex] && reservoirDetailMonitorPhoto[currentIndex].fileTime | dateFormat}}</time>
         </div>
       </div>
       <div class="thumbnail" ref="thumbnail">
@@ -30,7 +30,7 @@
     </div>
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialog"></n-add>
     <filter-dialog ref="filterDialog5" @confirm="filter"></filter-dialog>
-    <no-data v-show="!reservoirDetailMonitorPhoto.length"></no-data>
+    <no-data v-show="reservoirDetailMonitorPhoto&&!reservoirDetailMonitorPhoto.length"></no-data>
   </div>
 </template>
 
@@ -59,8 +59,8 @@ export default {
       pageSize: 5,
       fileBiz: '', // 水库pid
       fileFirst: '',
-      startTime: this.dateFormat(getSameDayOfPreMonth(), 'yyyy-mm-dd'),
-      endTime: this.dateFormat(new Date(), 'yyyy-mm-dd')
+      startTime: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      endTime: this.dateFormat(new Date(), 'YYYY-MM-DD')
     }
   },
   computed: {
@@ -73,8 +73,8 @@ export default {
     },
     filter(date) {
       this.fileFirst = date.fileFirst,
-      this.startTime = this.dateFormat(date.startTime, "yyyy-mm-dd HH:MM:ss")
-      this.endTime = this.dateFormat(date.endTime, "yyyy-mm-dd HH:MM:ss")
+      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       this.page = 1
       this.getReservoirDetailMonitorPhoto()
     },
@@ -220,7 +220,7 @@ export default {
       })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailMonitorPhoto()
     this.initMaskLayerIsVisible()
   },

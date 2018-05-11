@@ -224,7 +224,7 @@ export function getFirstDayOfMonth() {
         year = date.getFullYear(),
         month = date.getMonth() + 1,
         day = 1
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
 
 // 获取当年1月1日
@@ -250,8 +250,14 @@ export function getSameDayOfPreMonth(strDate) {
     let year = date.getFullYear(),
         month = date.getMonth(),
         day = date.getDate()
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
+
+
+function isLeapYear(year) {
+  return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
+}
+
 
 // 获取当日之前7天
 export function get7DayOfcurrentDay(strDate) { 
@@ -264,29 +270,27 @@ export function get7DayOfcurrentDay(strDate) {
     let year = date.getFullYear(),
         month = date.getMonth() + 1,
         day = date.getDate()
-
-    if (day >= 7) {
+    if (day > 7) {
         day = day - 7
     } else {
         let _month
-        switch (month) {
-            case 1 || 3 || 5 || 7 || 8 || 10 || 12 :
-                _month = 31
-                break
-            case 4 || 6 || 9 || 11 :
-                _month = 30
-                break
-            default :
-                _month = 29
-        }
-        day = (day - 7) + _month
-        month = month - 1
+        month = month - 1;
         if (month === 0) {
-            year = year - 1
-            month = 12
+          year = year - 1
+          month = 12
         }
+        if ([1,3,5,7,8,10,12].indexOf(month)>-1) {
+            _month = 31
+        }else if ([4,6,9,11].indexOf(month)>-1){
+            _month = 30
+        } else if (isLeapYear(year)){
+            _month = 28;
+        }else{
+            _month = 29
+        }
+        day = (day - 7) + _month 
     }
-    return new Date(`${year}-${month}-${day}`)
+    return new Date(`${year}/${month}/${day}`)
 }
 
 // 获取当日或指定日期早8点
@@ -303,7 +307,7 @@ export function get8am(strDate) {
         hour = '08',
         minute = '00',
         second = '00'
-    return new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`)
+    return new Date(`${year}/${month}/${day} ${hour}:${minute}:${second}`)
 }
 
 // 根据传入属性，返回浏览器支持的前缀
@@ -425,3 +429,33 @@ export function setPid(value){
 export function getPid(){
     return getItem("pid")
 }
+
+/*
+* @param   
+  @description     获取水库名称
+*/
+export function setPname(value) {
+   setItem("pname", value)
+}
+
+/*
+* @param   
+  @description     获取水库id
+*/
+export function getPname() {
+
+  return getItem("pname")
+
+}
+
+/*
+* @param   
+  @description     获取用户名称
+*/
+export function getUsername() {
+
+  return getItem("username")
+
+}
+
+

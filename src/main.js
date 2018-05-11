@@ -32,7 +32,8 @@ import NoData from '@/components/base/NoData'
 Vue.component('no-data', NoData)
 import NAdd from '@/components/base/NAdd'
 Vue.component('n-add', NAdd)
-
+import NGBtn from "@/components/base/NGBtn";
+Vue.component("n-gbtn", NGBtn);
 // 注册自定义的方法
 import {hint, serverErrorTip, setDocumentTitle} from '@/assets/js/util'
 Vue.prototype.hint = hint

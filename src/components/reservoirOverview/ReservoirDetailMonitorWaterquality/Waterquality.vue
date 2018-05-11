@@ -249,7 +249,7 @@ export default {
     return {
       szInfo: {},
 
-      meterDate: this.dateFormat(new Date(), 'yyyy-mm-dd'),
+      meterDate: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
     }
   },
   methods: {
@@ -282,7 +282,7 @@ export default {
     }
   },
   created() {
-    this.getReservoirDetailMonitor_waterquality()
+    this.getReservoirDetailMonitor_waterquality();
   },
   watch: {
     meterDate(newVal, oldVal) {

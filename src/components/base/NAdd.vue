@@ -21,6 +21,9 @@ export default {
       type: String,
       default: 'nxst-add'
     },
+    content:{
+      type:String,
+    },
     top: {
       type: [String, Number]
     },
@@ -36,7 +39,7 @@ export default {
   },
   computed: {
     getPos() {
-      let top, right, bottom, left
+      let top, right, bottom, left,content
       if (this.top) {
         top = parseInt(this.top) + 'px'
       }
@@ -171,6 +174,9 @@ export default {
     width: 54px;
     height: 54px;
     z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(38, 194, 209, 0.6);
     border-radius: 50%;
     box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -182,6 +188,10 @@ export default {
       transform: translate(-50%, -50%);
       font-size: 28px;
       color: white;
+    }
+    .content{
+      color:#fff;
+      text-align: justify;
     }
   }
 </style>

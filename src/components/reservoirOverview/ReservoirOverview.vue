@@ -52,7 +52,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
       this.setDocumentTitle('水库概览')
       this.getReservoirList()
   }

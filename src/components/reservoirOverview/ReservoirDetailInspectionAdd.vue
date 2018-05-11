@@ -26,7 +26,7 @@
         <h6>巡查时间</h6>
         <label class="inputBox arrow-r datetimeBox" for="checkDate">
           <input class="datetimeLocal" id="checkDate" type="datetime-local" step="1" v-model="checkDate" required>
-          <span class="realDatetimeLocal">{{checkDate | dateFormat('yyyy-mm-dd HH:MM:ss')}}</span>
+          <span class="realDatetimeLocal">{{checkDate | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
         </label>
       </div>
       <div class="item line-bottom">
@@ -109,7 +109,7 @@ export default {
   methods: {
     getReservoirDetailInspectionAdd_patrolPoint() {
       let params = {
-        pid: this.$route.query.pid//,
+        pid: getPid()//,
         //date: '', // 需要统计哪天，时间格式为“yyyy-MM-dd”
         //is_sign: '' // 是否是签到点0否1是，不填获得所有巡检点
       }
@@ -133,7 +133,7 @@ export default {
         })
     },
     getDefaultDateTime() {
-      let checkDate = this.dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss').split(' ').join('T')
+      let checkDate = this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss').split(' ').join('T')
       return checkDate
     },
     readAsDataURL(file) {
@@ -270,9 +270,9 @@ export default {
       this.disabled = true
       let formEle = this.$refs.formEle
       let params = new FormData(formEle)
-      params.append('pid', this.$route.query.pid)
+      params.append('pid',getPid())
       params.append('id', getUuid(32, 16))
-      params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'yyyy-mm-dd HH:MM:ss'))
+      params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'YYYY-MM-DD hh:mm:ss'))
       params.append('files', this.files)
 
       this.patrolPoint.forEach((item) => {
@@ -297,7 +297,7 @@ export default {
         })
     }
   },
-  created() {
+  beforeMount() {
     this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
     androidInputBugFix()

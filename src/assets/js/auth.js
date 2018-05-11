@@ -9,6 +9,7 @@ export function handleUserInfo(){
         return api.getSessionUser().then((res)=>{
             if(res&&res.divisionIds){
                 setItem("sourceList",JSON.stringify(res.resourceIds))
+                setItem("username",res.name)
                 return true
             }else{
                 return false
