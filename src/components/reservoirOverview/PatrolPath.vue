@@ -419,6 +419,7 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          -webkit-tap-highlight-color: transparent;
           .btncontent{
                 position: absolute;
                 top:0.074rem;
