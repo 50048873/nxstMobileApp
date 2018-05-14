@@ -299,13 +299,13 @@ export default {
       form: {
         pid: getUuid(32, 16),
         z: "",
-        zTime: this.dateFormat(new Date(), 'YYYY-MM-DD'),
+        zTime: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         drp: "",
-        drpTime: this.dateFormat(new Date(), 'YYYY-MM-DD'),
+        drpTime: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         gsl: "",
-        gslTime: this.dateFormat(new Date(), 'YYYY-MM-DD'),
+        gslTime: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         origdata: "",
-        slTime: this.dateFormat(new Date(), 'YYYY-MM-DD'),
+        slTime: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         quality: {
           wt: "",
           ph: "",
@@ -340,7 +340,7 @@ export default {
           silht: "",
           ddt: "",
           sxjw: "",
-          meterDate: this.dateFormat(new Date(), 'YYYY-MM-DD'),
+          meterDate: this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss'),
           codmn: ""
         }
       }
