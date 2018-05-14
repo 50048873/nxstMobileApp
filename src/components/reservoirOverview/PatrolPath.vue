@@ -340,16 +340,16 @@ export default {
 <style lang="less" scoped>
   @import '../../assets/less/variable.less';
   .PatrolPath {
-    position: absolute;
-    top: 0;
-    bottom: @footer-height;
-    width: 100%;
-    overflow-y: auto;
-    .mapContainer {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    background-color:#fff;
+        position: absolute;
+        top: 0;
+        bottom: @footer-height;
+        width: 100%;
+        overflow-y: auto;
+        .mapContainer {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background-color:#fff;
     }
     .poupecontent{
           position: absolute;
@@ -419,6 +419,7 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          -webkit-tap-highlight-color: transparent;
           .btncontent{
                 position: absolute;
                 top:0.074rem;
