@@ -3,7 +3,7 @@
     <ul class="ReservoirDetailMember">
       <li class="line-bottom" v-for="item in reservoirDetailMember">
         <a :href="`tel:${item.phone}`" class="mobileIcon"><i class="nxst-phone"></i></a>
-        <div class="avatar" v-lazy:background-image="item.imgUrl"></div>
+        <div class="avatar" v-lazy:background-image="item.imgUrlThumb"></div>
         <div class="info">
           <h3>{{item.name}}</h3>
           <p>
