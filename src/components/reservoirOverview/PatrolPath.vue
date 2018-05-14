@@ -340,16 +340,16 @@ export default {
 <style lang="less" scoped>
   @import '../../assets/less/variable.less';
   .PatrolPath {
-    position: absolute;
-    top: 0;
-    bottom: @footer-height;
-    width: 100%;
-    overflow-y: auto;
-    .mapContainer {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    background-color:#fff;
+        position: absolute;
+        top: 0;
+        bottom: @footer-height;
+        width: 100%;
+        overflow-y: auto;
+        .mapContainer {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background-color:#fff;
     }
     .poupecontent{
           position: absolute;

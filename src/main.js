@@ -5,6 +5,7 @@ import store from './store'
 import VueLazyloader from 'vue-lazyload'
 import regexpConfig from "@/assets/js/regexp";
 import VeeValidate, { Validator } from 'vee-validate';
+const FastClick = require('fastclick')
 Vue.use(VeeValidate, regexpConfig); //一般插件都要use一下
 Vue.use(VueLazyloader, {
   loading: require('@/assets/img/imageLoading.gif'),
@@ -52,6 +53,8 @@ import '@/assets/font/nxst/style.css'
 
 Vue.config.productionTip = false
 
+
+FastClick.attach(document.body)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
