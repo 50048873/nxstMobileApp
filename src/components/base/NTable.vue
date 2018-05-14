@@ -47,6 +47,10 @@ export default {
     },
     tdData: {
       type: Array
+    },
+    isWarn: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -76,7 +80,7 @@ export default {
         * 2:大于value1
         * 3:小于value1或大于value2
       */
-      if (this.warnConfig && this.warnConfig.confValue1) {
+      if (this.isWarn && this.warnConfig && this.warnConfig.confValue1) {
         let warnClass = 'c-red',
             value1 = this.warnConfig.confValue1,
             value2 = this.warnConfig.confValue2,

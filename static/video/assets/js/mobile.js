@@ -40,8 +40,8 @@
           e.preventDefault();
           var $this = $(this),
               $video = $this.parent().prev(),
-              video = $video[0];
-          $this.hide().next().hide();
+              video = $video.clone()[0];
+          // $this.hide().next().hide();
           videojs(video, {
             autoplay : true
           });

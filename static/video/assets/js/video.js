@@ -22,7 +22,7 @@
     */
 
     var host = 'http://sw.dse.cn:56023',
-        streamUrl = 'sw.dse.cn:56024',
+        streamHost = 'sw.dse.cn:56024',
         url = "/api/v1",
         username = 'admin',
         password = $.md5('admin'),
@@ -110,7 +110,8 @@
       data: function() {
         return {
           isPc: isPc,
-          currentIndex: -1
+          currentIndex: -1,
+          channelsconfigWithOnvif: []
         }
       },
       methods: {
@@ -119,8 +120,11 @@
             type: "GET",
             url: host + url + "/getserverinfo",
             success: function(data) {
-              var ret = JSON.parse(data);
-              url = "/api/" + ret.EasyDarwin.Body.InterfaceVersion;
+              var ret = JSON.parse(data),
+                  InterfaceVersion = ret.EasyDarwin.Body.InterfaceVersion;
+              if (InterfaceVersion) {
+                url = "/api/" + InterfaceVersion;
+              }
               return data
             }
           })
@@ -142,9 +146,6 @@
               $.cookie("token", token);
               $.cookie("username", username);
               return data
-            },
-            error: function(xhr, ts, err) {
-              console.log(arguments)
             }
           });
         },
@@ -155,14 +156,18 @@
             type: 'GET',
             url: host + url + "/getchannels?t="+new Date().getTime(),
             success: function(data) {
+              // console.log(JSON.stringify(data, null, 2))
               var ret = JSON.parse(data);
               if (ret.EasyDarwin.Body.ChannelCount == 0) {
-                $("body").append("<div class='noChannel'>当前没有通道，记得配置通道哦！</div>")
+                _this.showDialog('当前没有通道，记得配置通道哦！');
+                if (!isPc) {
+                  $("body").append("<div class='noChannel'>当前没有通道，记得配置通道哦！</div>")
+                }
               } else {
                 var channels = ret.EasyDarwin.Body.Channels;
                 channels.sort(function (a, b) {
                     return parseInt(a["Channel"]) - parseInt(b["Channel"]);
-                })
+                });
                 channels.forEach(function(item, index) {
                   if (item.SnapURL) {
                     item.SnapURL = host + item.SnapURL
@@ -170,17 +175,18 @@
                   if (item.LiveUrl) {
                     item.LiveUrl = host + item.LiveUrl
                   }
-                })
-                _this.channels = channels
+                });
+                _this.channels = channels;
               }
-              return data
+              return data;
             }
           })
         },
         getchannelstream: function(res) {
-          var res = JSON.parse(res),
-              channels = res.EasyDarwin.Body.Channels,
-              arr = [],
+          res = JSON.parse(res);
+          if (res.EasyDarwin.Body.ChannelCount == '0') return;
+          var channels = res.EasyDarwin.Body.Channels,
+              ajaxs = [],
               len = channels.length,
               ajax = function(channel) { 
                 return $.ajax({
@@ -194,35 +200,40 @@
                   },
                   success: function (data) {
                     return data
-                  },
-                  error: function (xhr, ts, err) {
-                    console.log(arguments);
                   }
                 });
               }
           
           for (var i = 0; i < len; i++) {
-            arr.push(ajax(channels[i]))
+            ajaxs.push(ajax(channels[i]))
           }
 
-          return $.when.apply($, arr).then(function() {
+          ajaxs.push(this.getchannelsconfig());
+
+          return $.when.apply($, ajaxs).then(function() {
             var res = arguments,
-                len = res.length,
+                channelsconfig = Array.prototype.splice.call(res, res.length - 1),
+                channelstream = res,
+                len = channelstream.length,
                 arr = [];
+
+            if (channelsconfig.length === 1) {
+              channelsconfig = JSON.parse(channelsconfig[0][0]).EasyDarwin.Body.Channels;
+            }
 
             for (var i = 0; i < len; i++) {
               var item = null;
 
-              if (res[1] === 'success') {
-                item = JSON.parse(res[0])
+              if (channelstream[1] === 'success') {
+                item = JSON.parse(channelstream[0]);
               } else {
-                item = JSON.parse(res[i][0])
+                item = JSON.parse(channelstream[i][0]);
               }
 
               var url = item.EasyDarwin.Body.URL;
 
               if (isPc) {
-                item.EasyDarwin.Body.URL = url.replace('{host}:10935', streamUrl);
+                item.EasyDarwin.Body.URL = url.replace('{host}:10935', streamHost);
               } else {
                 item.EasyDarwin.Body.URL = host + url;
               }
@@ -231,13 +242,70 @@
             arr.sort(function (a, b) {
                 return parseInt(a["Channel"]) - parseInt(b["Channel"]);
             })
-            return arr
+            return { 
+              channelstream: arr,
+              channelsconfig: channelsconfig
+            }
           });
         },
+        setchannelconfig: function() {
+          var data = {
+            t: new Date().getTime(),
+            Channel: 2,
+            Enable: 1,
+            IP: '10.100.50.151',
+            Name: '151',
+            Port: 554,
+            Protocol: 'RTSP',
+            Username: 'admin',
+            Password: 'admin12345',
+            RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/101',
+            TransProtocol: 'TCP'
+          };
+          return $.ajax({
+            type: "GET",
+            url: host + url + "/setchannelconfig",
+            data: data,
+            xhrFields: { 
+              withCredentials: true
+            },
+            crossDomain: true, 
+            success: function(data) {
+              console.log(data)
+              return
+            }
+          });
+        },
+        getchannelsconfig: function() {
+          var _this = this;
+          return $.ajax({
+            type: "GET",
+            url: host + url + "/getchannelsconfig",
+            
+            success: function(data) {
+              data = JSON.parse(data);
+              var channelsconfig = data.EasyDarwin.Body.Channels;
+              channelsconfig.sort(function (a, b) {
+                  return parseInt(a["Channel"]) - parseInt(b["Channel"]);
+              });
+              return channelsconfig;
+            }
+          })
+        },
         initBasic: function() {
+          this.noEventTitle = '此设备不支持此功能';
           videojs.options.flash.swf = './assets/video-js-5.19.2/video-js-fixed.swf';
           // videojs.options.techOrder = ['html5','flash'];
           isPc ? $(document.documentElement).addClass('pc') : $(document.documentElement).addClass('mobile');
+          $.ajaxSetup({
+            xhrFields: { 
+              withCredentials: true
+            },
+            crossDomain: true, 
+            error: function (xhr, ts, err) {
+              console.log(arguments);
+            }
+          });
         },
         selectVideo: function(index) {
           this.currentIndex = index;
@@ -255,7 +323,7 @@
 
           var funDownload = function (filename) {
               var eleLink = document.createElement('a');
-              // eleLink.download = filename || new Date().getTime();
+              eleLink.download = filename || new Date().getTime();
               eleLink.target = '_blank';
               eleLink.style.display = 'none';
               eleLink.href = host + url + "/getsnap" + '?channel=' + channel;
@@ -312,54 +380,31 @@
       },
       created: function() {
         var _this = this;
-        this.noEventTitle = '此设备不支持此功能';
         this.initBasic();
-        // this.selectVideo();
         this.getserverinfo()
           .then(function() {
-            return _this.login()
+            return _this.login();
           })
-          /*.then(function() {
-            var data = {
-              t: new Date().getTime(),
-              Channel: 2,
-              Enable: 1,
-              IP: '10.100.50.151',
-              Name: '151',
-              Port: 554,
-              Protocol: 'RTSP',
-              Username: 'admin',
-              Password: 'admin12345',
-              RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/101',
-              TransProtocol: 'TCP'
-            };
-            return $.ajax({
-              type: "GET",
-              url: host + url + "/setchannelconfig",
-              data: data,
-              xhrFields: { 
-                withCredentials: true
-              },
-              crossDomain: true, 
-              success: function(data) {
-                console.log(data)
-                return
-              }
-            })
-          })*/
           .then(function() {
-            return _this.getchannels()
+            return _this.getchannels();
           })
           .then(function(res) {
-            return _this.getchannelstream(res)
+            return _this.getchannelstream(res);
           })
           .then(function(res) {
             var len = _this.channels.length,
+                channelstream = res.channelstream,
+                channelsconfig = res.channelsconfig,
                 arr = [];
+
             for (var i = 0; i < len; i++) {
-              arr[i] = $.extend({}, _this.channels[i], res[i])
+              var channelconfigWithPartField = {
+                Protocol: channelsconfig[i].Protocol
+              };
+              arr[i] = $.extend({}, _this.channels[i], channelstream[i], channelconfigWithPartField);
             }
             _this.channels = arr;
+            console.log(arr);
             _this.$nextTick(function() {
               if (isPc) {
                 _this.handlePc();
@@ -367,7 +412,7 @@
                 _this.handleMobile();
               }  
             })                 
-          })
+          });
       }
     };
 
@@ -376,6 +421,7 @@
       isPc: isPc,
       mixins: mixins,
       host: host,
+      streamHost: streamHost,
       url: url,
       username: username,
       password: password,

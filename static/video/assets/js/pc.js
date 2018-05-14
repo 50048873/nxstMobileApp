@@ -26,10 +26,10 @@
           }
           var diffCount = this.videoCount - res.length;
           for (var i = 0; i < diffCount; i++) {
-            res.push(obj)
+            res.push(obj);
           }
         } else if (res.length > this.videoCount) {
-          res = this.channels.slice(0, this.videoCount)
+          res = this.channels.slice(0, this.videoCount);
         }
         return res
       },
@@ -55,78 +55,100 @@
         if (isPc) {
           return ''
         }
+      },
+      getDisable: function() {
+        if (this.currentIndex > -1) {
+          var channel = this.channelsByVideoCount[this.currentIndex];
+          return (channel.Protocol === 'ONVIF' && channel.isSuccessedPlay) ? '' : 'DISABLE';
+        }
+      },
+      getDisableTitle: function() {
+        if (this.currentIndex > -1) {
+          return this.channelsByVideoCount[this.currentIndex].Protocol === 'ONVIF' ? '' : this.noEventTitle;
+        }
       }
     },
     methods: {
       playAll: function() {
-        if (players.length) {
-          $('.video-js').css('opacity', 1);
-          return
-        }
+        var _this = this;
         var videos = document.querySelectorAll('.video-js'),
             i = 0, 
-            len = videos.length,
-            pl = null;
+            len = videos.length;
         while (i < len) {
           var video = videos[i],
               sourceSrc = $(video).find('source').attr('src');
-          if (sourceSrc) {
-            pl = videojs(video, {
-              notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
-              techOrder : ["html5","flash"],
-              autoplay : false,
-              controls: true,
-            }, function() {
-              players.push(this);
-              this.play();
-              this.on("error",function(e){
-                console.log('error')
+          (function(i) {
+            if (sourceSrc) {
+              videojs(video, {
+                notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
+                techOrder : ["html5","flash"],
+                autoplay : false,
+                controls: true,
+                defaultVolume: 100
+              }, function() {
+                players.push(this);
+                this.play();
+                this.on('loadedmetadata', function() {
+                  _this.$set(_this.channels[i], 'isSuccessedPlay', true);
+                });
               });
-              this.on('loadeddata',function(){
-                  console.log(this)
-              })
-
-              this.on('ended',function(){
-                   this.pause();
-                   this.hide()
-              })
-            });
-          }
+            }
+          })(i);
           i++;
         }
+      },
+      startAll: function() {
+        $('.video-js').css('opacity', 1);
       },
       stopAll: function() {
         $('.video-js').css('opacity', 0);
       },
       handlePcEvent: function() {
+        if (!this.channels.length) return;
         var _this  = this;
-        $(document).on('click', '.controls', function() {
-          var $this = $(this),
-              $video = $this.hide().prev(),
-              video = $video[0];
-          $this.next().hide();
-          videojs(video, {
-            notSupportedMessage : '您的浏览器没有安装或开启Flash, 戳我开启！',
-            techOrder : ["flash"],
-            autoplay : true,
-            controls: true
-          });
-        }).on('click', '.fold', function() {
+        $(document).on('click', '#fold', function() {
           var $this = $(this),
               $btns = $('.btns');
           $this.find('i').toggleClass('sj-r sj-l');
           $btns.toggleClass('OFF');
         }).on('click', '#allStart', function() {
-          _this.playAll();
+          _this.startAll();
         }).on('click', '#allStop', function() {
           _this.stopAll();
         }).on('click', '#videoCountCtl .ITEM', function() {
           var $this = $(this);
           _this.videoCount = parseInt($this.text());
           _this.resizeVideoSize();
-        }).on('click', '.li-1 .ITEM:not(.DISABLE)', function() {
+          _this.$nextTick(function() {
+            _this.playAll();
+          });
+        }).on('click', '#gl .ITEM:not(.DISABLE)', function() {
           var $this = $(this);
           $this.addClass('ON').parent().siblings().find('.ITEM').removeClass('ON');
+        }).on('click', '#yt .ITEM', function() {
+          var $this = $(this);
+          if (_this.currentIndex === -1) {
+            _this.showDialog('请先选择要调整的视频！');
+            return;
+          }
+          var protocol = _this.channelsByVideoCount[_this.currentIndex].Protocol,
+              isSuccessedPlay = _this.channelsByVideoCount[_this.currentIndex].isSuccessedPlay,
+              hasVideo = _this.channelsByVideoCount[_this.currentIndex].URL;
+
+          if (!hasVideo) {
+            // _this.showDialog('无视频，请先配置视频通道！');
+            return;
+          }
+          if (protocol === 'ONVIF' && !isSuccessedPlay) {
+            // _this.showDialog('此视频的云台连接失败！');
+            return;
+          } 
+          if (protocol !== 'ONVIF' && isSuccessedPlay) {
+            // _this.showDialog('此视频不支持云台功能！');
+            return;
+          }
+          
+          console.log(_this.channelsByVideoCount);
         });
 
         nxst.utils.addFullScreenEventListener('#fullScreen', '#videoWrap');
