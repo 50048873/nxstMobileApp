@@ -131,7 +131,7 @@ export let getWarnConfig = {
         .then((res) => {
           if (res.status === success) {
             this.SET_WARNCONFIG(res.data)
-            //console.log(JSON.stringify(res.data, null , 2))
+            // console.log(JSON.stringify(res.data, null , 2))
           } else {
             this.hint(res.msg)
           }
