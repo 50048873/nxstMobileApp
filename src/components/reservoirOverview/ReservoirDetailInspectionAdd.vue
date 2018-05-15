@@ -172,6 +172,7 @@ export default {
           $uploaderFiles = $("#uploaderFiles")
 
       _this.files = []
+      _this.currentCount = 0
 
       $uploaderInput.on("change", (e) => {
         let src = '', 
@@ -188,8 +189,8 @@ export default {
             return
           }
 
-          if (_this.files.length > maxCount) {
-            this.hint(`最多只能上传${maxCount}图片`)
+          if (len > maxCount || _this.currentCount + len > maxCount) {
+            this.hint(`最多只能上传${maxCount}张图片，已上传${_this.currentCount}张图片`)
             return
           }
           
@@ -231,6 +232,8 @@ export default {
               })
           }
         }
+
+        _this.currentCount += len
       })
 
       $uploaderFiles.on("click", "li", function(){
@@ -248,6 +251,7 @@ export default {
           _this.files.splice(_this.index, 1)
           delete _this.$li
           $uploaderInput.val(null)
+          _this.currentCount -= 1
         }
         $gallery.fadeOut(100)
       });
@@ -307,6 +311,9 @@ export default {
     this.getReservoirDetailInspectionAdd_patrolPoint()
     this.setDocumentTitle('新增巡查记录')
     androidInputBugFix()
+  },
+  mounted() {
+    this.fileChange()
   },
   watch: {  
     '$route'(to, from)  {  
