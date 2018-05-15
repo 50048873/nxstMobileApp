@@ -1,9 +1,9 @@
 <template>
   <div class="ReservoirDetailInspectionAdd">
     <form ref="formEle">
-      <div class="item line-bottom">
+      <div class="itemS line-bottom">
         <h6>签到点</h6>
-        <div class="inputBox">
+        <div class="inputBox clearfix">
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
@@ -339,19 +339,15 @@ export default {
     form {
       overflow-x: hidden;
       color: #6c6c6c;
-      .item {
-        display: flex;
-        padding: 13px 10px;
-        background-color: white;
-        height: 20px;
-        line-height: 20px;
+      .item, .itemS {
         .inputBox {
           flex: 1;
           text-align: right;
           label {
             margin-left: 20px;
             .iconWrap {
-              margin-right: 4px;
+              position: relative;
+              top: 1px;
               .nxst-circle {
                 color: #d7d7d7;
                 font-size: 16px;
@@ -365,6 +361,32 @@ export default {
               }
             }
           }
+        }
+      }
+      .itemS {
+        padding: 13px 10px;
+        background-color: white;
+        h6 {
+          float: left;
+          min-width: 5em;
+        }
+        .inputBox {
+          margin-left: 5em;
+          text-align: right;
+          label {
+            float: right;
+          }
+        }
+      }
+      .item {
+        display: flex;
+        padding: 13px 10px;
+        background-color: white;
+        height: 20px;
+        line-height: 20px;
+        .inputBox {
+          flex: 1;
+          text-align: right;
           .select {
             -webkit-appearance: none;
             border: 0;
