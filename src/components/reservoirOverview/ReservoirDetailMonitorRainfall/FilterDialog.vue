@@ -25,7 +25,6 @@
                           <option value="0">小时</option>
                           <option value="1">日</option>
                           <option value="2">月</option>
-                          <option value="3">年</option>
                       </select>
                   </div>
               </div>
@@ -83,8 +82,8 @@ export default {
       switch (newVal) {
         case '0' :
           this.inputType = 'datetime-local'
-          this.startTime = this.dateFormat(get8am(new Date()), "YYYY-MM-DD hh:mm:ss"),
-          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD hh:mm:ss")
+          this.startTime = this.dateFormat(get8am(new Date()), "YYYY-MM-DD hh:mm").replace(" ","T"),
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD hh:mm").replace(" ","T")
           break
         case '1' :
           this.inputType = 'date'
@@ -92,9 +91,9 @@ export default {
           this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
           break
         case '2' :
-          this.inputType = 'date'
-          this.startTime = this.dateFormat(getSameDayOfPreMonth(), "YYYY-MM-DD")
-          this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
+          this.inputType = 'month'
+          this.startTime = this.dateFormat(getSameDayOfPreMonth(), "YYYY-MM")
+          this.endTime = this.dateFormat(new Date(), "YYYY-MM")
           break
         case '3' :
           this.inputType = 'date'
@@ -105,6 +104,7 @@ export default {
           this.inputType = 'date'
       } 
     }
+    
   }
 }
 </script>

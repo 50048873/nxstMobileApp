@@ -15,7 +15,7 @@ import NTable from '@/components/base/NTable'
 import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall/FilterDialog'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-import {isArray, getSameDayOfPreMonth, get7DayOfcurrentDay} from '@/assets/js/util'
+import {isArray, getSameDayOfPreMonth, get7DayOfcurrentDay,getPid} from '@/assets/js/util'
 import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailMonitorRainfall',
@@ -71,7 +71,7 @@ export default {
     },
     getReservoirDetailMonitor_rainfall() {
       let params = {
-        pid: this.$route.query.pid,
+        pid:getPid(),
         type: this.type,
         startTime: this.startTime,
         endTime: this.endTime
