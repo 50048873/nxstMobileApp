@@ -67,7 +67,7 @@ export default {
         minutes:0,
         timer2:null,
         patrolList:null,
-        locationArr:[],
+        locationArr:[[114.346337,30.573751]],
         starttime:null,
         currentdate:"",
         pname:"",
@@ -216,14 +216,14 @@ export default {
       this.minutes = 0;
       pathSimplifierIns.clearPathNavigators();
       that.geolocation.getCurrentPosition(function(status,result){
-                if(status==="complete"){
-                    that.locationArr[0]=[result.position.lng,result.position.lat];
-                    pathSimplifierIns.setData([{         //设置轨迹数据源
-                        name: 'test',
-                        path: that.locationArr
-                    }]);    
-                }
-            });
+            if(status==="complete"){
+                that.locationArr[0]=[result.position.lng,result.position.lat];
+                pathSimplifierIns.setData([{         //设置轨迹数据源
+                    name: 'test',
+                    path: that.locationArr
+                }]);    
+            }
+        });
     },
     handleTrail(){   //持续记录轨迹
         const that = this;
