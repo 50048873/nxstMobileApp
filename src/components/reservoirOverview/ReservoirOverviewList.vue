@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="date line-bottom">
-            <span>最近一次巡查：</span>
+            <span>最近一次巡检：</span>
             <time>{{item.lastcheckdate | dateFormat}}</time>
           </div>
         </li>

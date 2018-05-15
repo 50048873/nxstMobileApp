@@ -250,7 +250,7 @@ let getTrailRecord = data => {
   });
 };
 
-//添加巡查轨迹
+//添加巡检轨迹
 let addPatrolTrail = data => {
   const url = baseUrl + "/znb/patrolRecord/addTrack.do";
   return $.ajax({

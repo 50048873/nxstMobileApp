@@ -4,6 +4,12 @@
       <div class="itemS line-bottom">
         <h6>签到点</h6>
         <div class="inputBox clearfix">
+          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
+          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
+          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
+          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
+          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
+          
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
@@ -14,7 +20,7 @@
         </div>
       </div>
       <div class="item line-bottom">
-        <h6>巡查部位</h6>
+        <h6>巡检部位</h6>
         <label class="inputBox arrow-r" for="pointId">
           <select class="select" id="pointId" name="pointId" v-model="pointId" required>
             <option disabled value="">请选择</option>
@@ -23,26 +29,26 @@
         </label>
       </div>
       <div class="item line-bottom">
-        <h6>巡查时间</h6>
+        <h6>巡检时间</h6>
         <label class="inputBox arrow-r datetimeBox" for="checkDate">
           <input class="datetimeLocal" id="checkDate" type="datetime-local" step="1" v-model="checkDate" required>
           <span class="realDatetimeLocal">{{dateFormat(checkDate,'YYYY-MM-DD hh:mm:ss')}}</span>
         </label>
       </div>
       <div class="item line-bottom">
-        <h6>巡查状态</h6>
+        <h6>巡检状态</h6>
         <div class="inputBox">
           <label for="normal">
             <span class="iconWrap">
               <input type="radio" name="patrolState" id="normal" value="0" checked="checked" v-model="patrolState" required>
-              <i class="nxst-circle"></i>
+              <i class="weui-icon-checked"></i>
             </span>
             <span>正常</span>
           </label>
           <label for="abnormal">
             <span class="iconWrap">
               <input type="radio" name="patrolState" id="abnormal" value="1" v-model="patrolState">
-              <i class="nxst-circle"></i>
+              <i class="weui-icon-checked"></i>
             </span>
             <span>异常</span>
           </label>
@@ -258,15 +264,15 @@ export default {
     },
     validate() {
       if (!this.pointId) {
-        this.hint('请选择巡查部位')
+        this.hint('请选择巡检部位')
         return false
       } 
       if (!this.checkDate) {
-        this.hint('请选择巡查时间')
+        this.hint('请选择巡检时间')
         return false
       }
       if (!this.patrolState) {
-        this.hint('请选择巡查状态')
+        this.hint('请选择巡检状态')
         return false
       }  
       if (this.patrolInfo && this.patrolInfo.length < 10) {
@@ -309,7 +315,7 @@ export default {
   },
   beforeMount() {
     this.getReservoirDetailInspectionAdd_patrolPoint()
-    this.setDocumentTitle('新增巡查记录')
+    this.setDocumentTitle('新增巡检记录')
     androidInputBugFix()
   },
   mounted() {
@@ -319,7 +325,7 @@ export default {
     '$route'(to, from)  {  
       let toPath = to.path
       if (toPath === "/reservoirDetail/inspection/add") {
-        this.setDocumentTitle('新增巡查记录')
+        this.setDocumentTitle('新增巡检记录')
       }
     }  
   }
@@ -347,10 +353,15 @@ export default {
             margin-left: 20px;
             .iconWrap {
               position: relative;
-              top: 1px;
               .nxst-circle {
                 color: #d7d7d7;
                 font-size: 16px;
+              }
+              .weui-icon-checked:before {
+                content:'\EA01';
+                color:#C9C9C9;
+                font-size:17px;
+                display: inline-block;
               }
               input {
                 position: absolute;
@@ -358,7 +369,14 @@ export default {
                 &:checked + .nxst-circle {
                   color: #10d67b;
                 }
+                &:checked + .weui-icon-checked:before {
+                  content: '\EA06';
+                  color: #09BB07;
+                }
               }
+            }
+            .iconWrap + span {
+              vertical-align: middle;
             }
           }
         }
@@ -375,6 +393,10 @@ export default {
           text-align: right;
           label {
             float: right;
+            .iconWrap {
+              position: relative;
+              top: 2px;
+            }
           }
         }
       }

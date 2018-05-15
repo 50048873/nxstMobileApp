@@ -8,11 +8,11 @@
             <i :class="item.PATROL_STATE == 1 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
           </div>
           <p>
-            <span>巡查时间：</span>
+            <span>巡检时间：</span>
             <time>{{item.CHECK_DATE}}</time>
           </p>
           <p>
-            <span>巡查结果：</span>
+            <span>巡检结果：</span>
             <span>{{item.PATROL_INFO}}</span>
           </p>
         </div>

@@ -22,7 +22,7 @@ export default {
     return {
       tab: [
         {
-          title: '巡查轨迹',
+          title: '巡检轨迹',
           path: '/reservoirDetail/inspection/patrolPath',
           flag:true
         },

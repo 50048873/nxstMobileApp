@@ -1,6 +1,6 @@
 <template>
   <div class="reservoirDetailInspectionTrail">
-    巡查记录
+    巡检记录
   </div>
 </template>
 

@@ -36,10 +36,10 @@
         </div>
         <div class="inspector">
                 <h3 class="reservoirname">
-                    {{pname}}巡查
+                    {{pname}}巡检
                 </h3>
                 <div class="personname">
-                    <span>巡查人：{{username}}</span>
+                    <span>巡检人：{{username}}</span>
                     <span>时间：{{currentdate}}</span>
                 </div>
         </div>
