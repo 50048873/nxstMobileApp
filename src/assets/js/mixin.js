@@ -20,7 +20,6 @@ export let dateFormat = {
 			if (typeof time === 'string') {
 				time = time.split('-').join('/').replace("T"," ")
 			}
-      console.log(moment(time).format(formatter))
       return moment(time).format(formatter)
     }
 	}
