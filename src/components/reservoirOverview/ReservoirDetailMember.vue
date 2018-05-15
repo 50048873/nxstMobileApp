@@ -28,8 +28,6 @@
 <script>
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-// 暂时用王忠燕本机的图片资源，等服务器上有图片时再切换
-//const baseUrl = 'http://10.100.50.170:8080/znb/'
 export default {
   name: 'ReservoirDetailMember',
   data() {
@@ -45,7 +43,7 @@ export default {
           let obj = {}
           for (let i in item) {
             if (i !== 'childrens') {
-              if (i === 'imgUrl') {
+              if (i === 'imgUrlThumb') {
                 let url = item[i]
                 if (url) { 
                   if (url.indexOf('\\') > 1) {

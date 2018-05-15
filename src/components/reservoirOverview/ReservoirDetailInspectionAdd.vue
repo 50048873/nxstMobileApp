@@ -166,6 +166,7 @@ export default {
     fileChange() {
       let _this = this,
           maxSize = 500 * 1024,
+          maxCount = 5,
           $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
           $uploaderInput = $("#uploaderInput"),
           $uploaderFiles = $("#uploaderFiles")
@@ -184,6 +185,11 @@ export default {
 
           if (!/image/.test(fileType)) {
             this.hint('只能传入png, jpeg, jpg, gif格式的图片')
+            return
+          }
+
+          if (_this.files.length > maxCount) {
+            this.hint(`最多只能上传${maxCount}图片`)
             return
           }
           

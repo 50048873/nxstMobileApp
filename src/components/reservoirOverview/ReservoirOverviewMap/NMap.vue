@@ -49,7 +49,11 @@ export default {
   props: {
     step: {
       type: Number,
-      default: 0.5
+      default: 2
+    },
+    maxScale: {
+      type: Number,
+      default: 6
     }
   },
   mixins: [getStaticPath, getWarnConfig],
@@ -63,9 +67,15 @@ export default {
   computed: {
     ...mapGetters(['reservoirList']),
     getScale() {
+      let translateStyle = ''
+      if (this.translateStyle) {
+        translateStyle = this.translateStyle
+      } else {
+        translateStyle = 'translate(0, 0)'
+      }
       return {
-        'transform': `scale(${this.scale}) translate(0, 0)`,
-        '-webkit-transfrom': `scale(${this.scale}) translate(0, 0)`
+        'transform': `scale(${this.scale}) ${translateStyle}`,
+        '-webkit-transfrom': `scale(${this.scale}) ${translateStyle}`
       }
     }
   },
@@ -102,23 +112,33 @@ export default {
         this.$refs.mapTransform.style.transition = 'none'
         this.$refs.mapTransform.style.transform = `scale(${this.scale}) translate(${deltaX + this.oldX}px, ${deltaY + this.oldY}px)`
 
+        this.translateStyle = `translate(${deltaX + this.oldX}px, ${deltaY + this.oldY}px)`
+
     },
     end() {
       //this.touch.initiated = false
 
       this.$refs.mapTransform.style.transition = 'all 0.4s'
     },
+    holdTip() {
+      $('.tip').css({
+        'transform-origin': '0 0',
+        'transform': `scale(${1 / this.scale})`
+      })
+    },
     handleMinus() {
       this.scale -= this.step
       if (this.scale < 1) {
         this.scale = 1
       }
+      this.holdTip()
     },
     handlePlus() {
       this.scale += this.step
-      if (this.scale > 3) {
-        this.scale = 3
+      if (this.scale > this.maxScale) {
+        this.scale = this.maxScale
       }
+      this.holdTip()
     },
     showDetail(pid,name) {
       this.getWarnConfig({pid})
@@ -215,6 +235,7 @@ export default {
       margin: 10px;
       .tip {
         position: absolute;
+        transition: transform 0.2s;
         .iconWrap {
           position: absolute;
           width: 16px;
@@ -243,6 +264,7 @@ export default {
           }
           p {
             font-size: 10px;
+            white-space: nowrap;
           }
         }
       }

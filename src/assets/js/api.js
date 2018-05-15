@@ -1,8 +1,6 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-const serverUrl = 'http://sw.dse.cn:56021'
-
 let login = function(data) {
 	return $.ajax({
 		type: 'POST',
@@ -20,7 +18,7 @@ let getNewsMarquee = function() {
 
 // 水库概览 -> 列表
 let getReservoirList = function() {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/reservoirSurveyController/getReservoirBasicInfo.do') : (baseUrl +  '/api/reservoirList')
+  const url = baseUrl +  '/znb/reservoirSurveyController/getReservoirBasicInfo.do'
   return $.ajax({
     type: 'GET',
     url: url
@@ -29,7 +27,7 @@ let getReservoirList = function() {
 
 // 信息
 let getReservoirDetailInfo = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tb0001Prnmsr044Controller/getBaseInfo.do') : (baseUrl +  '/api/reservoirDetail/info')
+  const url = baseUrl +  '/znb/tb0001Prnmsr044Controller/getBaseInfo.do'
   return $.ajax({
     type: 'GET',
     url: url,
@@ -39,7 +37,7 @@ let getReservoirDetailInfo = function(data) {
 
 // 人员
 let getReservoirDetailMember = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/personManageController/getPersonList.do') : (baseUrl +  '/api/reservoirDetail/member')
+  const url = baseUrl +  '/znb/personManageController/getPersonList.do'
   return $.ajax({
     type: 'GET',
     url: url,
@@ -49,7 +47,7 @@ let getReservoirDetailMember = function(data) {
 
 // 巡检
 let getReservoirDetailInspection = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/patrolRecord/getRecordList.do') : (baseUrl +  '/api/reservoirDetail/inspection')
+  const url = baseUrl +  '/znb/patrolRecord/getRecordList.do'
   return $.ajax({
     type: 'POST',
     url: url,
@@ -74,7 +72,7 @@ let getReservoirDetailInspectionAdd = function(data) {
 
 // 巡检 -> 上传 -> 获取巡检点/签到点
 let getReservoirDetailInspectionAdd_patrolPoint = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/patrolPoint/getPatrolPointList2.do') : (baseUrl +  '/api/reservoirDetail/inspection/patrolPoint')
+  const url = baseUrl +  '/znb/patrolPoint/getPatrolPointList2.do'
   return $.ajax({
     type: 'GET',
     url: url,
@@ -84,7 +82,7 @@ let getReservoirDetailInspectionAdd_patrolPoint = function(data) {
 
 // 监测 -> 水位
 let getReservoirDetailMonitor_waterlevel = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/wrSwRController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/waterlevel')
+  const url = baseUrl +  '/znb/wrSwRController/getAllData.do'
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -95,7 +93,7 @@ let getReservoirDetailMonitor_waterlevel = function(data) {
 
 // 监测 -> 雨量
 let getReservoirDetailMonitor_rainfall = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/stPptnRController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/rainfall')
+  const url = baseUrl +  '/znb/stPptnRController/getAllData.do'
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -106,7 +104,7 @@ let getReservoirDetailMonitor_rainfall = function(data) {
 
 // 监测 -> 图像
 let getReservoirDetailMonitorPhoto = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/cmUploadFilesController/listAllFiles.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
+  const url = baseUrl +  '/znb/cmUploadFilesController/listAllFiles.do'
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -117,7 +115,7 @@ let getReservoirDetailMonitorPhoto = function(data) {
 
 // 监测 -> 水质
 let getReservoirDetailMonitor_waterquality = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterQualityController/getObjByPid.do') : (baseUrl +  '/api/reservoirDetail/monitor/waterquality')
+  const url = baseUrl +  '/znb/tbWaterQualityController/getObjByPid.do'
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -128,7 +126,7 @@ let getReservoirDetailMonitor_waterquality = function(data) {
 
 // 监测 -> 供水量
 let getReservoirDetailMonitor_watersupply = function(data) {
-  const url = baseUrl === serverUrl ? (baseUrl +  '/znb/tbWaterSupplyController/getAllData.do') : (baseUrl +  '/api/reservoirDetail/monitor/watersupply')
+  const url = baseUrl +  '/znb/tbWaterSupplyController/getAllData.do'
   return $.ajax({
     type: 'POST',
     contentType: 'application/json',

@@ -25,6 +25,10 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    maxScroll: {
+      type: [String, Number],
+      default: 10
     }
   },
   mixins: [getDataByKey],
@@ -50,11 +54,15 @@ export default {
                 y: 15
             },
             xAxis: {
-                categories: categories,
-                title: {
-                    text: this.xTitleText,
-                    align: 'high'
-                }
+              scrollbar: {
+                enabled: categories.length <= this.maxScroll ? false : true
+              },
+              max: categories.length <= this.maxScroll ? categories.length - 1 : this.maxScroll - 1,
+              categories: categories,
+              title: {
+                text: this.xTitleText,
+                align: 'high'
+              }
             },
             yAxis: {
               lineWidth: 1,
