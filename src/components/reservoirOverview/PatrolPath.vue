@@ -97,13 +97,13 @@ export default {
        this.username = getUsername();
        this.currentdate = this.dateFormat(new Date(), 'MM-DD');
        this.isAdd = handleAuth("addcheckrecord");
-    //   api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
-    //       if(res.status==1){
-    //         this.patrolList = res.data
-    //       }
-    //   },(err)=>{
-    //       this.hint(err.msg)
-    //   })
+       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
+           if(res.status==1){
+               this.patrolList = res.data
+           }
+       },(err)=>{
+           this.hint(err.msg)
+       })
   },
   mounted(){
        this.loadmap();
