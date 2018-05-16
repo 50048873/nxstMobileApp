@@ -26,10 +26,10 @@
         <div v-if="isAdd&&isstart==1" class="addbtn">
             <i  @click="add" class="nxst-add"></i>
         </div>
-        <div v-if="isAdd" class="startbtn"   @click="handleMapTrail">
+        <div v-if="isAdd&&!gpsshow" class="startbtn"   @click="handleMapTrail">
             <div :class="isstart===1?'cssload-ball cssload-ball-play':'cssload-ball  cssload-ball-stop'">     
             </div>
-            <div class="btncontent">
+            <div  class="btncontent">
                     <span class="status">{{isstart===1?"结束巡检":"开始巡检"}}</span>
                     <span class="time">{{minutes>0?(`${minutes}:${second}`):second}}</span>
             </div>
@@ -44,11 +44,15 @@
                 </div>
         </div>
     </div>
+    <loading :show="gpsshow"  :text="gpstext">
+
+    </loading>
   </div>
 </template>
 
 <script>
 //import * as esriLoader from 'esri-loader';
+import { Loading } from 'vux'
 import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr,checkArr} from '@/assets/js/test'
 import Poupe from '@/components/base/Poupe'
@@ -67,13 +71,15 @@ export default {
         minutes:0,
         timer2:null,
         patrolList:null,
-        locationArr:[[114.346337,30.573751]],
+        locationArr:[],
         starttime:null,
         currentdate:"",
         pname:"",
         username:"",
         isAdd:"",
         status:false,
+        gpstext:"正在定位中...",
+        gpsshow:true,
         overinfo:{
             usetime:null,
             starttime:"",
@@ -82,7 +88,8 @@ export default {
     }
   },
   components: {
-    Poupe
+    Poupe,
+    Loading
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
   beforeMount(){
@@ -90,13 +97,13 @@ export default {
        this.username = getUsername();
        this.currentdate = this.dateFormat(new Date(), 'MM-DD');
        this.isAdd = handleAuth("addcheckrecord");
-      api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
-          if(res.status==1){
-            this.patrolList = res.data
-          }
-      },(err)=>{
-          this.hint(err.msg)
-      })
+    //   api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
+    //       if(res.status==1){
+    //         this.patrolList = res.data
+    //       }
+    //   },(err)=>{
+    //       this.hint(err.msg)
+    //   })
   },
   mounted(){
        this.loadmap();
@@ -122,9 +129,21 @@ export default {
                convert:false,
                buttonOffset: new AMap.Pixel(10, 100)
             });
-            map.addControl(geolocation);
             that.geolocation = geolocation;
-            //that.handleGps(geolocation)
+            map.addControl(geolocation);
+            if(geolocation){
+                geolocation.getCurrentPosition(function(status,result){
+                    if(status==="complete"){
+                        that.gpstext = "定位成功"
+                        that.locationArr[0]=[result.position.lng,result.position.lat];
+                        pathSimplifierIns.setData([{         //设置轨迹数据源
+                            name: 'test',
+                            path: that.locationArr
+                        }]); 
+                        that.gpsshow = false;    
+                    }
+                }) 
+            }
         });
         AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
           if (!PathSimplifier.supportCanvas) {
@@ -191,17 +210,6 @@ export default {
                     }
                 }
             });
-            if(that.geolocation){
-                that.geolocation.getCurrentPosition(function(status,result){
-                if(status==="complete"){
-                    that.locationArr[0]=[result.position.lng,result.position.lat];
-                    pathSimplifierIns.setData([{         //设置轨迹数据源
-                        name: 'test',
-                        path: that.locationArr
-                    }]);     
-                }
-                }) 
-            }
             window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
             window.navg = null;
             window.PathSimplifier = PathSimplifier;
