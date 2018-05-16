@@ -12,7 +12,6 @@
 <script>
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import NTab from '@/components/base/NTab'
-
 export default {
   name: 'ReservoirDetailInspection',
   components: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="ReservoirDetailInspection">
+    <ul class="ReservoirDetailInspectionRecord">
       <li class="line-bottom" v-for="item in ReservoirDetailInspection">
         <time class="title">{{dateFormat(item.CHECK_DATE,'ll')}}大坝巡检</time>
         <div class="content">
@@ -18,9 +18,10 @@
         </div>
       </li>
     </ul>
+    <filter-dialog  ref="filterDialog5" @confirm="filter"></filter-dialog>
     <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
     <n-gbtn left="20" :bottom="getBottomPosition(20)" iconClass="nxst-path"  content="" @click="toPatrolPath"></n-gbtn>
-    <!-- <n-add left="20" v-if="isAdd" :bottom="getBottomPosition(84)"   @click="add"></n-add> -->
+    <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialogRecord"></n-add>
     
   </div>
 </template>
@@ -28,24 +29,42 @@
 <script>
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
-import {isArray, getSameDayOfPreMonth,getPid} from '@/assets/js/util'
-import {dateFormat, getBottomPosition} from '@/assets/js/mixin'
+import $ from 'jquery'
+import {isArray, get7DayOfcurrentDay,getPid} from '@/assets/js/util'
+import {dateFormat, getBottomPosition,monitorAdd} from '@/assets/js/mixin'
+import FilterDialog from '@/components/base/NFilterDialog'
 import * as session from '@/assets/js/session'
 export default {
-  name: 'ReservoirDetailInspection',
-  mixins: [dateFormat, getBottomPosition],
+  name: 'ReservoirDetailInspectionRecord',
+  components:{
+    FilterDialog
+  },
+  mixins: [dateFormat, getBottomPosition,monitorAdd],
   data() {
     return {
       ReservoirDetailInspection: [],
-      startDate: this.dateFormat(getSameDayOfPreMonth(), 'YYYY-MM-DD'),
+      startDate: this.dateFormat(get7DayOfcurrentDay(), 'YYYY-MM-DD'),
       endDate: this.dateFormat(new Date(), 'YYYY-MM-DD'),
       isAdd:true,
+      isShow:false
     }
   },
   beforeMount(){
     this.getAddAuth()
   },
   methods: {
+    showDialogRecord() {
+        this.$refs.filterDialog5.show()
+    },
+    filter(date) {
+      this.startTime = date.startTime,
+      this.endTime = date.endTime
+      this.getReservoirDetailInspection({
+        pid:getPid(),
+        startDate: date.startTime,
+        endDate: date.endTime
+      })
+    },
     getAddAuth(){
       api.getUserAuthInfo({id:"402881d162d65a7c0162d68715110061",flag:2,pid:getPid()}).then(res=>{
         if(res.status === success){
@@ -64,8 +83,8 @@ export default {
         return a.PATROL_STATE - b.PATROL_STATE
       })
     },
-    getReservoirDetailInspection() {
-      let params = {
+    getReservoirDetailInspection(param) {
+      let params = param||{
         pid:getPid(),
         startDate: this.startDate,
         endDate: this.endDate
@@ -106,7 +125,7 @@ export default {
 
 <style scoped lang="less">
   @import '../../assets/less/variable.less';
-  .ReservoirDetailInspection {
+  .ReservoirDetailInspectionRecord {
     position: absolute;
     top: 0;
     right: 0;
