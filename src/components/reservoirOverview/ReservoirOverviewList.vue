@@ -6,7 +6,7 @@
           <div class="top line-top line-bottom">
             <div class="thumbnail" v-lazy:background-image="item.icon"></div>
             <div class="des">
-              <h3 class="ellipsis">{{item.ennm}} {{item.gcgm}}</h3>
+              <h3 class="ellipsis">{{item.ennm}}{{getGcgm(item.gcgm)}}</h3>
               <div class="des-content">
                 <p class="ellipsis">
                   <span>总库容：</span>
@@ -64,7 +64,7 @@ export default {
     },
     getGcgm(val) {
       if (val) {
-        return `（${this.gcgmFilter(val)}）`
+        return ` [ ${val} ]`
       }
       return ''
     }

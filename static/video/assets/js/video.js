@@ -114,6 +114,19 @@
           channelsconfigWithOnvif: []
         }
       },
+      computed: {
+        getDisable: function() {
+          if (this.currentIndex > -1) {
+            var channel = this.channelsByVideoCount[this.currentIndex];
+            return (channel.Protocol === 'ONVIF' && channel.isSuccessedPlay) ? '' : 'DISABLE';
+          }
+        },
+        getDisableTitle: function() {
+          if (this.currentIndex > -1) {
+            return this.channelsByVideoCount[this.currentIndex].Protocol === 'ONVIF' ? '' : this.noEventTitle;
+          }
+        }
+      },
       methods: {
         getserverinfo: function() {
           return $.ajax({
@@ -404,7 +417,7 @@
               arr[i] = $.extend({}, _this.channels[i], channelstream[i], channelconfigWithPartField);
             }
             _this.channels = arr;
-            console.log(arr);
+            // console.log(arr);
             _this.$nextTick(function() {
               if (isPc) {
                 _this.handlePc();

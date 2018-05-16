@@ -55,17 +55,6 @@
         if (isPc) {
           return ''
         }
-      },
-      getDisable: function() {
-        if (this.currentIndex > -1) {
-          var channel = this.channelsByVideoCount[this.currentIndex];
-          return (channel.Protocol === 'ONVIF' && channel.isSuccessedPlay) ? '' : 'DISABLE';
-        }
-      },
-      getDisableTitle: function() {
-        if (this.currentIndex > -1) {
-          return this.channelsByVideoCount[this.currentIndex].Protocol === 'ONVIF' ? '' : this.noEventTitle;
-        }
       }
     },
     methods: {
@@ -75,9 +64,9 @@
             i = 0, 
             len = videos.length;
         while (i < len) {
-          var video = videos[i],
-              sourceSrc = $(video).find('source').attr('src');
           (function(i) {
+            var video = videos[i],
+                sourceSrc = $(video).find('source').attr('src');
             if (sourceSrc) {
               videojs(video, {
                 notSupportedMessage : '您的浏览器没有安装或开启Flash,戳我开启！',
@@ -116,12 +105,28 @@
         }).on('click', '#allStop', function() {
           _this.stopAll();
         }).on('click', '#videoCountCtl .ITEM', function() {
-          var $this = $(this);
-          _this.videoCount = parseInt($this.text());
+          var $this = $(this),
+              oldVideoCount = _this.videoCount,
+              currentCount = parseInt($this.text());
+          _this.videoCount = currentCount;
+          if (currentCount < oldVideoCount) {
+            var i = currentCount,
+                len = oldVideoCount,
+                player = null;
+            while ( i < len ) {
+              player = players[i];
+              if (player) {
+                player.dispose();
+              }
+              i++;
+            }
+            players.length = currentCount;
+          } else {
+            _this.$nextTick(function() {
+              _this.playAll();
+            });
+          }
           _this.resizeVideoSize();
-          _this.$nextTick(function() {
-            _this.playAll();
-          });
         }).on('click', '#gl .ITEM:not(.DISABLE)', function() {
           var $this = $(this);
           $this.addClass('ON').parent().siblings().find('.ITEM').removeClass('ON');
