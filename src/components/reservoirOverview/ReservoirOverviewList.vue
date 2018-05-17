@@ -4,7 +4,7 @@
       <ul>
         <li v-for="item in reservoirList" @click="showDetail(item.pid)">
           <div class="top line-top line-bottom">
-            <div class="thumbnail" v-lazy:background-image="item.icon"></div>
+            <div class="thumbnail" v-lazy:background-image="filePathUrl + convertPath(item.skImg, '\\', '/')"></div>
             <div class="des">
               <h3 class="ellipsis">{{item.ennm}}{{getGcgm(item.gcgm)}}</h3>
               <div class="des-content">
@@ -43,7 +43,7 @@ import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
 import {setPid} from '@/assets/js/util'
 import BetterScroll from '@/components/base/BetterScroll'
-import {dateFormat, gcgmFilter, getWarnConfig} from '@/assets/js/mixin'
+import {dateFormat, gcgmFilter, getWarnConfig, convertPath} from '@/assets/js/mixin'
 import {mapGetters, mapMutations} from 'vuex'
 import {SET_WARNCONFIG} from '@/store/mutation-types'
 export default {
@@ -51,9 +51,9 @@ export default {
   components: {
     BetterScroll
   },
-  mixins: [dateFormat, gcgmFilter, getWarnConfig],
+  mixins: [dateFormat, gcgmFilter, getWarnConfig, convertPath],
   computed: {
-    ...mapGetters(['reservoirList'])
+    ...mapGetters(['reservoirList', 'filePathUrl'])
   },
   methods: {
     ...mapMutations([SET_WARNCONFIG]),
