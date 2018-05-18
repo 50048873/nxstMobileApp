@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="ReservoirDetailInspectionRecord">
-      <li class="line-bottom" v-for="item in ReservoirDetailInspection">
+      <li class="line-bottom"  v-for="(item,index) in ReservoirDetailInspection" :key="index">
         <time class="title">{{dateFormat(item.CHECK_DATE,'ll')}}大坝巡检</time>
         <div class="content">
           <div class="status">
