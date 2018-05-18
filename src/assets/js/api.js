@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import {baseUrl} from '@/assets/js/config'
 
-let login = function(data) {
+/*let login = function(data) {
 	return $.ajax({
 		type: 'POST',
 		url: baseUrl + '/api/login',
@@ -15,7 +15,7 @@ let getNewsMarquee = function() {
     url: baseUrl + '/api/newsMarquee'
   })
 }
-
+*/
 // 水库概览 -> 列表
 let getReservoirList = function() {
   const url = baseUrl +  '/znb/reservoirSurveyController/getReservoirBasicInfo.do'
@@ -202,7 +202,7 @@ let getMemberList =(data)=>{
 
 // 根据字典code获取字典项值
 let getDictValueByCode = function(code) {
-  const url = 'http://sw.dse.cn:56015/znb/CommonCtrl/getDictValueByCode.do'
+  const url = baseUrl + '/znb/CommonCtrl/getDictValueByCode.do'
   return $.ajax({
     type: 'GET',
     url: url,
@@ -262,10 +262,10 @@ let addPatrolTrail = data => {
 };
 
 export default {
-  login,
+  // login,
   getSessionUser,
   getListResourceNodeByUser,
-  getNewsMarquee,
+  // getNewsMarquee,
   getReservoirList,
   getReservoirDetailInfo,
   getReservoirDetailMember,

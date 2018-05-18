@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <iframe v-if="baseUrl === '/api'" src="http://sw.dse.cn:56015/cas-server/login?service=http://sw.dse.cn:56015/znb/index.html" frameborder="0"></iframe>
     <keep-alive>
       <transition :name="transitionName">
         <router-view class="router-view-app"></router-view>
@@ -29,20 +30,14 @@ export default {
   methods: {
     initAjaxLoading() {
       $.ajaxSetup({
-        xhrFields: {
-          withCredentials: true
-        },
         beforeSend: function (XMLHttpRequest) {
           loading.show()
-          XMLHttpRequest.setRequestHeader("_wx", true);
+          // XMLHttpRequest.setRequestHeader("_wx", true);
         },
         complete: function () {
           loading.remove()
         }
       })
-      // $(window).ajaxStop(function(){
-      //  $(".n-loading").remove();
-      // });
     },
     getSessionUser() {
       api.getSessionUser()
@@ -84,6 +79,7 @@ export default {
     }  
   },
   created() {
+    this.baseUrl = process.env.API_HOST
     this.initAjaxLoading()
     // this.getSessionUser()
     // this.getListResourceNodeByUser()
@@ -92,6 +88,15 @@ export default {
 </script>
 
 <style scoped lang="less">
+  iframe {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10;
+    border: 1px solid;
+    box-sizing: border-box;
+  }
   .router-view-app {
     transition: all 0.2s ease-out;
     &.slideToLeft-enter {
