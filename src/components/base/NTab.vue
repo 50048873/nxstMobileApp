@@ -1,7 +1,7 @@
 <template>
   <div class="n-tab line-bottom">
     <template v-for="(item, index) in data">
-       <router-link  :to="getPath(item.path)"  :key="index">
+       <router-link v-if="item.flag" :to="getPath(item.path)"  :key="index">
          <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
          <span class="title">{{item.title}}</span>
        </router-link>
