@@ -1,6 +1,6 @@
 'use strict'
-const API_HOST = require('./API_HOST')
+const api_host = require('./api_host')
 module.exports = {
   NODE_ENV: '"production"',
-  API_HOST: API_HOST.API_HOST_PROD
+  API_HOST: api_host.API_HOST_PROD
 }

@@ -1,9 +1,9 @@
 'use strict'
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
-const API_HOST = require('./API_HOST')
+const api_host = require('./api_host')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_HOST: API_HOST.API_HOST_DEV
+  API_HOST: api_host.API_HOST_DEV
 })
