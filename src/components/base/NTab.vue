@@ -39,11 +39,13 @@ export default {
     background-color: white;
     white-space: nowrap;
     overflow-x: auto;
+    display: flex;
     a {
       position: relative;
       display: inline-block;
       color: @color-nav-default;
       height: 35px;
+      flex: 1;
       line-height: 35px;
       padding-right: 0.8em;
       padding-left: 0.8em;

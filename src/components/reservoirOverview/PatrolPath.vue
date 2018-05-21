@@ -92,21 +92,21 @@ export default {
     Loading
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
-  beforeMount(){
+  created(){
+      const that = this;
        this.pname = getPname();
        this.username = getUsername();
        this.currentdate = this.dateFormat(new Date(), 'MM-DD');
        this.isAdd = handleAuth("addcheckrecord");
        api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
            if(res.status==1){
-               this.patrolList = res.data
+               that.patrolList = res.data
            }
        },(err)=>{
-           this.hint(err.msg)
+           that.hint(err.msg)
+       }).then(()=>{
+            that.loadmap();
        })
-  },
-  mounted(){
-       this.loadmap();
   },
   methods: {
     loadmap(){
