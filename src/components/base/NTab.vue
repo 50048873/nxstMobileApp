@@ -1,11 +1,11 @@
 <template>
   <div class="n-tab line-bottom">
     <template v-for="(item, index) in data">
-      <router-link v-if="item.flag" :to="getPath(item.path)"  :key="index">
-        <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
-        <span class="title">{{item.title}}</span>
-      </router-link>
-    </template>
+       <router-link v-if="item.flag" :to="getPath(item.path)"  :key="index">
+         <span class="iconWrap" v-if="item.icon"><i :class="item.icon"></i></span>
+         <span class="title">{{item.title}}</span>
+       </router-link>
+     </template>
   </div>
 </template>
 
@@ -37,20 +37,16 @@ export default {
   .n-tab {
     text-align: center;
     background-color: white;
-    display: flex;
-    width: 100%;
+    white-space: nowrap;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    -moz-overflow-scrolling: touch;
-    -ms-overflow-scrolling: touch;
-    -o-overflow-scrolling: touch;
-    overflow-scrolling: touch;
     a {
       position: relative;
-      flex: 1;
+      display: inline-block;
       color: @color-nav-default;
       height: 35px;
       line-height: 35px;
+      padding-right: 0.8em;
+      padding-left: 0.8em;
       &.ON {
         color: #0b65c3;
         &:after {
@@ -70,17 +66,6 @@ export default {
       .title {
         font-weight: bold;
         padding-left: 2px;
-      }
-    }
-    &.slider {
-      display: block;
-      white-space: nowrap;
-      overflow-x: auto;
-      a {
-        display: inline-block;
-        padding-right: 0.8em;
-        padding-left: 0.8em;
-        flex: none;
       }
     }
   }
