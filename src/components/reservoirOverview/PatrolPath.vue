@@ -156,7 +156,7 @@ export default {
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
-        checkArr?checkArr.forEach((mark,index) => {    //创建地图标记点
+        this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
               new SimpleMarker({
                 iconLabel:{
@@ -173,7 +173,7 @@ export default {
                 iconTheme: 'numv1',
                 iconStyle:'red',
                 map: map,
-                position: [mark[0],mark[1]],
+                position: [mark.LGTD,mark.LTTD],
                 zIndex:11
               }).on("click",function (e) {
                   alert(`巡检点${index+1}`)
