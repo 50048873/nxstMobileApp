@@ -41,11 +41,11 @@ let router = new Router({
   routes: [
     {
       path: "/",
-      redirect: "/home"
+      redirect: "/reservoirOverview"
     },
     {
       path: "/index.html",
-      redirect: "/home"
+      redirect: "/reservoirOverview"
     },
     {
       path: "/home",
