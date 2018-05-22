@@ -16,7 +16,7 @@
             <span class="name">
               <em>工程规模</em>
             </span>
-            <span class="content">{{reservoirDetailInfo.gcgm | gcgmFilter}}</span>
+            <span class="content">{{reservoirDetailInfo.gcgm}}</span>
           </li>
           <li>
             <span class="name">
