@@ -3,7 +3,8 @@
     <div class="titleWrap">
       <h6>34参数水质检测</h6>
       <label for="szjcDate" class="dateWrap">
-        <input class="weui-input" id="szjcDate" type="date" value="" v-model="meterDate">
+        <input class="weui-input" id="szjcDate" type="date"  v-model="meterDate">
+        <span>{{dateFormat(meterDate,"LL")}}</span>
         <i class="nxst-calendar"></i>
       </label>
     </div>
@@ -286,7 +287,7 @@ export default {
   },
   watch: {
     meterDate(newVal, oldVal) {
-      this.meterDate = newVal
+      this.meterDate = this.dateFormat(newVal, 'YYYY-MM-DD hh:mm:ss')
       this.getReservoirDetailMonitor_waterquality()
     }
   }
@@ -308,8 +309,14 @@ export default {
         display: block;
         flex: 0 0 1;
         color: #0b65c3;
+        span{
+          padding-right: 20px;
+        }
         .weui-input {
           width: auto;
+          opacity: 0;
+          position: absolute;
+          right: 0;
         }
         .nxst-calendar {
           position: absolute;
