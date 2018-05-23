@@ -26,8 +26,11 @@
         <div v-if="isAdd&&isstart==1" class="addbtn">
             <i  @click="add" class="nxst-add"></i>
         </div>
-        <div v-if="isAdd&&!gpsshow" class="startbtn"   @click="handleMapTrail">
-            <div :class="isstart===1?'cssload-ball cssload-ball-play':'cssload-ball  cssload-ball-stop'">     
+        <div v-if="isAdd&&!gpsshow" class="startbtn"   @touchstart="handleMapTrail">
+             <div class="loadingContainer" ref="loadingContainer">
+                 <div ref="loading" class="cssload-ball"> 
+             </div>
+                
             </div>
             <div  class="btncontent">
                     <span class="status">{{isstart===1?"结束巡检":"开始巡检"}}</span>
@@ -293,7 +296,7 @@ export default {
             this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: false,
-                speed: 100,
+                speed: 4.5,
                 pathNavigatorStyle: {
                     width:0,
                     height:0,
@@ -310,6 +313,7 @@ export default {
             });
             navg.start()
             this.isstart = 1;
+            this.handleAnimation(1)
         }else if(this.isstart===1){
             this.handleTimeAdd("stop")
             navg.stop()
@@ -317,9 +321,21 @@ export default {
             this.status = true;
             this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'MM-DD hh:mm:ss')};
             this.isstart = 0;
+            this.handleAnimation(0);
             navg.destroy()
         }
-
+    },
+    handleAnimation(satus){
+      let loading = this.$refs.loading;
+      let loadingContainer = this.$refs.loadingContainer
+      if(!this.isstart){
+          loadingContainer.style.transform = getComputedStyle(loadingContainer).transform === 'none'
+        ? getComputedStyle(loading).transform
+        : getComputedStyle(loading).transform.concat(' ', getComputedStyle(loadingContainer).transform);
+          loading.classList.remove('animation');
+      }else{
+          loading.classList.add('animation')
+      }
     },
     handleTimeAdd(type){
         const that = this;
@@ -428,6 +444,10 @@ export default {
           justify-content: center;
           align-items: center;
           -webkit-tap-highlight-color: transparent;
+          .loadingContainer{
+              width: 100%;
+              height:100%;
+          }
           .btncontent{
                 position: absolute;
                 top:0.074rem;
@@ -461,6 +481,8 @@ export default {
                 -ms-transform-origin: 50% 50%;
                 -webkit-transform-origin: 50% 50%;
                 -moz-transform-origin: 50% 50%;
+            }
+            .animation{
                 animation: cssload-ball 3.45s linear infinite ;
                 -o-animation: cssload-ball 3.45s linear infinite ;
                 -ms-animation: cssload-ball 3.45s linear infinite ;
