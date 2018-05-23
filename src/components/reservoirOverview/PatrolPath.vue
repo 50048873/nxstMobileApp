@@ -16,8 +16,8 @@
           </div>
         </div>
        <div class="poupecenter">
-         <p><span style="color:#9c9c9c">开始时间：</span>{{overinfo.starttime}}</p>
-         <p><span style="color:#9c9c9c">结束时间：</span>{{overinfo.endtime}}</p>
+         <p><span style="color:#9c9c9c">开始时间：</span><br/>{{overinfo.starttime}}</p>
+         <p><span style="color:#9c9c9c">结束时间：</span><br/>{{overinfo.endtime}}</p>
        </div>
        <div class="poupebottom" @click="handleClose">关闭</div>
       </div>

@@ -19,6 +19,7 @@ import ReservoirDetailInfo from '@/components/reservoirOverview/ReservoirDetailI
 import ReservoirDetailInspection from '@/components/reservoirOverview/ReservoirDetailInspection'
 import ReservoirDetailInspectionAdd from '@/components/reservoirOverview/ReservoirDetailInspectionAdd'
 import ReservoirDetailInspectionRecord from '@/components/reservoirOverview/ReservoirDetailInspectionRecord'
+import ReservoirDetailInspectionIssue from '@/components/reservoirOverview/ReservoirDetailInspectionIssue'
 import ReservoirDetailInspectionTrail from '@/components/reservoirOverview/ReservoirDetailInspectionTrail'
 import ReservoirDetailMember from '@/components/reservoirOverview/ReservoirDetailMember'
 import ReservoirDetailMonitor from '@/components/reservoirOverview/ReservoirDetailMonitor'
@@ -185,17 +186,22 @@ let router = new Router({
           path: "/reservoirDetail/inspection",
           name: "ReservoirDetailInspection",
           component: ReservoirDetailInspection,
-          redirect: "/reservoirDetail/inspection/record",
+          redirect: "/reservoirDetail/inspection/issue",
           children: [
             {
-              path: "/reservoirDetail/inspection/record",
-              name: "ReservoirDetailInspectionRecord",
-              component: ReservoirDetailInspectionRecord
+              path: "/reservoirDetail/inspection/issue",
+              name: "ReservoirDetailInspectionIssue",
+              component: ReservoirDetailInspectionIssue
             },
             {
               path: "/reservoirDetail/inspection/patrolPath",
               name: "ReservoirDetailInspectionPatrolPath",
               component: PatrolPath
+            },
+            {
+              path: "/reservoirDetail/inspection/record",
+              name: "ReservoirDetailInspectionRecord",
+              component: ReservoirDetailInspectionRecord
             }
           ]
         },

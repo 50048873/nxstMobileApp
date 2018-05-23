@@ -26,10 +26,14 @@ export default {
           flag:true
         },
         {
+          title: '巡检问题',
+          path: '/reservoirDetail/inspection/issue',
+          flag:true
+        },
+        {
           title: '巡检记录',
           path: '/reservoirDetail/inspection/record',
           flag:true
-
         }
       ]
     }
