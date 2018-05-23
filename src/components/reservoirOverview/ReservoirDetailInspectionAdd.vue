@@ -283,7 +283,10 @@ export default {
       params.append('pid',getPid())
       params.append('id', getUuid(32, 16))
       params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'YYYY-MM-DD hh:mm:ss'))
-      params.append('files', this.files)
+      this.files.forEach(function(item){
+        params.append('files',item)
+      })
+      
 
       this.patrolPoint.forEach((item) => {
         if (item.ID === this.pointId) {
