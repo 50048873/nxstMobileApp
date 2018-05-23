@@ -95,6 +95,20 @@
       handlePcEvent: function() {
         if (!this.channels.length) return;
         var _this  = this;
+        // var isInvalidChoose = function() {
+        //   if (_this.currentIndex === -1) {
+        //     _this.showDialog('请先选择要调整的视频！');
+        //     return true;
+        //   }
+        //   var protocol = _this.channelsByVideoCount[_this.currentIndex].Protocol,
+        //       isSuccessedPlay = _this.channelsByVideoCount[_this.currentIndex].isSuccessedPlay,
+        //       hasVideo = _this.channelsByVideoCount[_this.currentIndex].URL;
+        //   if (!hasVideo) {
+        //     _this.showDialog('无视频，请先配置视频通道！');
+        //     return true;
+        //   }
+        //   return false
+        // };
         $(document).on('click', '#fold', function() {
           var $this = $(this),
               $btns = $('.btns');
@@ -127,23 +141,12 @@
             });
           }
           _this.resizeVideoSize();
-        }).on('click', '#gl .ITEM:not(.DISABLE)', function() {
+        }).on('click', '#videoCountCtl .ITEM:not(.DISABLE), #viewBtns .ITEM:not(.DISABLE)', function() {
           var $this = $(this);
           $this.addClass('ON').parent().siblings().find('.ITEM').removeClass('ON');
         }).on('click', '#yt .ITEM', function() {
           var $this = $(this);
-          if (_this.currentIndex === -1) {
-            _this.showDialog('请先选择要调整的视频！');
-            return;
-          }
-          var protocol = _this.channelsByVideoCount[_this.currentIndex].Protocol,
-              isSuccessedPlay = _this.channelsByVideoCount[_this.currentIndex].isSuccessedPlay,
-              hasVideo = _this.channelsByVideoCount[_this.currentIndex].URL;
-
-          if (!hasVideo) {
-            // _this.showDialog('无视频，请先配置视频通道！');
-            return;
-          }
+          if (_this.isInvalidChoose()) return;
           if (protocol === 'ONVIF' && !isSuccessedPlay) {
             // _this.showDialog('此视频的云台连接失败！');
             return;
@@ -152,8 +155,7 @@
             // _this.showDialog('此视频不支持云台功能！');
             return;
           }
-          
-          console.log(_this.channelsByVideoCount);
+          console.log('准备开始操作云台');
         });
 
         nxst.utils.addFullScreenEventListener('#fullScreen', '#videoWrap');

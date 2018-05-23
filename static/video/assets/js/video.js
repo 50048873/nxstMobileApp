@@ -26,7 +26,8 @@
         url = "/api/v1",
         username = 'admin',
         password = $.md5('admin'),
-        players = [];
+        players = [],
+        ErrorNum = '200';
 
     var utils = { 
       addFullScreenEventListener: function(clickedSelector, fullScreenSelector, exitFullscreenCallback, requestFullscreenCallback) {
@@ -261,13 +262,14 @@
             }
           });
         },
-        setchannelconfig: function() {
-          var data = {
+        setchannelconfig: function(data) {
+          var _this = this;
+          var baseParams = {
             t: new Date().getTime(),
-            Channel: 2,
+            Channel: -1,
             Enable: 1,
             IP: '10.100.50.151',
-            Name: '151',
+            Name: '',
             Port: 554,
             Protocol: 'RTSP',
             Username: 'admin',
@@ -275,6 +277,7 @@
             RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/101',
             TransProtocol: 'TCP'
           };
+          data = $.extend({}, baseParams, data);
           return $.ajax({
             type: "GET",
             url: host + url + "/setchannelconfig",
@@ -284,8 +287,17 @@
             },
             crossDomain: true, 
             success: function(data) {
-              console.log(data)
-              return
+              data = JSON.parse(data)
+              if (ErrorNum === data.EasyDarwin.Header.ErrorNum) {
+                _this.showDialog('码流已切换！')
+                  .then(function(res) {
+                    if (res) {
+                      setTimeout(function() {
+                        window.location.reload();
+                      }, 100);
+                    }
+                  });
+              }
             }
           });
         },
@@ -345,30 +357,6 @@
               document.body.removeChild(eleLink);
           };
           funDownload();
-
-          /*return $.ajax({
-            type: "GET",
-            url: host + url + "/getsnap",
-            data: {
-              channel: channel
-            },
-            success: function(data) {
-              // console.log(data);
-              var funDownload = function (content, filename) {
-                  var eleLink = document.createElement('a');
-                  eleLink.download = filename;
-                  eleLink.style.display = 'none';
-                  var blob = new Blob([content], {type: 'image/jpeg'});
-                  var file = new File([content], "hello.jpg", {type: "image/jpeg; charset=utf-8"});
-                  eleLink.href = URL.createObjectURL(blob);
-                  $('#test').attr('src', URL.createObjectURL(file))
-                  document.body.appendChild(eleLink);
-                  eleLink.click();
-                  //document.body.removeChild(eleLink);
-              };
-              funDownload(data, 'a.jpg');
-            }
-          });*/
         },
         showDialog: function(text, primaryBtn) {
           var _this = this;
@@ -383,11 +371,55 @@
                           '</div>' +
                       '</div>');
           this.$dialog = $dialog.appendTo('body').fadeIn(200);
-          $(document).on('click', '.weui-dialog__btn', function(){
-              $(this).parents('.js_dialog').fadeOut(200);
-              setTimeout(function() {
-                _this.$dialog.remove();
-              }, 200);
+          var deferred = $.Deferred();
+          $(document).on('click', '.weui-dialog__btn_primary', function(){
+            deferred.resolve(true);
+            $(this).parents('.js_dialog').fadeOut(200);
+            setTimeout(function() {
+              _this.$dialog.remove();
+            }, 200);
+          });
+          return deferred;
+        },
+        isInvalidChoose: function() {
+          if (this.currentIndex === -1) {
+            this.showDialog('请先选择要调整的视频！')
+              .then(function(res) {
+                console.log(res)
+              })
+            return true;
+          }
+          var protocol = this.channelsByVideoCount[this.currentIndex].Protocol,
+              isSuccessedPlay = this.channelsByVideoCount[this.currentIndex].isSuccessedPlay,
+              hasVideo = this.channelsByVideoCount[this.currentIndex].URL;
+          if (!hasVideo) {
+            this.showDialog('无视频，请先配置视频通道！');
+            return true;
+          }
+          return false
+        },
+        changeCodeStream: function() {
+          if (!this.channels.length) return;
+          var _this = this;
+          $(document).on('click', '#codeStream .ITEM', function() {
+            if (_this.isInvalidChoose()) return;
+            var $this = $(this);
+            var channel = _this.channelsByVideoCount[_this.currentIndex],
+                codeStreamType = $this.data('codestream').toString();
+                // console.log(channel.ChannelName)
+            if (channel.RTSP.substr(channel.RTSP.length - 1, 1) === codeStreamType) {
+              _this.showDialog('码流相同！');
+              return;
+            };
+
+            var data = {
+              Channel: channel.Channel,
+              Name: channel.ChannelName,
+              Protocol: channel.Protocol,
+              RTSP: 'rtsp://10.100.50.151:554/Streaming/Channels/10' + codeStreamType
+            };
+            // console.log(data)
+            _this.setchannelconfig(data)
           });
         }
       },
@@ -409,11 +441,18 @@
                 channelstream = res.channelstream,
                 channelsconfig = res.channelsconfig,
                 arr = [];
-
+                // console.log(channelsconfig)
             for (var i = 0; i < len; i++) {
-              var channelconfigWithPartField = {
-                Protocol: channelsconfig[i].Protocol
-              };
+              for (var j = 0; j < channelsconfig.length; j++) {
+                if (_this.channels[i].Channel === channelsconfig[j].Channel) {
+                  var channelconfigWithPartField = {
+                    Protocol: channelsconfig[j].Protocol,
+                    RTSP: channelsconfig[j].RTSP
+                  };
+                  continue;
+                }
+              }
+              
               arr[i] = $.extend({}, _this.channels[i], channelstream[i], channelconfigWithPartField);
             }
             _this.channels = arr;
@@ -423,7 +462,8 @@
                 _this.handlePc();
               } else {
                 _this.handleMobile();
-              }  
+              }
+              _this.changeCodeStream();
             })                 
           });
       }
@@ -438,7 +478,8 @@
       url: url,
       username: username,
       password: password,
-      players: players
+      players: players,
+      ErrorNum: ErrorNum
     }
   }();
 })(document, window);
