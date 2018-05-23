@@ -11,7 +11,7 @@
 import NTab from '@/components/base/NTab'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {SET_RESERVOIRLIST} from '@/store/mutation-types'
 export default {
   name: 'ReservoirOverview',
@@ -37,6 +37,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'saveFilePathUrl'
+    ]),
     ...mapMutations([SET_RESERVOIRLIST]),
     getReservoirList() {
       api.getReservoirList()
@@ -50,7 +53,24 @@ export default {
         }, (err) => {
           this.serverErrorTip(err, 'ReservoirOverview.vue')
         })
+    },
+    getFilePathUrl() {
+      api.getFilePathUrl()
+        .then((res) => {
+          if (res.status === success) {
+            if (res.data && res.data.filePathUrl) {
+              this.saveFilePathUrl(res.data.filePathUrl)
+            }
+          } else {
+            this.hint(res.msg)
+          }
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirDetail.vue')
+        })
     }
+  },
+  created() {
+    this.getFilePathUrl()
   },
   beforeMount() {
       this.setDocumentTitle('水库概览')

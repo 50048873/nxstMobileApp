@@ -336,6 +336,7 @@
           this.currentIndex = index;
         },
         getsnap: function() {
+          if (!isPc) return;
           if (this.currentIndex === -1) {
             this.showDialog('请先选择要抓图的视频');
             return;

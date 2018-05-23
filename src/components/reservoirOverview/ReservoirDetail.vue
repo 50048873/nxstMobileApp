@@ -57,9 +57,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'saveFilePathUrl'
-    ]),
     initBack() {
       let routers = session.getItem('routers');
       if (routers && routers.indexOf(',')) {
@@ -67,20 +64,6 @@ export default {
         originHref = originHrefArr[originHrefArr.length - 2]
         dataArr[2].href = originHref
       } 
-    },
-    getFilePathUrl() {
-      api.getFilePathUrl()
-        .then((res) => {
-          if (res.status === success) {
-            if (res.data && res.data.filePathUrl) {
-              this.saveFilePathUrl(res.data.filePathUrl)
-            }
-          } else {
-            this.hint(res.msg)
-          }
-        }, (err) => {
-          this.serverErrorTip(err, 'ReservoirDetail.vue')
-        })
     }
   },
   created() {
@@ -89,7 +72,6 @@ export default {
     this.data[4].flag = handleAuth("member")
     this.initBack()
     this.setDocumentTitle(session.getItem(documentTitle_reservoirDetail))
-    this.getFilePathUrl()
   },
   watch: {  
     '$route'(to, from)  {  

@@ -62,7 +62,7 @@
           </li>
           <li class="li-1">
             <ul class="ul-2 clearfix">
-              <li class="li-2"><div @click="getsnap">抓图</div></li>
+              <li class="li-2"><div :class="{'ITEM DISABLE': !isPc}" @click="getsnap">抓图</div></li>
               <li class="li-2"><div class="ITEM DISABLE" :title="noEventTitle">启用电子放大</div></li>
               <li class="li-2"><div id="fullScreen" title="全屏">全屏</div></li>
             </ul>

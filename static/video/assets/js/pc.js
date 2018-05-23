@@ -95,20 +95,6 @@
       handlePcEvent: function() {
         if (!this.channels.length) return;
         var _this  = this;
-        // var isInvalidChoose = function() {
-        //   if (_this.currentIndex === -1) {
-        //     _this.showDialog('请先选择要调整的视频！');
-        //     return true;
-        //   }
-        //   var protocol = _this.channelsByVideoCount[_this.currentIndex].Protocol,
-        //       isSuccessedPlay = _this.channelsByVideoCount[_this.currentIndex].isSuccessedPlay,
-        //       hasVideo = _this.channelsByVideoCount[_this.currentIndex].URL;
-        //   if (!hasVideo) {
-        //     _this.showDialog('无视频，请先配置视频通道！');
-        //     return true;
-        //   }
-        //   return false
-        // };
         $(document).on('click', '#fold', function() {
           var $this = $(this),
               $btns = $('.btns');

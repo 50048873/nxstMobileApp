@@ -227,6 +227,21 @@ export function getFirstDayOfMonth() {
     return new Date(`${year}/${month}/${day}`)
 }
 
+// 获取当月最后一天
+export function getLastDayOfMonth(strDate) { 
+    let date
+    if (isString(strDate)) {
+        date = new Date(strDate)
+    } else {
+        date = new Date()
+    }  
+    let currentMonth = date.getMonth(),
+        nextMonth = currentMonth + 1,
+        nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1),
+        oneDay = 1000 * 60 * 60 * 24
+    return new Date(nextMonthFirstDay - oneDay)
+}
+
 // 获取当年1月1日
 export function getNewYearDay(strDate) { 
     let date
@@ -270,8 +285,8 @@ export function get7DayOfcurrentDay(strDate) {
     let year = date.getFullYear(),
         month = date.getMonth() + 1,
         day = date.getDate()
-    if (day > 7) {
-        day = day - 7
+    if (day > 6) {
+        day = day - 6
     } else {
         let _month
         month = month - 1;
@@ -288,7 +303,7 @@ export function get7DayOfcurrentDay(strDate) {
         }else{
             _month = 29
         }
-        day = (day - 7) + _month 
+        day = (day - 6) + _month 
     }
     return new Date(`${year}/${month}/${day}`)
 }

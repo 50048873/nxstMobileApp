@@ -15,7 +15,7 @@ import NTable from '@/components/base/NTable'
 import FilterDialog from '@/components/reservoirOverview/ReservoirDetailMonitorRainfall/FilterDialog'
 import api from '@/assets/js/api'
 import {success} from '@/assets/js/config'
-import {isArray, getSameDayOfPreMonth, get7DayOfcurrentDay,getPid} from '@/assets/js/util'
+import {isArray, getSameDayOfPreMonth, get7DayOfcurrentDay, getPid, getLastDayOfMonth} from '@/assets/js/util'
 import {dateFormat, getBottomPosition, monitorAdd} from '@/assets/js/mixin'
 export default {
   name: 'ReservoirDetailMonitorRainfall',
@@ -43,9 +43,14 @@ export default {
       this.$refs.filterDialog2.show()
     },
     filter(date) {
-      this.type = date.type,
-      this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
-      this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
+      this.type = date.type
+      if (this.type === '2') {
+        this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+        this.endTime = this.dateFormat(getLastDayOfMonth(date.endTime), "YYYY-MM-DD hh:mm:ss")
+      } else {
+        this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
+        this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
+      }
       this.getReservoirDetailMonitor_rainfall()
         .then((res) => {
           if (!res.length) return
