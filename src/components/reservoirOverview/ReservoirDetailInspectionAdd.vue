@@ -3,13 +3,7 @@
     <form ref="formEle">
       <div class="itemS line-bottom">
         <h6>签到点</h6>
-        <div class="inputBox clearfix">
-          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
-          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
-          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
-          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
-          <label data-v-fb19269e="" for="yhd"><span data-v-fb19269e="" class="iconWrap"><input data-v-fb19269e="" type="checkbox" id="yhd" disabled="disabled"> <i data-v-fb19269e="" class="nxst-circle"></i></span> <span data-v-fb19269e="">坝顶</span></label>
-          
+        <div class="inputBox clearfix"> 
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
