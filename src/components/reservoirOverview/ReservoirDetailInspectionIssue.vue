@@ -1,27 +1,25 @@
 <template>
   <div>
-    <ul v-if="reservoirDetailInspectionRecord" class="ReservoirDetailInspectionRecord">
-      <li class="line-bottom"  v-for="(item,index) in reservoirDetailInspectionRecord" :key="index">
-        <time class="title">{{item.patrolDate+ " "+ item.checkDateShow}}</time>
-        <div class="content" :id="'content-'+index">
+    <ul class="ReservoirDetailInspectionIssue">
+      <li class="line-bottom"  v-for="(item,index) in ReservoirDetailInspection" :key="index">
+        <time class="title">{{dateFormat(item.CHECK_DATE,'ll')}}大坝巡检</time>
+        <div class="content">
+          <div class="status">
+            <i :class="item.PATROL_STATE == 1 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
+          </div>
           <p>
-            <span>巡检人员：</span>
-            <time>{{item.personName}}</time>
-          </p>
-          <p>
-            <span>巡检状态：</span>
-            <time>{{item.patrolState?'异常':'正常'}}</time>
+            <span>巡检时间：</span>
+            <time>{{item.CHECK_DATE}}</time>
           </p>
           <p>
             <span>巡检结果：</span>
-            <span>{{item.patrolInfo}}</span>
+            <span>{{item.PATROL_INFO}}</span>
           </p>
-          <div class="loaderMore" @touchstart="loaderMore(index,$event)">查看更多</div>
         </div>
       </li>
     </ul>
     <filter-dialog  ref="filterDialog5" @confirm="filter"></filter-dialog>
-    <no-data v-if="!this.reservoirDetailInspectionRecord || !reservoirDetailInspectionRecord.length"></no-data>
+    <no-data v-if="!this.ReservoirDetailInspection || !ReservoirDetailInspection.length"></no-data>
     <n-gbtn left="20" :bottom="getBottomPosition(20)" iconClass="nxst-path"  content="" @click="toPatrolPath"></n-gbtn>
     <n-add right="20" :bottom="getBottomPosition(20)" iconClass="nxst-filter" @click="showDialogRecord"></n-add>
     
@@ -32,12 +30,12 @@
 import api from '@/assets/js/api'
 import {success, documentTitle_reservoirDetail} from '@/assets/js/config'
 import $ from 'jquery'
-import {isArray, get7DayOfcurrentDay,getSameDayOfPreMonth,getPid} from '@/assets/js/util'
+import {isArray, get7DayOfcurrentDay,getPid} from '@/assets/js/util'
 import {dateFormat, getBottomPosition,monitorAdd} from '@/assets/js/mixin'
 import FilterDialog from '@/components/base/NFilterDialog'
 import * as session from '@/assets/js/session'
 export default {
-  name: 'ReservoirDetailInspectionRecord',
+  name: 'ReservoirDetailInspectionIssue',
   components:{
     FilterDialog
   },
@@ -47,11 +45,8 @@ export default {
       ReservoirDetailInspection: [],
       startDate: this.dateFormat(get7DayOfcurrentDay(), 'YYYY-MM-DD'),
       endDate: this.dateFormat(new Date(), 'YYYY-MM-DD'),
-      dateStart:this.dateFormat(getSameDayOfPreMonth(),'YYYY-MM-DD hh:mm:ss'),
-      dateEnd:this.dateFormat(new Date(),'YYYY-MM-DD hh:mm:ss'),
       isAdd:true,
-      isShow:false,
-      reservoirDetailInspectionRecord:null
+      isShow:false
     }
   },
   beforeMount(){
@@ -62,20 +57,13 @@ export default {
         this.$refs.filterDialog5.show()
     },
     filter(date) {
-      this.dateStart = date.startTime,
-      this.dateEnd = date.endTime
-      this.getRecordByPeriod({
+      this.startTime = date.startTime,
+      this.endTime = date.endTime
+      this.getReservoirDetailInspection({
         pid:getPid(),
         startDate: date.startTime,
         endDate: date.endTime
       })
-    },
-    loaderMore(index,e){
-      $("#content-"+index).css({
-        "height":"auto",
-        "overflow":"auto"
-      })
-      $(e.target).hide()
     },
     getAddAuth(){
       api.getUserAuthInfo({id:"402881d162d65a7c0162d68715110061",flag:2,pid:getPid()}).then(res=>{
@@ -95,51 +83,33 @@ export default {
         return a.PATROL_STATE - b.PATROL_STATE
       })
     },
-    // getReservoirDetailInspection(param) {
-    //   let params = param||{
-    //     pid:getPid(),
-    //     startDate: this.startDate,
-    //     endDate: this.endDate
-    //   }
-    //   api.getReservoirDetailInspection(params)
-    //     .then((res) => {
-    //       if (res.status === success) {
-    //         this.ReservoirDetailInspection = res.data
-    //         //console.log(JSON.stringify(this.ReservoirDetailInspection, null, 2))
-    //       } else {
-    //         this.hint(res.msg)
-    //       }
-    //     }, (err) => {
-    //       this.serverErrorTip(err, 'ReservoirDetailInspectionRecord.vue')
-    //     })
-    // },
-    getRecordByPeriod(param){
+    getReservoirDetailInspection(param) {
       let params = param||{
         pid:getPid(),
-        startDate: this.dateStart,
-        endDate: this.dateEnd
+        startDate: this.startDate,
+        endDate: this.endDate
       }
-      api.getRecordByPeriod(params).then((res)=>{
-          if(res.status===success){
-            this.reservoirDetailInspectionRecord = res.data
-          }else{
+      api.getReservoirDetailInspection(params)
+        .then((res) => {
+          if (res.status === success) {
+            this.ReservoirDetailInspection = res.data
+            //console.log(JSON.stringify(this.ReservoirDetailInspection, null, 2))
+          } else {
             this.hint(res.msg)
           }
-      },(err)=>{
-          this.serverErrorTip(err, 'ReservoirDetailInspectionRecord.vue')
-      })
+        }, (err) => {
+          this.serverErrorTip(err, 'ReservoirDetailInspection.vue')
+        })
     },
     toPatrolPath() {
       this.$router.push({path: '/reservoirDetail/inspection/patrolPath', query: {pid:getPid()}})
     }
   },
   created() {
-    //this.getReservoirDetailInspection()
-    this.getRecordByPeriod()
+    this.getReservoirDetailInspection()
   },
   activated(){
-    //this.getReservoirDetailInspection()
-    this.getRecordByPeriod()
+    this.getReservoirDetailInspection()
   },
   watch: {  
     '$route'(to, from)  {  
@@ -155,7 +125,7 @@ export default {
 
 <style scoped lang="less">
   @import '../../assets/less/variable.less';
-  .ReservoirDetailInspectionRecord {
+  .ReservoirDetailInspectionIssue {
     position: absolute;
     top: 0;
     right: 0;
@@ -176,19 +146,6 @@ export default {
         background-color: white;
         padding: 10px 70px 10px 10px;
         font-size: 12px;
-        height: 120px;
-        overflow: hidden;
-        .loaderMore{
-          background: linear-gradient(to bottom,rgba(255,255,255,0.8),rgba(255, 255, 255, 1));
-          position: absolute;
-          bottom:0;
-          left: 0;
-          width: 100%;
-          box-sizing: border-box;
-          padding: 16px 10px;
-          text-align: center;
-          color: #0085ff;
-        }
         .status {
           position: absolute;
           top: 50%;

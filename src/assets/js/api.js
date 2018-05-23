@@ -261,6 +261,16 @@ let addPatrolTrail = data => {
   });
 };
 
+//获取时间段内巡查记录
+let getRecordByPeriod = data => {
+  const url = baseUrl + "/znb/patrolRecord/getRecordByPeriod.do";
+  return $.ajax({
+    type: "POST",
+    data,
+    url
+  });
+};
+
 export default {
   // login,
   getSessionUser,
@@ -287,5 +297,6 @@ export default {
   getFilePathUrl,
   getUserAuthInfo,
   getTrailRecord,
-  addPatrolTrail
+  addPatrolTrail,
+  getRecordByPeriod
 };
