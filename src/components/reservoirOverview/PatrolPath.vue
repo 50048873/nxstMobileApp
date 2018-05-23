@@ -26,7 +26,7 @@
         <div v-if="isAdd&&isstart==1" class="addbtn">
             <i  @click="add" class="nxst-add"></i>
         </div>
-        <div v-if="isAdd&&!gpsshow" class="startbtn"   @touchstart="handleMapTrail">
+        <div v-if="isAdd&&!gpsshow&&gpssuccess" class="startbtn"   @touchstart="handleMapTrail">
              <div class="loadingContainer" ref="loadingContainer">
                  <div ref="loading" class="cssload-ball"> 
              </div>
@@ -47,9 +47,7 @@
                 </div>
         </div>
     </div>
-    <loading :show="gpsshow"  :text="gpstext">
-
-    </loading>
+    <loading :show="gpsshow"  :text="gpstext"></loading>
   </div>
 </template>
 
@@ -83,6 +81,7 @@ export default {
         status:false,
         gpstext:"正在定位中...",
         gpsshow:true,
+        gpssuccess:false,
         overinfo:{
             usetime:null,
             starttime:"",
@@ -143,7 +142,12 @@ export default {
                             name: 'test',
                             path: that.locationArr
                         }]); 
+                        that.gpssuccess = true
                         that.gpsshow = false;    
+                    }else{
+                        that.gpstext = "定位失败"
+                        that.gpssuccess = false
+                        that.gpsshow = false; 
                     }
                 }) 
             }
