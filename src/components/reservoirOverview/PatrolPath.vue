@@ -133,54 +133,24 @@ export default {
             });
             that.geolocation = geolocation;
             map.addControl(geolocation);
-           
-                if(navigator.geolocation){  
-                    navigator.geolocation.getCurrentPosition(function(position){
-                            that.gpstext = "定位成功"
-                            that.locationArr[0]=[position.coords.longitude,position.coords.latitude];
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: that.locationArr
-                            }]); 
-                            that.gpssuccess = true
-                            that.gpsshow = false; 
-                    } , function(error){
+            if(geolocation){
+                geolocation.getCurrentPosition(function(status,result){
+                    if(status==="complete"){
+                        that.gpstext = "定位成功"
+                        that.locationArr[0]=[result.position.lng,result.position.lat];
+                        pathSimplifierIns.setData([{         //设置轨迹数据源
+                            name: 'test',
+                            path: that.locationArr
+                        }]); 
+                        that.gpssuccess = true
+                        that.gpsshow = false;    
+                    }else{
+                        that.gpstext = "定位失败"
+                        that.gpssuccess = false
                         that.gpsshow = false; 
-                         switch(error.code){  
-                            case error.PERMISSION_DENIED:  
-                                that.hint("您拒绝对获取地理位置的请求");  
-                                break;  
-                            case error.POSITION_UNAVAILABLE:  
-                                that.hint("位置信息是不可用的");  
-                                break;  
-                            case error.TIMEOUT:  
-                                that.hint("请求您的地理位置超时");  
-                                break;  
-                            case error.UNKNOWN_ERROR:  
-                                that.hint("未知错误");  
-                                break;  
-                        }  
-                    });  
-                }else if(geolocation){  
-                    geolocation.getCurrentPosition(function(status,result){
-                        if(status==="complete"){
-                            that.gpstext = "定位成功"
-                            that.locationArr[0]=[result.position.lng,result.position.lat];
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: that.locationArr
-                            }]); 
-                            that.gpssuccess = true
-                            that.gpsshow = false;    
-                        }else{
-                            that.gpstext = "定位失败"
-                            that.gpssuccess = false
-                            that.gpsshow = false; 
-                        }
-                    }) 
-                }else{
-                    that.hint("定位失败啦")
-                }
+                    }
+                }) 
+            }
         });
         AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
           if (!PathSimplifier.supportCanvas) {
@@ -274,52 +244,29 @@ export default {
         const that = this;
         // let i =0 ;
         this.timer =  setInterval(_.throttle(function(){
-            if(navigator.geolocation){  
-                    navigator.geolocation.getCurrentPosition(function(position){
-                            that.gpstext = "定位成功"
-                            that.locationArr.push([position.coords.longitude,position.coords.latitude]);
+            that.geolocation.getCurrentPosition(function(status,result){
+                if(status==="complete"){
+                    //定位成功，接口记录定位信息
+                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
+                        if(res.status==1){
+                            that.locationArr.push([res.data.lgtd,res.data.lttd]);
                             pathSimplifierIns.setData([{         //设置轨迹数据源
                                 name: 'test',
                                 path: that.locationArr
-                            }]); 
-                            that.gpssuccess = true
-                            that.gpsshow = false; 
-                    } , function(error){
-                         that.gpsshow = false;
-                         switch(error.code){  
-                            case error.PERMISSION_DENIED:  
-                                that.hint("您拒绝对获取地理位置的请求");  
-                                break;  
-                            case error.POSITION_UNAVAILABLE:  
-                                that.hint("位置信息是不可用的");  
-                                break;  
-                            case error.TIMEOUT:  
-                                that.hint("请求您的地理位置超时");  
-                                break;  
-                            case error.UNKNOWN_ERROR:  
-                                that.hint("未知错误");  
-                                break;  
-                        }  
-                    }); 
-            }else{
-                that.geolocation.getCurrentPosition(function(status,result){
-                    if(status==="complete"){
-                        //定位成功，接口记录定位信息
-                        api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
-                            if(res.status==1){
-                                that.locationArr.push([res.data.lgtd,res.data.lttd]);
-                                pathSimplifierIns.setData([{         //设置轨迹数据源
-                                    name: 'test',
-                                    path: that.locationArr
-                                }]);
-                            }
-                        },(err)=>{
-                            that.hint(err.msg)
-                        })
-                    }
-                });
-            }
-            
+                            }]);
+                        }
+                    },(err)=>{
+                        that.hint(err.msg)
+                    })
+                    //测试轨迹数据处理
+                    // that.locationArr.push([markArr[i][0],markArr[i][1]]);
+                    // pathSimplifierIns.setData([{         //设置轨迹数据源
+                    //     name: 'test',
+                    //     path: that.locationArr
+                    // }]);
+                    // i++;
+                }
+            });
         },10000, { 'leading': true }),10000);
     },
     handleMapTrail(){
