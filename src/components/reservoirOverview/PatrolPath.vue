@@ -125,8 +125,10 @@ export default {
                 visible:false
             }));
             const geolocation = new AMap.Geolocation({
+               enableHighAccuracy: true,
                zoomToAccuracy: false,
-               maximumAge:10000,
+               maximumAge:0,
+               timeout:10000,
                panToLocation:false,
                convert:false,
                buttonOffset: new AMap.Pixel(10, 100)
@@ -135,19 +137,17 @@ export default {
             map.addControl(geolocation);
             if(geolocation){
                 geolocation.getCurrentPosition(function(status,result){
+                    that.gpsshow = false;
                     if(status==="complete"){
-                        that.gpstext = "定位成功"
                         that.locationArr[0]=[result.position.lng,result.position.lat];
                         pathSimplifierIns.setData([{         //设置轨迹数据源
                             name: 'test',
                             path: that.locationArr
                         }]); 
-                        that.gpssuccess = true
-                        that.gpsshow = false;    
+                        that.gpssuccess = true;  
                     }else{
-                        that.gpstext = "定位失败"
-                        that.gpssuccess = false
-                        that.gpsshow = false; 
+                        that.gpssuccess = false;
+                        that.hint(JSON.stringify(result))
                     }
                 }) 
             }
@@ -258,16 +258,9 @@ export default {
                     },(err)=>{
                         that.hint(err.msg)
                     })
-                    //测试轨迹数据处理
-                    // that.locationArr.push([markArr[i][0],markArr[i][1]]);
-                    // pathSimplifierIns.setData([{         //设置轨迹数据源
-                    //     name: 'test',
-                    //     path: that.locationArr
-                    // }]);
-                    // i++;
                 }
             });
-        },10000, { 'leading': true }),10000);
+        },8000, { 'leading': true }),8000);
     },
     handleMapTrail(){
         const that = this;
