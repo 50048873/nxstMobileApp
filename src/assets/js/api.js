@@ -271,6 +271,16 @@ let getRecordByPeriod = data => {
   });
 };
 
+//获取历史轨迹数据
+let getUserTrailRecord = data =>{
+  const url = baseUrl + "/znb/patrolRecord/getUserRecord.do";
+  return $.ajax({
+    type:"POST",
+    data,
+    url
+  })
+}
+
 export default {
   // login,
   getSessionUser,
@@ -298,5 +308,6 @@ export default {
   getUserAuthInfo,
   getTrailRecord,
   addPatrolTrail,
-  getRecordByPeriod
+  getRecordByPeriod,
+  getUserTrailRecord
 };

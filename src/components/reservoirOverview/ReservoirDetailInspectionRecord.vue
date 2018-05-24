@@ -3,10 +3,13 @@
     <ul v-if="reservoirDetailInspectionRecord" class="ReservoirDetailInspectionRecord">
       <li class="line-bottom"  v-for="(item,index) in reservoirDetailInspectionRecord" :key="index">
         <time class="title">{{item.patrolDate+ " "+ item.checkDateShow}}</time>
-        <div class="content" :id="'content-'+index">
+        <div class="content" :style="item.patrolInfo.length>80?'height:120px;overflow:hidden':'height:auto'" :id="'content-'+index">
           <p>
             <span>巡检人员：</span>
             <time>{{item.personName}}</time>
+            <router-link style="float:right"  :to="{path:'trail',query:{uid:item.personId,uname:encodeURI(item.personName),protalTime:item.patrolDate}}">
+              查看巡检轨迹
+            </router-link>
           </p>
           <p>
             <span>巡检状态：</span>
@@ -16,7 +19,7 @@
             <span>巡检结果：</span>
             <span>{{item.patrolInfo}}</span>
           </p>
-          <div class="loaderMore" @touchstart="loaderMore(index,$event)">查看更多</div>
+          <div v-if="item.patrolInfo.length>80" class="loaderMore" @touchstart="loaderMore(index,$event)">查看更多</div>
         </div>
       </li>
     </ul>
@@ -174,10 +177,8 @@ export default {
       .content {
         position: relative;
         background-color: white;
-        padding: 10px 70px 10px 10px;
+        padding: 10px;
         font-size: 12px;
-        height: 120px;
-        overflow: hidden;
         .loaderMore{
           background: linear-gradient(to bottom,rgba(255,255,255,0.8),rgba(255, 255, 255, 1));
           position: absolute;
