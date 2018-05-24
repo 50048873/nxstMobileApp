@@ -20,7 +20,7 @@
                   <span>当前水位：</span>
                   <span :class="{'c-red': item.status == 2}">{{item.z}}m</span>
                 </p>
-                <p>{{filePathUrl}}</p>
+                <p style="display:none;">filePathUrl: {{filePathUrl}}</p>
                 <div class="status">
                   <i :class="item.status == 2 ? 'nxst-yc c-red' : 'nxst-zc c-1b9be3'"></i>
                 </div>

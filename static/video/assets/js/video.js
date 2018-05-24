@@ -75,6 +75,11 @@
         var fullScreen = function() {
           return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement
         };
+
+        if (win.navigator.userAgent.indexOf('rv:11') > -1) {
+          var parentIframe = win.parent.document.getElementsByTagName('iframe')[0];
+          parentIframe.setAttribute('allowfullscreen');
+        }
         
         var clickedEle = document.querySelector(clickedSelector);
         clickedEle.addEventListener("click", function() {
