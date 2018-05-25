@@ -67,7 +67,7 @@ export default {
           })
       });
       let trailRecordPromise =new Promise((resolve,reject)=>{
-         return api.getUserTrailRecord({userid:that.uid,startTime:"2018-05-01 00:00:00",endTime:"2018-05-23 24:00:00"}).then((res)=>{
+         return api.getUserTrailRecord({userid:that.uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
             if(res.status==1){
                  that.locationArr = res.data;
                  resolve(res.data)

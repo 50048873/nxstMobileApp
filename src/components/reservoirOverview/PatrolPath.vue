@@ -128,6 +128,7 @@ export default {
                enableHighAccuracy: true,
                zoomToAccuracy: false,
                maximumAge:0,
+               GeoLocationFirst:true,
                timeout:10000,
                panToLocation:false,
                convert:false,
