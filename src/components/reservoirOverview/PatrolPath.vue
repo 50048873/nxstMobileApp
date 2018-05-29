@@ -294,7 +294,9 @@ export default {
             this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: false,
-                speed: 4.5,
+                speed: 4,
+                animInterval:100,
+				dirToPosInMillsecs:100,
                 pathNavigatorStyle: {
                     width:0,
                     height:0,
