@@ -25,6 +25,7 @@ import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr,checkArr} from '@/assets/js/test'
 import {success} from '@/assets/js/config'
 import  {getPid,getPname} from '@/assets/js/util'
+import _ from 'lodash';
 import api from '@/assets/js/api'
 import { rejects } from 'assert';
 export default {
@@ -49,41 +50,13 @@ export default {
     Loading
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
-  activated(){
+  beforeMount(){
       const that = this;
       this.uname = decodeURI(this.$route.query.uname);
       this.uid = this.$route.query.uid;
       this.protalTime = this.$route.query.protalTime;
-      let patrolPointPromsie =new Promise((resolve,reject)=>{
-         return api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
-            if(res.status==1){
-              that.patrolList = res.data
-              resolve(res.data) 
-            }else{
-                reject(res)
-            }
-          },(err)=>{
-                 reject(err)
-          })
-      });
-      let trailRecordPromise =new Promise((resolve,reject)=>{
-         return api.getUserTrailRecord({userid:that.uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
-            if(res.status==1){
-                 that.locationArr = res.data;
-                 resolve(res.data)
-            }else{
-                 reject(res)
-            }
-          },(err)=>{
-                 reject(err)
-          })
-      })
-      Promise.all([patrolPointPromsie,trailRecordPromise]).catch((err)=>{
-        that.hint(err.msg)
-      }).then(()=>{
-        that.loadshow = false
-        that.loadmap()
-      })
+      this.getProtalPointData();
+      this.getProtalRecordData(this.uid,this.protalTime)
   },
   methods: {
     loadmap(){
@@ -108,6 +81,34 @@ export default {
                 that.initPage(SimpleMarker,PathSimplifier,map);
           }
         });
+    },
+    getProtalPointData(){
+        api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
+            if(res.status==1){
+                this.patrolList = res.data;
+            }else{
+                this.hint(res.msg)
+            }
+          },(err)=>{
+            this.hint("ReservoirDetailInspectionTrail")
+        })
+    },
+    getProtalRecordData(uid,protalTime){
+        api.getUserTrailRecord({userid:uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
+            this.loadshow = false;
+            if(res.status==1&&res.data.length>0){
+                 this.locationArr = _.filter(res.data,function(item){
+                    return [item.lgtd,item.lttd]
+                });
+            }else{
+                 this.hint(res.msg)
+            }
+          },(err)=>{
+                 this.loadshow = false;
+                 this.hint("ReservoirDetailInspectionTrail")
+          }).then(()=>{
+           this.loadmap() 
+        })
     },
     initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
@@ -165,32 +166,34 @@ export default {
                     }
                 }
             });
-             pathSimplifierIns.setData([{
+            pathSimplifierIns.setData([{
                 name: 'test',
-                path: markArr
+                path: this.locationArr
             }]);
-            const  navg1 = pathSimplifierIns.createPathNavigator(0, {
-                loop: true,
-                speed: 100,
-                pathNavigatorStyle: {
-                    width: 8,
-                    height: 8,
-                    //使用图片
-                    content:"circle",
-                    strokeStyle:"blue",
-                    fillStyle:"blue",
-                    //经过路径的样式
-                    pathLinePassedStyle: {
-                        lineWidth: 4,
-                        strokeStyle: 'red',
-                        dirArrowStyle: {
-                            stepSpace: 15,
-                            strokeStyle: 'white'
+            if(this.locationArr.length>0){ 
+                const  navg1 = pathSimplifierIns.createPathNavigator(0, {
+                    loop: true,
+                    speed: 100,
+                    pathNavigatorStyle: {
+                        width: 8,
+                        height: 8,
+                        //使用图片
+                        content:"circle",
+                        strokeStyle:"blue",
+                        fillStyle:"blue",
+                        //经过路径的样式
+                        pathLinePassedStyle: {
+                            lineWidth: 4,
+                            strokeStyle: 'red',
+                            dirArrowStyle: {
+                                stepSpace: 15,
+                                strokeStyle: 'white'
+                            }
                         }
                     }
-                }
-            });
-            navg1.start();
+                });
+                navg1.start();
+            }     
         }
     }
   }
