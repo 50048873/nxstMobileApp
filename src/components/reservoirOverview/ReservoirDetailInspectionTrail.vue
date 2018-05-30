@@ -97,8 +97,8 @@ export default {
         api.getUserTrailRecord({userid:uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
             this.loadshow = false;
             if(res.status==1&&res.data.length>0){
-                 this.locationArr = _.filter(res.data,function(item){
-                    return [item.lgtd,item.lttd]
+                 this.locationArr = _.flatMap(res.data,function(item){
+                    return new Array([item.lgtd,item.lttd])
                 });
             }else{
                  this.hint(res.msg)
