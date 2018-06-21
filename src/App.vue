@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iframe v-if="baseUrl === '/api'" src="http://sw.dse.cn:56015/cas-server/login?service=http://sw.dse.cn:56015/znb/index.html" frameborder="0"></iframe>
+    <iframe v-if="baseUrl === '/api'" src="http://www.whdse.cn:56015/cas-server/login?service=http://www.whdse.cn:56015/znb/index.html" frameborder="0"></iframe>
     <keep-alive>
       <transition :name="transitionName">
         <router-view class="router-view-app"></router-view>
