@@ -128,6 +128,7 @@ export default {
                enableHighAccuracy: true,
                zoomToAccuracy: false,
                maximumAge:0,
+               GeoLocationFirst:true,
                timeout:10000,
                panToLocation:false,
                convert:false,
@@ -135,22 +136,7 @@ export default {
             });
             that.geolocation = geolocation;
             map.addControl(geolocation);
-            if(geolocation){
-                geolocation.getCurrentPosition(function(status,result){
-                    that.gpsshow = false;
-                    if(status==="complete"){
-                        that.locationArr[0]=[result.position.lng,result.position.lat];
-                        pathSimplifierIns.setData([{         //设置轨迹数据源
-                            name: 'test',
-                            path: that.locationArr
-                        }]); 
-                        that.gpssuccess = true;  
-                    }else{
-                        that.gpssuccess = false;
-                        that.hint(JSON.stringify(result))
-                    }
-                }) 
-            }
+            that.handleGps("init");
         });
         AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
           if (!PathSimplifier.supportCanvas) {
@@ -222,44 +208,86 @@ export default {
             window.PathSimplifier = PathSimplifier;
         }
     },
-    // handleGps(geolocation=this.geolocation){ 
-    // },
+    //定位控制
+    handleGps(type="init"){ 
+        const that = this;
+        // if(navigator.geolocation){
+        //         navigator.geolocation.getCurrentPosition(function (success) {
+        //             type=="init"?that.gpsshow = false:null;
+        //             (type=="init"||type=="over")?that.locationArr[0]=[success.coords.longitude,success.coords.latitude]:that.locationArr.push([success.coords.longitude,success.coords.latitude]);
+        //             if(type=="watchgps"){
+        //                 that.handlePostGpsData(success.coords.longitude,success.coords.latitude)
+        //             }
+        //             pathSimplifierIns.setData([{         //设置轨迹数据源
+        //                 name: 'test',
+        //                 path: that.locationArr
+        //             }]); 
+        //             type=="init"?that.gpssuccess = true:null; 
+        //         },function (error) {
+        //             that.geolocation.getCurrentPosition(function(status,result){
+        //                 type=="init"?that.gpsshow = false:null;
+        //                 if(status==="complete"){
+        //                     (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat])
+        //                     if(type=="watchgps"){
+        //                         that.handlePostGpsData(result.position.lng,result.position.lat)
+        //                     }
+        //                     pathSimplifierIns.setData([{         //设置轨迹数据源
+        //                         name: 'test',
+        //                         path: that.locationArr
+        //                     }]); 
+        //                     type=="init"?that.gpssuccess = true:null;  
+        //                 }else{
+        //                     type=="init"?that.gpssuccess = false:null;
+        //                     that.hint(JSON.stringify(result))
+        //                 }
+        //             }) 
+        //         },{
+        //             enableHeightAcuracy:true,
+        //             timeout:10000,
+        //             maximumAge:7500
+        //         })
+        // }else{
+                that.geolocation.getCurrentPosition(function(status,result){
+                        type=="init"?that.gpsshow = false:null;
+                        if(status==="complete"){
+                            (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat]);
+                            if(type=="watchgps"){
+                                that.handlePostGpsData(result.position.lng,result.position.lat)
+                            }
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: that.locationArr
+                            }]); 
+                            type=="init"?that.gpssuccess = true:null;  
+                        }else{
+                            type=="init"?that.gpssuccess = false:null;
+                            that.hint(JSON.stringify(result))
+                        }
+                }) 
+        // }
+    },
+    //提交定位数据
+    handlePostGpsData(lng,lat){
+        const that = this;
+        api.addPatrolTrail({mid:" ",lgtd:lng,lttd:lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
+               
+            },(err)=>{
+                that.hint(err.msg)
+            }
+        )
+    },
     handleClose(){
       const that = this;
       this.status = false;
       this.second = 0;
       this.minutes = 0;
       pathSimplifierIns.clearPathNavigators();
-      that.geolocation.getCurrentPosition(function(status,result){
-            if(status==="complete"){
-                that.locationArr[0]=[result.position.lng,result.position.lat];
-                pathSimplifierIns.setData([{         //设置轨迹数据源
-                    name: 'test',
-                    path: that.locationArr
-                }]);    
-            }
-        });
+      this.handleGps("over")
     },
     handleTrail(){   //持续记录轨迹
         const that = this;
-        // let i =0 ;
         this.timer =  setInterval(_.throttle(function(){
-            that.geolocation.getCurrentPosition(function(status,result){
-                if(status==="complete"){
-                    //定位成功，接口记录定位信息
-                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
-                        if(res.status==1){
-                            that.locationArr.push([res.data.lgtd,res.data.lttd]);
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: that.locationArr
-                            }]);
-                        }
-                    },(err)=>{
-                        that.hint(err.msg)
-                    })
-                }
-            });
+            that.handleGps("watchgps")
         },8000, { 'leading': true }),8000);
     },
     handleMapTrail(){
@@ -273,27 +301,14 @@ export default {
         if(this.isstart===0){
             that.locationArr.length=0;
             this.handleTimeAdd("start");
-            this.geolocation.getCurrentPosition(function(status,result){
-                if(status==="complete"){
-                    //定位成功，接口记录定位信息
-                    api.addPatrolTrail({mid:" ",lgtd:result.position.lng,lttd:result.position.lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
-                        if(res.status==1){
-                            that.locationArr[0]=([res.data.lgtd,res.data.lttd]);
-                            pathSimplifierIns.setData([{         //设置轨迹数据源
-                                name: 'test',
-                                path: [res.data.lgtd,res.data.lttd]
-                            }]);
-                        }
-                    },(err)=>{
-                        that.hint(err.msg)
-                    })
-                }
-            });
+            this.handleGps("init")
             this.handleTrail();
             this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
             navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
                 loop: false,
-                speed: 4.5,
+                speed: 4,
+                animInterval:100,
+				dirToPosInMillsecs:100,
                 pathNavigatorStyle: {
                     width:0,
                     height:0,

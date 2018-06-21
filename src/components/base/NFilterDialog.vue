@@ -60,6 +60,14 @@ export default {
 
 <style scoped lang="less">
   .NDialog {
-    
+    .weui-skin_android .weui-dialog__bd{
+        padding: .25em 0.2em 2em;
+    }
+    .weui-dialog__hd{
+      padding:1.3em 11px .5em;
+    }
+    .weui-cell{
+      padding: 10px;
+    }
   }
 </style>
