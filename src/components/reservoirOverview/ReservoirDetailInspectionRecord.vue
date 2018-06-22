@@ -50,8 +50,8 @@ export default {
       ReservoirDetailInspection: [],
       startDate: this.dateFormat(get7DayOfcurrentDay(), 'YYYY-MM-DD'),
       endDate: this.dateFormat(new Date(), 'YYYY-MM-DD'),
-      dateStart:this.dateFormat(getSameDayOfPreMonth(),'YYYY-MM-DD hh:mm:ss'),
-      dateEnd:this.dateFormat(new Date(),'YYYY-MM-DD hh:mm:ss'),
+      dateStart:this.dateFormat(getSameDayOfPreMonth(),'YYYY-MM-DD')+" 00:00:00",
+      dateEnd:this.dateFormat(new Date(),'YYYY-MM-DD')+" 23:59:59",
       isAdd:true,
       isShow:false,
       reservoirDetailInspectionRecord:null
@@ -65,12 +65,12 @@ export default {
         this.$refs.filterDialog5.show()
     },
     filter(date) {
-      this.dateStart = date.startTime,
-      this.dateEnd = date.endTime
+      this.dateStart = date.startTime+" 00:00:00",
+      this.dateEnd = date.endTime+" 23:59:59"
       this.getRecordByPeriod({
         pid:getPid(),
-        startDate: date.startTime,
-        endDate: date.endTime
+        startDate: date.startTime+" 00:00:00",
+        endDate: date.endTime+" 23:59:59"
       })
     },
     loaderMore(index,e){

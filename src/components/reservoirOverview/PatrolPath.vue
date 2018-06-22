@@ -269,7 +269,7 @@ export default {
     //提交定位数据
     handlePostGpsData(lng,lat){
         const that = this;
-        api.addPatrolTrail({mid:" ",lgtd:lng,lttd:lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
+        api.addPatrolTrail({pid:getPid(),mid:" ",lgtd:lng,lttd:lat,inspectTime:that.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss')}).then((res)=>{
                
             },(err)=>{
                 that.hint(err.msg)

@@ -94,7 +94,7 @@ export default {
         })
     },
     getProtalRecordData(uid,protalTime){
-        api.getUserTrailRecord({userid:uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
+        api.getUserTrailRecord({pid:getPid(),userid:uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
             this.loadshow = false;
             if(res.status==1&&res.data.length>0){
                  this.locationArr = _.flatMap(res.data,function(item){
@@ -132,7 +132,7 @@ export default {
                 position: [mark.LGTD,mark.LTTD],
                 zIndex:11
               }).on("click",function (e) {
-                  alert(`巡检点${index+1}`)
+                  that.hint(`${mark.PATROL_NAME}`)
               })
             )
         }):null;
