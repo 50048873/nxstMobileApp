@@ -50,7 +50,7 @@ export default {
     Loading
   },
   mixins: [getStaticPath,getBottomPosition,dateFormat],
-  beforeMount(){
+  activated(){
       const that = this;
       this.uname = decodeURI(this.$route.query.uname);
       this.uid = this.$route.query.uid;
