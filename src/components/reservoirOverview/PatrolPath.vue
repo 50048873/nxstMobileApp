@@ -211,42 +211,42 @@ export default {
     //定位控制
     handleGps(type="init"){ 
         const that = this;
-        // if(navigator.geolocation){
-        //         navigator.geolocation.getCurrentPosition(function (success) {
-        //             type=="init"?that.gpsshow = false:null;
-        //             (type=="init"||type=="over")?that.locationArr[0]=[success.coords.longitude,success.coords.latitude]:that.locationArr.push([success.coords.longitude,success.coords.latitude]);
-        //             if(type=="watchgps"){
-        //                 that.handlePostGpsData(success.coords.longitude,success.coords.latitude)
-        //             }
-        //             pathSimplifierIns.setData([{         //设置轨迹数据源
-        //                 name: 'test',
-        //                 path: that.locationArr
-        //             }]); 
-        //             type=="init"?that.gpssuccess = true:null; 
-        //         },function (error) {
-        //             that.geolocation.getCurrentPosition(function(status,result){
-        //                 type=="init"?that.gpsshow = false:null;
-        //                 if(status==="complete"){
-        //                     (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat])
-        //                     if(type=="watchgps"){
-        //                         that.handlePostGpsData(result.position.lng,result.position.lat)
-        //                     }
-        //                     pathSimplifierIns.setData([{         //设置轨迹数据源
-        //                         name: 'test',
-        //                         path: that.locationArr
-        //                     }]); 
-        //                     type=="init"?that.gpssuccess = true:null;  
-        //                 }else{
-        //                     type=="init"?that.gpssuccess = false:null;
-        //                     that.hint(JSON.stringify(result))
-        //                 }
-        //             }) 
-        //         },{
-        //             enableHeightAcuracy:true,
-        //             timeout:10000,
-        //             maximumAge:7500
-        //         })
-        // }else{
+        if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function (success) {
+                    type=="init"?that.gpsshow = false:null;
+                    (type=="init"||type=="over")?that.locationArr[0]=[success.coords.longitude,success.coords.latitude]:that.locationArr.push([success.coords.longitude,success.coords.latitude]);
+                    if(type=="watchgps"){
+                        that.handlePostGpsData(success.coords.longitude,success.coords.latitude)
+                    }
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]); 
+                    type=="init"?that.gpssuccess = true:null; 
+                },function (error) {
+                    that.geolocation.getCurrentPosition(function(status,result){
+                        type=="init"?that.gpsshow = false:null;
+                        if(status==="complete"){
+                            (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat])
+                            if(type=="watchgps"){
+                                that.handlePostGpsData(result.position.lng,result.position.lat)
+                            }
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: that.locationArr
+                            }]); 
+                            type=="init"?that.gpssuccess = true:null;  
+                        }else{
+                            type=="init"?that.gpssuccess = false:null;
+                            that.hint(JSON.stringify(result))
+                        }
+                    }) 
+                },{
+                    enableHeightAcuracy:true,
+                    timeout:10000,
+                    maximumAge:7500
+                })
+        }else{
                 that.geolocation.getCurrentPosition(function(status,result){
                         type=="init"?that.gpsshow = false:null;
                         if(status==="complete"){
@@ -264,7 +264,7 @@ export default {
                             that.hint(JSON.stringify(result))
                         }
                 }) 
-        // }
+        }
     },
     //提交定位数据
     handlePostGpsData(lng,lat){
