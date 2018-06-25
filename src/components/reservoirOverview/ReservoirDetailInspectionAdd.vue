@@ -26,7 +26,7 @@
         <h6>巡检时间</h6>
         <label class="inputBox arrow-r datetimeBox" for="checkDate">
           <input class="datetimeLocal" id="checkDate" type="datetime-local" step="1" v-model="checkDate" required>
-          <span class="realDatetimeLocal">{{dateFormat(checkDate,'YYYY-MM-DD hh:mm:ss')}}</span>
+          <span class="realDatetimeLocal">{{dateFormat(checkDate,'YYYY-MM-DD HH:mm:ss')}}</span>
         </label>
       </div>
       <div class="item line-bottom">
@@ -133,7 +133,7 @@ export default {
         })
     },
     getDefaultDateTime() {
-      let checkDate = this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss').replace(" ","T")
+      let checkDate = this.dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss').replace(" ","T")
       return checkDate
     },
     readAsDataURL(file) {
@@ -282,7 +282,7 @@ export default {
       let params = new FormData(formEle)
       params.append('pid',getPid())
       params.append('id', getUuid(32, 16))
-      params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'YYYY-MM-DD hh:mm:ss'))
+      params.append('checkDate', this.dateFormat(new Date(this.checkDate), 'YYYY-MM-DD HH:mm:ss'))
       this.files.forEach(function(item){
         params.append('files',item)
       })
