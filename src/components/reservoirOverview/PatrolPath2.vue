@@ -118,15 +118,13 @@ export default {
           mapStyle:'amap://styles/whitesmoke'
         });
         const polyline = new AMap.Polyline({
-            path:that.locationArr,
+            path:locationArr,
             strokeColor:"#3366ff",
             strokeOpacity:1,
             strokeWeight:5,
             strokeStyle:"solid",
             strokeDasharray:[10,5]
         });
-        window.polyline = polyline;
-        window.polyline.setMap(map);
         AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){
             map.addControl(new AMap.ToolBar({
                 offset:new AMap.Pixel(10, 200)
@@ -148,11 +146,16 @@ export default {
             map.addControl(geolocation);
             that.handleGps("init");
         });
-        AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
-            that.initPage(SimpleMarker,map);
+        AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
+          if (!PathSimplifier.supportCanvas) {
+                that.hint('当前环境不支持 Canvas！');
+                that.initPage(SimpleMarker,null,map);
+          }else{
+                that.initPage(SimpleMarker,PathSimplifier,map);
+          }
         });
     },
-    initPage(SimpleMarker,map) {
+    initPage(SimpleMarker,PathSimplifier=null,map) {
         const that = this;
         this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
@@ -178,6 +181,40 @@ export default {
               })
             )
         }):null;
+        if(PathSimplifier){
+            const emptyLineStyle = {   //设置轨迹样式
+                lineWidth: 2,
+                fillStyle: "",
+                strokeStyle: "yellow",
+                borderStyle: "gray"
+            };
+            const pathSimplifierIns = new PathSimplifier({   //创建轨迹实例
+                zIndex:10,
+                map: map,
+                autoSetFitView:true,
+                getPath: function(pathData, pathIndex) {
+                    return pathData.path;
+                },
+                renderOptions: {
+                    pathLineStyle: emptyLineStyle,
+                    startPointStyle: {   //起点样式
+                      radius:3,
+                      fillStyle:"blue",
+                      strokeStyle:"yellow",
+                      lineWidth:0 
+                    },
+                    endPointStyle: {   //结束点样式
+                      radius:4,
+                      fillStyle:"purple",
+                      strokeStyle:"",
+                      lineWidth:4 
+                    }
+                }
+            });
+            window.pathSimplifierIns = pathSimplifierIns;    //挂载全局轨迹实例
+            window.navg = null;
+            window.PathSimplifier = PathSimplifier;
+        }
     },
     //定位控制
     handleGps(type="init"){ 
@@ -189,7 +226,10 @@ export default {
                     if(type=="watchgps"){
                         that.handlePostGpsData(success.coords.longitude,success.coords.latitude)
                     }
-                    window.polyline.setPath(that.locationArr); 
+                    pathSimplifierIns.setData([{         //设置轨迹数据源
+                        name: 'test',
+                        path: that.locationArr
+                    }]); 
                     type=="init"?that.gpssuccess = true:null; 
                 },function (error) {
                     that.geolocation.getCurrentPosition(function(status,result){
@@ -199,7 +239,10 @@ export default {
                             if(type=="watchgps"){
                                 that.handlePostGpsData(result.position.lng,result.position.lat)
                             }
-                            window.polyline.setPath(that.locationArr); 
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: that.locationArr
+                            }]); 
                             type=="init"?that.gpssuccess = true:null;  
                         }else{
                             type=="init"?that.gpssuccess = false:null;
@@ -219,7 +262,10 @@ export default {
                             if(type=="watchgps"){
                                 that.handlePostGpsData(result.position.lng,result.position.lat)
                             }
-                            window.polyline.setPath(that.locationArr); 
+                            pathSimplifierIns.setData([{         //设置轨迹数据源
+                                name: 'test',
+                                path: that.locationArr
+                            }]); 
                             type=="init"?that.gpssuccess = true:null;  
                         }else{
                             type=="init"?that.gpssuccess = false:null;
@@ -243,6 +289,7 @@ export default {
       this.status = false;
       this.second = 0;
       this.minutes = 0;
+      pathSimplifierIns.clearPathNavigators();
       this.handleGps("over")
     },
     handleTrail(){   //持续记录轨迹
@@ -253,21 +300,49 @@ export default {
     },
     handleMapTrail(){
         const that = this;
+        function onload() {
+            pathSimplifierIns.renderLater({delay:15000});
+        }
+        function onerror(e) {
+            console.log('出错了！');
+        }
         if(this.isstart===0){
             that.locationArr.length=0;
             this.handleTimeAdd("start");
             this.handleGps("init")
             this.handleTrail();
             this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
+            navg = pathSimplifierIns.createPathNavigator(0, {   //创建导航器实例
+                loop: false,
+                speed: 4,
+                animInterval:100,
+				dirToPosInMillsecs:100,
+                pathNavigatorStyle: {
+                    width:0,
+                    height:0,
+                    strokeStyle: "rgba(255,255,255,0)",
+                    fillStyle: "rgba(255,255,255,0)",
+                },
+                pathLinePassedStyle: {
+                        lineWidth: 0,
+                        borderWidth:0,
+                        strokeStyle: "rgba(255,255,255,0)",
+                        dirArrowStyle:"rgba(255,255,255,0)"
+                }
+
+            });
+            navg.start()
             this.isstart = 1;
             this.handleAnimation(1)
         }else if(this.isstart===1){
             this.handleTimeAdd("stop")
+            navg.stop()
             clearInterval(this.timer)
             this.status = true;
             this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'MM-DD hh:mm:ss')};
             this.isstart = 0;
             this.handleAnimation(0);
+            navg.destroy()
         }
     },
     handleAnimation(satus){
@@ -492,5 +567,7 @@ export default {
     left: 0;
     overflow-y: auto;
   }
+        
+ 
 </style>
 
