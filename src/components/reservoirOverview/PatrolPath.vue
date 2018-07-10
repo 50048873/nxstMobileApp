@@ -206,6 +206,8 @@ export default {
             strokeDasharray:[10,5]
         });
         this.polyline.setMap(that.map);
+        this.lastLng = data.position.getLng();
+        this.lastLat = data.position.getLat()
         if(this.type=="watchgps"){
             this.handlePostGpsData(data.position.getLng(),data.position.getLat())
         }
