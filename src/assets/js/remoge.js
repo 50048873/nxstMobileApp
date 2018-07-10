@@ -279,3 +279,4 @@ RemoGeoLocation.prototype = {
         }
     }
 };
+export default RemoGeoLocation;

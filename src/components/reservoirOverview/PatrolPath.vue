@@ -58,6 +58,7 @@ import {getStaticPath,getBottomPosition,dateFormat} from '@/assets/js/mixin'
 import {markArr,checkArr} from '@/assets/js/test'
 import Poupe from '@/components/base/Poupe'
 import {success} from '@/assets/js/config'
+import RemoGeoLocation from '@/assets/js/remoge'
 import  {getPid,getPname,getUsername,handleAuth} from '@/assets/js/util'
 import api from '@/assets/js/api'
 // import AMap from 'AMap';   
@@ -75,9 +76,14 @@ export default {
         locationArr:[],
         starttime:null,
         currentdate:"",
+        lastLng:"",
+        lastLat:"",
         pname:"",
+        map:null,
+        type:'init',
         username:"",
         isAdd:"",
+        polyline:null,
         status:false,
         gpstext:"正在定位中...",
         gpsshow:true,
@@ -113,25 +119,15 @@ export default {
   methods: {
     loadmap(){
         const that = this;
-        const map = new AMap.Map('mapView', {
-          zoom:6,
+        this.map = new AMap.Map('mapView', {
+          zoom:13,
           mapStyle:'amap://styles/whitesmoke'
         });
-        const polyline = new AMap.Polyline({
-            path:that.locationArr,
-            strokeColor:"#3366ff",
-            strokeOpacity:1,
-            strokeWeight:5,
-            strokeStyle:"solid",
-            strokeDasharray:[10,5]
-        });
-        window.polyline = polyline;
-        window.polyline.setMap(map);
         AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){
-            map.addControl(new AMap.ToolBar({
+            that.map.addControl(new AMap.ToolBar({
                 offset:new AMap.Pixel(10, 200)
             }));
-            map.addControl(new AMap.Scale({
+            that.map.addControl(new AMap.Scale({
                 visible:false
             }));
             const geolocation = new AMap.Geolocation({
@@ -145,11 +141,22 @@ export default {
                buttonOffset: new AMap.Pixel(10, 100)
             });
             that.geolocation = geolocation;
-            map.addControl(geolocation);
+            if(AMap.UA.ios&&document.location.protocol!=='https:'){
+                const remoGe = new RemoGeoLocation();
+                navigator.geolocation.getCurrentPosition = function () {
+                    return remoGe.getCurrentPosition.apply(remoGe,arguments)
+                }
+                navigator.geolocation.watchPosition = function () {
+                    return remoGe.watchPosition.apply(remoGe,arguments)
+                }
+            }
+            that.map.addControl(that.geolocation);
+            AMap.event.addListener(that.geolocation,'complete',that.handGPScomplete);
+            AMap.event.addListener(that.geolocation,'error',that.handGPSfail)
             that.handleGps("init");
         });
         AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
-            that.initPage(SimpleMarker,map);
+            that.initPage(SimpleMarker,that.map);
         });
     },
     initPage(SimpleMarker,map) {
@@ -173,60 +180,41 @@ export default {
                 map: map,
                 position: [mark.LGTD,mark.LTTD],
                 zIndex:11
-              }).on("click",function (e) {
-                  alert(`巡检点${index+1}`)
               })
             )
         }):null;
     },
-    //定位控制
-    handleGps(type="init"){ 
+    handleGps(type="init"){
+        this.type = type;
+        this.geolocation.getCurrentPosition();
+    },
+    //定位成功
+    handGPScomplete(data){
         const that = this;
-        if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(function (success) {
-                    type=="init"?that.gpsshow = false:null;
-                    (type=="init"||type=="over")?that.locationArr[0]=[success.coords.longitude,success.coords.latitude]:that.locationArr.push([success.coords.longitude,success.coords.latitude]);
-                    if(type=="watchgps"){
-                        that.handlePostGpsData(success.coords.longitude,success.coords.latitude)
-                    }
-                    window.polyline.setPath(that.locationArr); 
-                    type=="init"?that.gpssuccess = true:null; 
-                },function (error) {
-                    that.geolocation.getCurrentPosition(function(status,result){
-                        type=="init"?that.gpsshow = false:null;
-                        if(status==="complete"){
-                            (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat])
-                            if(type=="watchgps"){
-                                that.handlePostGpsData(result.position.lng,result.position.lat)
-                            }
-                            window.polyline.setPath(that.locationArr); 
-                            type=="init"?that.gpssuccess = true:null;  
-                        }else{
-                            type=="init"?that.gpssuccess = false:null;
-                            that.hint(JSON.stringify(result))
-                        }
-                    }) 
-                },{
-                    enableHeightAcuracy:true,
-                    timeout:10000,
-                    maximumAge:7500
-                })
-        }else{
-                that.geolocation.getCurrentPosition(function(status,result){
-                        type=="init"?that.gpsshow = false:null;
-                        if(status==="complete"){
-                            (type=="init"||type=="over")?that.locationArr[0]=[result.position.lng,result.position.lat]:that.locationArr.push([result.position.lng,result.position.lat]);
-                            if(type=="watchgps"){
-                                that.handlePostGpsData(result.position.lng,result.position.lat)
-                            }
-                            window.polyline.setPath(that.locationArr); 
-                            type=="init"?that.gpssuccess = true:null;  
-                        }else{
-                            type=="init"?that.gpssuccess = false:null;
-                            that.hint(JSON.stringify(result))
-                        }
-                }) 
+        this.type=="init"?this.gpsshow = false:null;
+        if(this.type=="init"){
+            this.lastLng = data.position.getLng();
+            this.lastLat = data.position.getLat()
         }
+        this.locationArr=[[this.lastLng,this.lastLat],[data.position.getLng(),data.position.getLat()]];
+        this.polyline = new AMap.Polyline({
+            path:that.locationArr,
+            strokeColor:"#3366ff",
+            strokeOpacity:1,
+            strokeWeight:5,
+            strokeStyle:"solid",
+            strokeDasharray:[10,5]
+        });
+        this.polyline.setMap(that.map);
+        if(this.type=="watchgps"){
+            this.handlePostGpsData(data.position.getLng(),data.position.getLat())
+        }
+        this.type=="init"?this.gpssuccess = true:null; 
+    },
+    //定位失败
+    handGPSfail(err){
+        this.type=="init"?this.gpsshow = false:null;
+        this.hint("获取地理位置失败")
     },
     //提交定位数据
     handlePostGpsData(lng,lat){
