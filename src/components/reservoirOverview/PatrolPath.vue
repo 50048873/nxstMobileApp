@@ -132,7 +132,7 @@ export default {
             }));
             const geolocation = new AMap.Geolocation({
                enableHighAccuracy: true,
-               zoomToAccuracy: false,
+               zoomToAccuracy: true,
                maximumAge:0,
                GeoLocationFirst:true,
                timeout:10000,
