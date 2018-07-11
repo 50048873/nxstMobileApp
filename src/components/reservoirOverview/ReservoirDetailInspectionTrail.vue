@@ -73,12 +73,12 @@ export default {
                 visible:false
             }));
         });
-        AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier'], function(SimpleMarker,PathSimplifier) {
+        AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier','overlay/SimpleInfoWindow'], function(SimpleMarker,PathSimplifier,SimpleInfoWindow) {
           if (!PathSimplifier.supportCanvas) {
                 that.hint('当前环境不支持 Canvas！');
-                that.initPage(SimpleMarker,null,map);
+                that.initPage(SimpleMarker,null,map,SimpleInfoWindow);
           }else{
-                that.initPage(SimpleMarker,PathSimplifier,map);
+                that.initPage(SimpleMarker,PathSimplifier,map,SimpleInfoWindow);
           }
         });
     },
@@ -110,7 +110,7 @@ export default {
            this.loadmap() 
         })
     },
-    initPage(SimpleMarker,PathSimplifier=null,map) {
+    initPage(SimpleMarker,PathSimplifier=null,map,SimpleInfoWindow) {
         const that = this;
         this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
@@ -131,8 +131,11 @@ export default {
                 map: map,
                 position: [mark.LGTD,mark.LTTD],
                 zIndex:11
-              }).on("click",function (e) {
-                  that.hint(`${mark.PATROL_NAME}`)
+              }).on("click",function(){
+                  new SimpleInfoWindow({
+                    infoTitle:'巡检点',
+                    infoBody: mark.PATROL_NAME,
+                  }).open(map,[mark.LGTD,mark.LTTD]);
               })
             )
         }):null;

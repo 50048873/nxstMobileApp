@@ -155,11 +155,11 @@ export default {
             AMap.event.addListener(that.geolocation,'error',that.handGPSfail)
             that.handleGps("init");
         });
-        AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
-            that.initPage(SimpleMarker,that.map);
+        AMapUI.loadUI(['overlay/SimpleMarker','overlay/SimpleInfoWindow'], function(SimpleMarker,SimpleInfoWindow) {
+            that.initPage(SimpleMarker,that.map,SimpleInfoWindow);
         });
     },
-    initPage(SimpleMarker,map) {
+    initPage(SimpleMarker,map,SimpleInfoWindow) {
         const that = this;
         this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
@@ -180,6 +180,11 @@ export default {
                 map: map,
                 position: [mark.LGTD,mark.LTTD],
                 zIndex:11
+              }).on("click",function(){
+                  new SimpleInfoWindow({
+                    infoTitle:'巡检点',
+                    infoBody: mark.PATROL_NAME,
+                  }).open(map,[mark.LGTD,mark.LTTD]);
               })
             )
         }):null;
