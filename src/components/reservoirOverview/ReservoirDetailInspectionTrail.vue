@@ -101,6 +101,7 @@ export default {
                     return new Array([item.lgtd,item.lttd])
                 });
             }else{
+                 this.locationArr = [];    
                  this.hint(res.msg)
             }
           },(err)=>{
@@ -155,6 +156,8 @@ export default {
                 },
                 renderOptions: {
                     pathLineStyle: emptyLineStyle,
+                    pathLineSelectedStyle: emptyLineStyle,
+                    pathLineHoverStyle: emptyLineStyle,
                     startPointStyle: {   //起点样式
                       radius:3,
                       fillStyle:"blue",
