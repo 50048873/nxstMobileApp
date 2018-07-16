@@ -7,7 +7,7 @@
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
-              <i class="nxst-circle"></i>
+              <i :class="item.POINTCOUNT?'nxst-circle checked':'nxst-circle'"></i>
             </span>
             <span>{{item.PATROL_NAME}}</span>
           </label>
@@ -354,6 +354,9 @@ export default {
                 color: #d7d7d7;
                 font-size: 16px;
               }
+              .checked{
+                color: #10d67b;
+              }
               .weui-icon-checked:before {
                 content:'\EA01';
                 color:#C9C9C9;
@@ -363,12 +366,8 @@ export default {
               input {
                 position: absolute;
                 left: -9999em;
-                &:checked + .nxst-circle {
-                  color: #10d67b;
-                }
                 &:checked + .weui-icon-checked:before {
                   content: '\EA06';
-                  color: #09BB07;
                 }
               }
             }

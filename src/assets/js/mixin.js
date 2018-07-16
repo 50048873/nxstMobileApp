@@ -11,7 +11,7 @@ export let dateFormat = {
       if (typeof time === 'string') {
         time = time.split('-').join('/').replace("T", " ")
       }
-      return moment(time).utc().zone(-8).format(formatter)
+      return moment(time).utc().zone(0).format(formatter)
     }
 	},
 	filters: {
@@ -20,7 +20,7 @@ export let dateFormat = {
 			if (typeof time === 'string') {
 				time = time.split('-').join('/').replace("T"," ")
 			}
-      return moment(time).utc().zone(-8).format(formatter)
+      return moment(time).utc().zone(0).format(formatter)
     }
 	}
 };
