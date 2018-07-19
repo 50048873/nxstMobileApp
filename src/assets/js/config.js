@@ -28,10 +28,10 @@ export const documentTitle_reservoirDetail = 'documentTitle_reservoirDetail'
 export const defaultDocumentTitle = '宁夏水投智慧水务平台'
 
 // 真实接口
-export const baseUrl = 'http://www.whdse.cn:56015'
+// export const baseUrl = 'http://www.whdse.cn:56015'
 
 // 跨域开发接口
-// export const baseUrl = process.env.API_HOST
+export const baseUrl = process.env.API_HOST
 
 // 路径
 export const path = '/znb/pages/app/app/reservoir'
@@ -54,7 +54,7 @@ export const resourceList = {
     seep:"402881d162b4ae1c0162d1b10351067c",//    渗流菜单
     artificialpost:"402881d162b4ae1c0162d1b14c57067d",//    人工填报菜单
     warning:"402881d162b4ae1c0162d1b1b19f067e",//     预警
-    postartificialpost:"402881d162d65a7c0162d679d5480044",//人工填报信息提交 
+    postartificialpost:"402881d162d65a7c0162d679d5480044",//人工填报信息提交
     addcheckrecord:"402881d162d65a7c0162f554c0f9067b"//添加巡检记录
 
 }
