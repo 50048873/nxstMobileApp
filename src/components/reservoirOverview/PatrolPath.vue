@@ -3,7 +3,7 @@
     <!-- <iframe style="width:100%;height:50%;" :src="this.getStaticPath('/static/ArcGisTest2.html')" frameborder="0"></iframe> -->
     <div id="mapView" class="mapContainer">
     </div>
-    <poupe :status="status&&overinfo?true:false">
+    <poupe :status="status&&overinfo?true:false">   <!-- 巡检时间弹窗 -->
       <div class="poupecontent">
         <div class="poupehead">
           <img :src="require('../../assets/img/lock.png')" alt="">
@@ -23,10 +23,10 @@
       </div>
     </poupe>
     <div class="buttonarea">
-        <div v-if="isAdd&&isstart==1" class="addbtn">
+        <div v-if="isAdd&&isstart==1" class="addbtn">  <!-- 添加巡检记录按钮 -->
             <i  @click="add" class="nxst-add"></i>
         </div>
-        <div v-if="isAdd&&!gpsshow&&gpssuccess" class="startbtn"   @touchstart="handleMapTrail">
+        <div v-if="isAdd&&!gpsshow&&gpssuccess" class="startbtn"   @touchstart="handleMapTrail">  <!-- 巡检定位按钮 -->
              <div class="loadingContainer" ref="loadingContainer">
                  <div ref="loading" class="cssload-ball"> 
              </div>
@@ -37,7 +37,7 @@
                     <span class="time">{{minutes>0?(`${minutes}:${second}`):second}}</span>
             </div>
         </div>
-        <div class="inspector">
+        <div class="inspector">   <!-- 巡检信息展示 -->
                 <h3 class="reservoirname">
                     {{pname}}巡检
                 </h3>
@@ -47,7 +47,7 @@
                 </div>
         </div>
     </div>
-    <loading :show="gpsshow"  :text="gpstext"></loading>
+    <loading :show="gpsshow"  :text="gpstext"></loading>  <!-- loading -->
   </div>
 </template>
 
@@ -105,8 +105,8 @@ export default {
        this.pname = getPname();
        this.username = getUsername();
        this.currentdate = this.dateFormat(new Date(), 'MM-DD');
-       this.isAdd = handleAuth("addcheckrecord");
-       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
+       this.isAdd = handleAuth("addcheckrecord");//获取添加巡检纪录的权限
+       api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{//获取巡检点数据
            if(res.status==1){
                that.patrolList = res.data
            }
@@ -130,8 +130,8 @@ export default {
             that.map.addControl(new AMap.Scale({
                 visible:false
             }));
-            const geolocation = new AMap.Geolocation({
-               enableHighAccuracy: true,
+            const geolocation = new AMap.Geolocation({   //初始化定高德位控件
+               enableHighAccuracy: true,//设置高精度定位
                zoomToAccuracy: true,
                maximumAge:0,
                GeoLocationFirst:true,
@@ -140,8 +140,8 @@ export default {
                convert:true,
                buttonOffset: new AMap.Pixel(10, 100)
             });
-            that.geolocation = geolocation;
-            if(AMap.UA.ios&&document.location.protocol!=='https:'){
+            that.geolocation = geolocation;//挂载高德定位对象到当前组件
+            if(AMap.UA.ios&&document.location.protocol!=='https:'){//非https和ios系统调用补丁定位并覆写原生定位方法
                 const remoGe = new RemoGeoLocation();
                 navigator.geolocation.getCurrentPosition = function () {
                     return remoGe.getCurrentPosition.apply(remoGe,arguments)
@@ -151,15 +151,15 @@ export default {
                 }
             }
             that.map.addControl(that.geolocation);
-            AMap.event.addListener(that.geolocation,'complete',that.handGPScomplete);
-            AMap.event.addListener(that.geolocation,'error',that.handGPSfail)
+            AMap.event.addListener(that.geolocation,'complete',that.handGPScomplete);//监听定位成功事件
+            AMap.event.addListener(that.geolocation,'error',that.handGPSfail)//监听定位失败事件
             that.handleGps("init");
         });
-        AMapUI.loadUI(['overlay/SimpleMarker','overlay/SimpleInfoWindow'], function(SimpleMarker,SimpleInfoWindow) {
+        AMapUI.loadUI(['overlay/SimpleMarker','overlay/SimpleInfoWindow'], function(SimpleMarker,SimpleInfoWindow) {  //加载模态框和标记组件
             that.initPage(SimpleMarker,that.map,SimpleInfoWindow);
         });
     },
-    initPage(SimpleMarker,map,SimpleInfoWindow) {
+    initPage(SimpleMarker,map,SimpleInfoWindow) {   //初始化模态框和标记
         const that = this;
         this.patrolList?this.patrolList.forEach((mark,index) => {    //创建地图标记点
             return(
@@ -178,9 +178,9 @@ export default {
                 iconTheme: 'numv1',
                 iconStyle:'red',
                 map: map,
-                position: [mark.LGTD,mark.LTTD],
+                position: [mark.LGTD,mark.LTTD],//设置标记点位置
                 zIndex:11
-              }).on("click",function(){
+              }).on("click",function(){  //巡检点模态框信息
                   new SimpleInfoWindow({
                     infoTitle:'巡检点',
                     infoBody: mark.PATROL_NAME,
@@ -189,20 +189,20 @@ export default {
             )
         }):null;
     },
-    handleGps(type="init"){
+    handleGps(type="init"){   //调用定位
         this.type = type;
         this.geolocation.getCurrentPosition();
     },
     //定位成功
     handGPScomplete(data){
         const that = this;
-        this.type=="init"?this.gpsshow = false:null;
-        if(this.type=="init"){
+        this.type=="init"?this.gpsshow = false:null;   //设置loading的隐藏
+        if(this.type=="init"){   //初次记录上一次定位数据
             this.lastLng = data.position.getLng();
             this.lastLat = data.position.getLat()
         }
-        this.locationArr=[[this.lastLng,this.lastLat],[data.position.getLng(),data.position.getLat()]];
-        this.polyline = new AMap.Polyline({
+        this.locationArr=[[this.lastLng,this.lastLat],[data.position.getLng(),data.position.getLat()]];//存储polyline数据
+        this.polyline = new AMap.Polyline({//创建polyline实例
             path:that.locationArr,
             strokeColor:"#3366ff",
             strokeOpacity:1,
@@ -210,17 +210,17 @@ export default {
             strokeStyle:"solid",
             strokeDasharray:[10,5]
         });
-        this.polyline.setMap(that.map);
-        this.lastLng = data.position.getLng();
+        this.polyline.setMap(that.map);//添加polyline到地图
+        this.lastLng = data.position.getLng();  //更新前一次定位数据
         this.lastLat = data.position.getLat()
-        if(this.type=="watchgps"){
+        if(this.type=="watchgps"){  //巡检中进行持续定位调用接口提交定位数据到后台
             this.handlePostGpsData(data.position.getLng(),data.position.getLat())
         }
         this.type=="init"?this.gpssuccess = true:null; 
     },
     //定位失败
     handGPSfail(err){
-        this.type=="init"?this.gpsshow = false:null;
+        this.type=="init"?this.gpsshow = false:null; //关闭定位弹窗
         this.hint("获取地理位置失败")
     },
     //提交定位数据
@@ -233,6 +233,7 @@ export default {
             }
         )
     },
+    //定位结束关闭弹窗并初始化计时数据
     handleClose(){
       const that = this;
       this.status = false;
@@ -240,32 +241,32 @@ export default {
       this.minutes = 0;
       this.handleGps("over")
     },
-    handleTrail(){   //持续记录轨迹
+    handleTrail(){   //持续定位
         const that = this;
         this.timer =  setInterval(_.throttle(function(){
             that.handleGps("watchgps")
         },8000, { 'leading': true }),8000);
     },
-    handleMapTrail(){
+    handleMapTrail(){  //巡检的开始与结束控制
         const that = this;
-        if(this.isstart===0){
-            that.locationArr.length=0;
-            this.handleTimeAdd("start");
-            this.handleGps("init")
-            this.handleTrail();
+        if(this.isstart===0){ //巡检开始
+            that.locationArr.length=0;  //重置定位数据
+            this.handleTimeAdd("start");  //开始计时
+            this.handleGps("init") //开始初始定位
+            this.handleTrail();   //持续定位
             this.starttime = this.dateFormat(new Date(), 'MM-DD hh:mm:ss')
-            this.isstart = 1;
-            this.handleAnimation(1)
-        }else if(this.isstart===1){
-            this.handleTimeAdd("stop")
-            clearInterval(this.timer)
-            this.status = true;
-            this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'MM-DD hh:mm:ss')};
-            this.isstart = 0;
-            this.handleAnimation(0);
+            this.isstart = 1;//定义巡检中状态
+            this.handleAnimation(1)  //开启巡检按钮动画
+        }else if(this.isstart===1){  //巡检结束
+            this.handleTimeAdd("stop") //结束计时
+            clearInterval(this.timer)  //结束持续定位
+            this.status = true; //显示计时弹窗
+            this.overinfo = {usetime:{minutes:this.minutes,second:this.second},starttime:this.starttime,endtime:this.dateFormat(new Date(), 'MM-DD hh:mm:ss')};//计时时间信息
+            this.isstart = 0;//定义巡检结束状态
+            this.handleAnimation(0);  //关闭巡检按钮动画
         }
     },
-    handleAnimation(satus){
+    handleAnimation(satus){  //巡检按钮动画控制
       let loading = this.$refs.loading;
       let loadingContainer = this.$refs.loadingContainer
       if(!this.isstart){
@@ -277,7 +278,7 @@ export default {
           loading.classList.add('animation')
       }
     },
-    handleTimeAdd(type){
+    handleTimeAdd(type){   //巡检计时处理
         const that = this;
         if(type=="start"){
             clearInterval(this.timer2);
@@ -295,7 +296,7 @@ export default {
             clearInterval(this.timer2)
         }
     },
-    add(){
+    add(){   //添加巡检纪录路由跳转
         this.$router.push({path: '/reservoirDetail/inspection/add'})
     }
   }
