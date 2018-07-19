@@ -65,7 +65,7 @@ export default {
           zoom:6,
           mapStyle:'amap://styles/whitesmoke'
         });
-        AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){
+        AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Geolocation'],function(){ //加载定位，缩放等工具
             map.addControl(new AMap.ToolBar({
                 offset:new AMap.Pixel(10, 200)
             }));
@@ -73,6 +73,7 @@ export default {
                 visible:false
             }));
         });
+        //加载信息窗、路径巡航器、标记等组件
         AMapUI.loadUI(['overlay/SimpleMarker','misc/PathSimplifier','overlay/SimpleInfoWindow'], function(SimpleMarker,PathSimplifier,SimpleInfoWindow) {
           if (!PathSimplifier.supportCanvas) {
                 that.hint('当前环境不支持 Canvas！');
@@ -82,7 +83,7 @@ export default {
           }
         });
     },
-    getProtalPointData(){
+    getProtalPointData(){//获取巡检点数据
         api.getReservoirDetailInspectionAdd_patrolPoint({pid:getPid()}).then((res)=>{
             if(res.status==1){
                 this.patrolList = res.data;
@@ -93,7 +94,7 @@ export default {
             this.hint("ReservoirDetailInspectionTrail")
         })
     },
-    getProtalRecordData(uid,protalTime){
+    getProtalRecordData(uid,protalTime){  //获取巡检轨迹数据
         api.getUserTrailRecord({pid:getPid(),userid:uid,startTime:`${protalTime} 00:00:00` ,endTime:`${protalTime} 23:59:59`}).then((res)=>{
             this.loadshow = false;
             if(res.status==1&&res.data.length>0){
@@ -108,7 +109,7 @@ export default {
                  this.loadshow = false;
                  this.hint("ReservoirDetailInspectionTrail")
           }).then(()=>{
-           this.loadmap() 
+           this.loadmap() //加载地图
         })
     },
     initPage(SimpleMarker,PathSimplifier=null,map,SimpleInfoWindow) {
@@ -133,7 +134,7 @@ export default {
                 position: [mark.LGTD,mark.LTTD],
                 zIndex:11
               }).on("click",function(){
-                  new SimpleInfoWindow({
+                  new SimpleInfoWindow({  //创建巡检点信息窗
                     infoTitle:'巡检点',
                     infoBody: mark.PATROL_NAME,
                   }).open(map,[mark.LGTD,mark.LTTD]);
@@ -151,10 +152,10 @@ export default {
                 zIndex:10,
                 map: map,
                 autoSetFitView:true,
-                getPath: function(pathData, pathIndex) {
+                getPath: function(pathData, pathIndex) {  //设置轨迹实例返回路径数据方法
                     return pathData.path;
                 },
-                renderOptions: {
+                renderOptions: {  //设置轨迹，起始点样式
                     pathLineStyle: emptyLineStyle,
                     pathLineSelectedStyle: emptyLineStyle,
                     pathLineHoverStyle: emptyLineStyle,
@@ -172,15 +173,15 @@ export default {
                     }
                 }
             });
-            pathSimplifierIns.setData([{
+            pathSimplifierIns.setData([{   //添加轨迹数据
                 name: 'test',
                 path: this.locationArr
             }]);
             if(this.locationArr.length>0){ 
-                const  navg1 = pathSimplifierIns.createPathNavigator(0, {
+                const  navg1 = pathSimplifierIns.createPathNavigator(0, {  //创建巡航器实例
                     loop: true,
                     speed: 100,
-                    pathNavigatorStyle: {
+                    pathNavigatorStyle: {   //巡航器样式
                         width: 8,
                         height: 8,
                         //使用图片
@@ -188,7 +189,7 @@ export default {
                         strokeStyle:"blue",
                         fillStyle:"blue",
                         //经过路径的样式
-                        pathLinePassedStyle: {
+                        pathLinePassedStyle: {   //通过的轨迹样式
                             lineWidth: 4,
                             strokeStyle: 'red',
                             dirArrowStyle: {
@@ -198,7 +199,7 @@ export default {
                         }
                     }
                 });
-                navg1.start();
+                navg1.start();  //开始巡航
             }     
         }
     }
