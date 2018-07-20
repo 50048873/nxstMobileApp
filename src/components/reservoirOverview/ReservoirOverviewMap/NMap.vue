@@ -3,7 +3,7 @@
     <div class="mapWrap">
       <div class="mapTransform" ref="mapTransform" :style="getScale" @touchstart="start" @touchmove.prevent="move" @touchend="end">
         <div class="tips">
-          <img id="map" :src="getStaticPath('/static/img/map.png')" :width="imgWidth" :height="imgHeight" alt="">
+          <img id="map" :src="getStaticPath('/static/img/map.svg')" :width="imgWidth" :height="imgHeight" alt="">
           <div class="tip" v-for="item in reservoirList" :style="getWarnPosition(item)" @click="showDetail(item.pid,item.ennm)">
             <div class="iconWrap"><i class="nxst-warn" :class="getWarnClass(item.status)"></i></div>
             <div class="des">
@@ -31,7 +31,7 @@
       <span class="minus" @click="handleMinus"><i class="nxst-minus"></i></span>
       <span class="plus" @click="handlePlus"><i class="nxst-add"></i></span>
     </div>
-    
+
   </div>
 </template>
 
@@ -151,7 +151,7 @@ export default {
         jd: [104.2869, 107.6536],
         wd: [35.2494, 39.8758]
       }
-      
+
       //图片内目标Y坐标=取绝对值（目标纬度-图片上边对应纬度）/取绝对值（图片下边纬度-图片上边对应纬度）*（图片的高度）
       //图片内目标X坐标=取绝对值（目标经度-图片左边对应经度）/取绝对值（图片右边经度-图片左边对应经度）*（图片的宽度）
       let top = Math.abs(item.lttd - nx.wd[1]) / Math.abs(nx.wd[0] - nx.wd[1]) * this.imgHeight - 20 + 'px',
@@ -220,7 +220,7 @@ export default {
         &:active {
           background-color: #bdf1ff;
         }
-      } 
+      }
       .minus {
         border-right: none;
         border-radius: 4px 0 0 4px;
