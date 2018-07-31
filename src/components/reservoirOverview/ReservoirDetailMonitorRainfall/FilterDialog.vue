@@ -100,11 +100,11 @@ export default {
           this.startTime = this.dateFormat(getNewYearDay(), "YYYY-MM-DD")
           this.endTime = this.dateFormat(new Date(), "YYYY-MM-DD")
           break
-        default : 
+        default :
           this.inputType = 'date'
-      } 
+      }
     }
-    
+
   }
 }
 </script>

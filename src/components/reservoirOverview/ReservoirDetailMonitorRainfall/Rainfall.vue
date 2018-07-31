@@ -47,7 +47,7 @@ export default {
       if (this.type === '2') {
         this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
         this.endTime = this.dateFormat(getLastDayOfMonth(date.endTime), "YYYY-MM-DD hh:mm:ss")
-      } else {
+      } else if (this.type === '0' || this.type === '3') {
         this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
         this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
       }
