@@ -3,7 +3,7 @@
     <form ref="formEle">
       <div class="itemS line-bottom">
         <h6>签到点</h6>
-        <div class="inputBox clearfix"> 
+        <div class="inputBox clearfix">
           <label for="yhd" v-for="item in signPoint">
             <span class="iconWrap">
               <input type="checkbox" id="yhd" disabled="disabled" :checked="item.POINTCOUNT">
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="submitWrap">
         <button class="btn" :class="{'c-theme': !disabled}" @click.prevent="submit" :disabled="disabled">提交</button>
       </div>
@@ -105,7 +105,7 @@ export default {
       disabled: false
     }
   },
-  
+
   methods: {
     getReservoirDetailInspectionAdd_patrolPoint() {
       let params = {
@@ -175,7 +175,7 @@ export default {
       _this.currentCount = 0
 
       $uploaderInput.on("change", (e) => {
-        let src = '', 
+        let src = '',
             files = e.target.files,
             len = files.length
 
@@ -193,7 +193,7 @@ export default {
             this.hint(`最多只能上传${maxCount}张图片，已上传${_this.currentCount}张图片`)
             return
           }
-          
+
           if (file.size > maxSize) {
             let image = new Image(),
                 src = createObjectURL(file)
@@ -260,7 +260,7 @@ export default {
       if (!this.pointId) {
         this.hint('请选择巡检部位')
         return false
-      } 
+      }
       if (!this.checkDate) {
         this.hint('请选择巡检时间')
         return false
@@ -268,7 +268,7 @@ export default {
       if (!this.patrolState) {
         this.hint('请选择巡检状态')
         return false
-      }  
+      }
       if (this.patrolInfo && this.patrolInfo.length < 10) {
         this.hint(`情况说明应至少10个字符，已输入${this.patrolInfo.length}个字符`)
         return false
@@ -286,7 +286,7 @@ export default {
       this.files.forEach(function(item){
         params.append('files',item)
       })
-      
+
 
       this.patrolPoint.forEach((item) => {
         if (item.ID === this.pointId) {
@@ -318,13 +318,13 @@ export default {
   mounted() {
     this.fileChange()
   },
-  watch: {  
-    '$route'(to, from)  {  
+  watch: {
+    '$route'(to, from)  {
       let toPath = to.path
       if (toPath === "/reservoirDetail/inspection/add") {
         this.setDocumentTitle('新增巡检记录')
       }
-    }  
+    }
   }
 }
 </script>

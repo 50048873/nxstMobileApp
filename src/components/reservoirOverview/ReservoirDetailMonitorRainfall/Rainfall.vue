@@ -45,11 +45,14 @@ export default {
     filter(date) {
       this.type = date.type
       if (this.type === '2') {
-        this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
-        this.endTime = this.dateFormat(getLastDayOfMonth(date.endTime), "YYYY-MM-DD hh:mm:ss")
+        this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD")
+        this.endTime = this.dateFormat(getLastDayOfMonth(date.endTime), "YYYY-MM-DD")
       } else if (this.type === '0' || this.type === '3') {
         this.startTime = this.dateFormat(date.startTime, "YYYY-MM-DD hh:mm:ss")
         this.endTime = this.dateFormat(date.endTime, "YYYY-MM-DD hh:mm:ss")
+      } else if (this.type === '1') {
+        this.startTime = date.startTime
+        this.endTime = date.endTime
       }
       this.getReservoirDetailMonitor_rainfall()
         .then((res) => {
